@@ -3,9 +3,9 @@ using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
-using static TownOfHost.Translator;
+using static DarkRoles.Translator;
 
-namespace TownOfHost.Roles.Core;
+namespace DarkRoles.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {

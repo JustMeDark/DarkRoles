@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using HarmonyLib;
-using TownOfHost.Attributes;
-using static TownOfHost.Translator;
-namespace TownOfHost
+using DarkRoles.Attributes;
+using static DarkRoles.Translator;
+namespace DarkRoles
 {
     public static class BanManager
     {

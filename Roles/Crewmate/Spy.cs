@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Spy : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     //public static OptionItem OptionBaitReveal;

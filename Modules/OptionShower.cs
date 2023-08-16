@@ -3,10 +3,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class OptionShower
     {

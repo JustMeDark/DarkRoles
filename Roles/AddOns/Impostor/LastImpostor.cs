@@ -1,9 +1,9 @@
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Options;
+using DarkRoles.Attributes;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using static DarkRoles.Options;
 
-namespace TownOfHost.Roles.AddOns.Impostor
+namespace DarkRoles.Roles.AddOns.Impostor
 {
     public static class LastImpostor
     {

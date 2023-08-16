@@ -4,7 +4,7 @@ using Hazel;
 using InnerNet;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public class CustomRpcSender
     {

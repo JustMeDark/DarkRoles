@@ -10,12 +10,12 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
+using DarkRoles.Attributes;
+using DarkRoles.Roles.Core;
 
-[assembly: AssemblyFileVersionAttribute(TownOfHost.Main.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
-namespace TownOfHost
+[assembly: AssemblyFileVersionAttribute(DarkRoles.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(DarkRoles.Main.PluginVersion)]
+namespace DarkRoles
 {
     [BepInPlugin(PluginGuid, "Dark Roles Mod", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
@@ -30,7 +30,7 @@ namespace TownOfHost
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "OriginalTOH";
+        public static readonly string ForkId = "Dark Roles Mod";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
         // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/maul)
@@ -133,12 +133,12 @@ namespace TownOfHost
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-            TownOfHost.Logger.Enable();
-            TownOfHost.Logger.Disable("NotifyRoles");
-            TownOfHost.Logger.Disable("SendRPC");
-            TownOfHost.Logger.Disable("ReceiveRPC");
-            TownOfHost.Logger.Disable("SwitchSystem");
-            TownOfHost.Logger.Disable("CustomRpcSender");
+            DarkRoles.Logger.Enable();
+            DarkRoles.Logger.Disable("NotifyRoles");
+            DarkRoles.Logger.Disable("SendRPC");
+            DarkRoles.Logger.Disable("ReceiveRPC");
+            DarkRoles.Logger.Disable("SwitchSystem");
+            DarkRoles.Logger.Disable("CustomRpcSender");
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化
@@ -207,15 +207,15 @@ namespace TownOfHost
             }
             catch (ArgumentException ex)
             {
-                TownOfHost.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-                TownOfHost.Logger.Exception(ex, "LoadDictionary");
+                DarkRoles.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+                DarkRoles.Logger.Exception(ex, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            TownOfHost.Logger.Info($"{Application.version}", "AmongUs Version");
+            DarkRoles.Logger.Info($"{Application.version}", "AmongUs Version");
 
-            var handler = TownOfHost.Logger.Handler("GitVersion");
+            var handler = DarkRoles.Logger.Handler("GitVersion");
             handler.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}");
             handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
             handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
@@ -288,11 +288,11 @@ namespace TownOfHost
     public enum SuffixModes
     {
         None = 0,
-        TOH,
+        DarkRoles,
         Streaming,
         Recording,
         RoomHost,
-        OriginalName
+        DontKillMe
     }
     public enum VoteMode
     {

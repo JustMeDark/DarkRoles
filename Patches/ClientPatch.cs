@@ -2,10 +2,10 @@ using System.Globalization;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
+using DarkRoles.Modules;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
     class MakePublicPatch

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public class ErrorText : MonoBehaviour
     {

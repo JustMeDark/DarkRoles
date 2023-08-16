@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.AddOns.Impostor;
-using TownOfHost.Roles.AddOns.Crewmate;
-using TownOfHost.Roles.Crewmate;
-using TownOfHost.Roles.AddOns.Common;
+using DarkRoles.Roles;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.AddOns.Impostor;
+using DarkRoles.Roles.AddOns.Crewmate;
+using DarkRoles.Roles.Crewmate;
+using DarkRoles.Roles.AddOns.Common;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [Flags]
     public enum CustomGameMode
@@ -227,11 +227,11 @@ namespace TownOfHost
         public static readonly string[] suffixModes =
         {
             "SuffixMode.None",
-            "SuffixMode.Version",
+            "SuffixMode.DarkRoles",
             "SuffixMode.Streaming",
             "SuffixMode.Recording",
             "SuffixMode.RoomHost",
-            "SuffixMode.OriginalName"
+            "SuffixMode.DontKillMe"
         };
         public static readonly string[] RoleAssigningAlgorithms =
         {

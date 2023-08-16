@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     //参考元 : https://github.com/ykundesu/SuperNewRoles/blob/master/SuperNewRoles/Mode/SuperHostRoles/BlockTool.cs
     class DisableDevice

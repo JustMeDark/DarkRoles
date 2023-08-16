@@ -5,10 +5,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public enum CustomRPC
     {

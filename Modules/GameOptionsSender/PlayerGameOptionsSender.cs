@@ -6,10 +6,10 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Neutral;
 
-namespace TownOfHost.Modules
+namespace DarkRoles.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
     {

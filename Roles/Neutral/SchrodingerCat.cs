@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Impostor;
 
-namespace TownOfHost.Roles.Neutral;
+namespace DarkRoles.Roles.Neutral;
 public sealed class SchrodingerCat : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =

@@ -4,12 +4,12 @@ using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using DarkRoles.Modules;
+using DarkRoles.Roles;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Translator;
 
-namespace TownOfHost;
+namespace DarkRoles;
 
 [HarmonyPatch]
 public static class MeetingHudPatch

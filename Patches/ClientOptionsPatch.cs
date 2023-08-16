@@ -1,8 +1,8 @@
 using HarmonyLib;
 
-using TownOfHost.Modules.ClientOptions;
+using DarkRoles.Modules.ClientOptions;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
     public static class OptionsMenuBehaviourStartPatch

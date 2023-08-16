@@ -6,9 +6,9 @@ using System.Text;
 using Csv;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using TownOfHost.Attributes;
+using DarkRoles.Attributes;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class Translator
     {

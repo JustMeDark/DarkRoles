@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class SpeedBooster : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =

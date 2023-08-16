@@ -2,9 +2,9 @@ using System;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using static TownOfHost.Options;
+using static DarkRoles.Options;
 
-namespace TownOfHost.Roles.Core;
+namespace DarkRoles.Roles.Core;
 
 public class SimpleRoleInfo
 {

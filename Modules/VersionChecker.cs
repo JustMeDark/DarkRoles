@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TownOfHost.Modules;
+namespace DarkRoles.Modules;
 
 public static class VersionChecker
 {

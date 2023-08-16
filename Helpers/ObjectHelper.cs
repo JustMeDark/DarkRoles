@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TownOfHost;
+namespace DarkRoles;
 
 public static class ObjectHelper
 {

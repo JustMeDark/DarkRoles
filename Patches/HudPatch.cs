@@ -2,12 +2,12 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Neutral;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch

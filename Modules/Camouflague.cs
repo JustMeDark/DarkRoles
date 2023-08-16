@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Attributes;
+using DarkRoles.Attributes;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     static class PlayerOutfitExtension
     {

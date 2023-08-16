@@ -1,6 +1,6 @@
 using System;
 
-namespace TownOfHost.Modules
+namespace DarkRoles.Modules
 {
     class LogHandler : ILogHandler
     {

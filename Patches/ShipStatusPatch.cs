@@ -4,9 +4,9 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
     class ShipFixedUpdatePatch

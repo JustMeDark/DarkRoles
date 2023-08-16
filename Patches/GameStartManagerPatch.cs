@@ -8,11 +8,11 @@ using InnerNet;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using TownOfHost.Modules;
-using static TownOfHost.Translator;
-using TownOfHost.Roles;
+using DarkRoles.Modules;
+using static DarkRoles.Translator;
+using DarkRoles.Roles;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public class GameStartManagerPatch
     {

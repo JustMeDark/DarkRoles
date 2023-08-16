@@ -8,11 +8,11 @@ using AmongUs.GameOptions;
 using Epic.OnlineServices;
 using Hazel;
 using TMPro;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
 using UnityEngine;
 
-namespace TownOfHost.Roles.Neutral
+namespace DarkRoles.Roles.Neutral
 {
     public sealed class Pelican : RoleBase, IKiller
     {

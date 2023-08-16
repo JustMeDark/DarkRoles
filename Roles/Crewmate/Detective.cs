@@ -4,11 +4,11 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using static DarkRoles.Translator;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Detective : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =

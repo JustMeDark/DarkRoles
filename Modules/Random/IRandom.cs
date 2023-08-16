@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public interface IRandom
     {

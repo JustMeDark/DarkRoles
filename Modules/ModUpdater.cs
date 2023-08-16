@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch]
     public class ModUpdater

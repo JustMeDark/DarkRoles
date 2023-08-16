@@ -7,16 +7,16 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
-using static TownOfHost.Translator;
-using TownOfHost.Roles.AddOns.Common;
-using TownOfHost.Roles.AddOns.Crewmate;
+using DarkRoles.Modules;
+using DarkRoles.Roles;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Neutral;
+using static DarkRoles.Translator;
+using DarkRoles.Roles.AddOns.Common;
+using DarkRoles.Roles.AddOns.Crewmate;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
     class CheckProtectPatch

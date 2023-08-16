@@ -3,9 +3,9 @@ using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public class Snitch : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =

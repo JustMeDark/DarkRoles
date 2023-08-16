@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
+using DarkRoles.Attributes;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Options;
 
-namespace TownOfHost.Roles.AddOns.Crewmate
+namespace DarkRoles.Roles.AddOns.Crewmate
 {
     public static class Workhorse
     {

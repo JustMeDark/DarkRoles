@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using TownOfHost.Attributes;
+using DarkRoles.Attributes;
 using UnityEngine;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public class FallFromLadder
     {

@@ -2,9 +2,9 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Neutral;
-namespace TownOfHost
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Neutral;
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
     class CanUsePatch

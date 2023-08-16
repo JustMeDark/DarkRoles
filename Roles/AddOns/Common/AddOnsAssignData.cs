@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Options;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Options;
+using static DarkRoles.Translator;
 
-namespace TownOfHost.Roles.AddOns.Common
+namespace DarkRoles.Roles.AddOns.Common
 {
     public class AddOnsAssignData
     {

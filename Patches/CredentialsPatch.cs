@@ -4,11 +4,11 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using static TownOfHost.Translator;
+using DarkRoles.Modules;
+using DarkRoles.Roles.Core;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch]
     public static class CredentialsPatch

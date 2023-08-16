@@ -4,7 +4,7 @@ using System.Linq;
 using BepInEx.Configuration;
 using UnityEngine;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public abstract class OptionItem
     {

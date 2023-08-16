@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 using HarmonyLib;
 using UnityEngine;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(JoinGameButton), nameof(JoinGameButton.OnClick))]
     class JoinGameButtonPatch

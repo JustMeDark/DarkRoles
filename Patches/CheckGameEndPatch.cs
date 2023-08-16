@@ -4,11 +4,11 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Neutral;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.CheckEndCriteria))]
     class GameEndChecker

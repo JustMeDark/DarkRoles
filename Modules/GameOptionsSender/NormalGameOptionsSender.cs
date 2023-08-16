@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace TownOfHost.Modules
+namespace DarkRoles.Modules
 {
     public class NormalGameOptionsSender : GameOptionsSender
     {

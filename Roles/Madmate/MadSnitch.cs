@@ -2,10 +2,10 @@ using System.Linq;
 
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Madmate;
+namespace DarkRoles.Roles.Madmate;
 
 public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {

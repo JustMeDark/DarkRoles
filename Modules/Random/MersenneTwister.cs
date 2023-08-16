@@ -22,7 +22,7 @@
 
 using System;
 
-namespace TownOfHost;
+namespace DarkRoles;
 
 public class MersenneTwister : IRandom
 {

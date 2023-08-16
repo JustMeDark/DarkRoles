@@ -4,11 +4,11 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using static DarkRoles.Translator;
 
-namespace TownOfHost.Roles.Impostor;
+namespace DarkRoles.Roles.Impostor;
 public sealed class Sniper : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =

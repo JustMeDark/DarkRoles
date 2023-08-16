@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class AURoleOptions
     {

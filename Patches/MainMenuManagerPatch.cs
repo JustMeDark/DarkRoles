@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(MainMenuManager))]
     public class MainMenuManagerPatch

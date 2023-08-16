@@ -6,10 +6,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using AmongUs.Data;
 using HarmonyLib;
-using TownOfHost.Attributes;
-using static TownOfHost.Translator;
+using DarkRoles.Attributes;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class TemplateManager
     {

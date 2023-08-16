@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using TownOfHost.Attributes;
+using DarkRoles.Attributes;
 using UnityEngine;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     static class DoubleTrigger
     {

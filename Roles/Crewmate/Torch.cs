@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Torch : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =

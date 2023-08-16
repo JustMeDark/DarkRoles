@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Doctor : RoleBase, IDeathReasonSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =

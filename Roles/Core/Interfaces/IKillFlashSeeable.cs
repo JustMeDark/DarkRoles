@@ -1,4 +1,4 @@
-namespace TownOfHost.Roles.Core.Interfaces;
+namespace DarkRoles.Roles.Core.Interfaces;
 
 public interface IKillFlashSeeable
 {

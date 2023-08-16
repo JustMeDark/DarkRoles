@@ -3,12 +3,12 @@ using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using static TownOfHost.Translator;
-using TownOfHost.Modules;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using static DarkRoles.Translator;
+using DarkRoles.Modules;
 
-namespace TownOfHost.Roles.Impostor
+namespace DarkRoles.Roles.Impostor
 {
     public sealed class Karen : RoleBase, IImpostor
     {

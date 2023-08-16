@@ -5,10 +5,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using UnityEngine;
-using static TownOfHost.Translator;
+using static DarkRoles.Translator;
 using Object = UnityEngine.Object;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(GameSettingMenu), nameof(GameSettingMenu.InitializeOptions))]
     public static class GameSettingMenuPatch

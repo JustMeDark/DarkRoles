@@ -1,7 +1,7 @@
 using System;
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public class IntegerOptionItem : OptionItem
     {

@@ -1,13 +1,13 @@
 using System;
 using AmongUs.GameOptions;
 
-using TownOfHost.Attributes;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
-using TownOfHost.Roles.Crewmate;
+using DarkRoles.Attributes;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Impostor;
+using DarkRoles.Roles.Crewmate;
 
-namespace TownOfHost.Modules
+namespace DarkRoles.Modules
 {
     public class MeetingTimeManager
     {

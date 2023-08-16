@@ -1,9 +1,9 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
-using TownOfHost.Modules;
+using DarkRoles.Modules;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch

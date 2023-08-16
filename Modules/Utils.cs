@@ -12,17 +12,17 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Common;
-using TownOfHost.Roles.AddOns.Impostor;
-using TownOfHost.Roles.AddOns.Crewmate;
-using static TownOfHost.Translator;
+using DarkRoles.Modules;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Neutral;
+using DarkRoles.Roles.AddOns.Common;
+using DarkRoles.Roles.AddOns.Impostor;
+using DarkRoles.Roles.AddOns.Crewmate;
+using static DarkRoles.Translator;
 using Hazel;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class Utils
     {
@@ -702,26 +702,24 @@ namespace TownOfHost
             }
             else
             {
-                if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion}</color>\r\n" + name;
                 switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
                         break;
-                    case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>Dark Roles v{Main.PluginVersion}</color>";
+                    case SuffixModes.DarkRoles:
+                        name += $"\r\n<color={Main.ModColor}>Dark Roles v{Main.PluginVersion}</color>\r\n";
                         break;
                     case SuffixModes.Streaming:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>\r\n";
                         break;
                     case SuffixModes.Recording:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>\r\n";
                         break;
                     case SuffixModes.RoomHost:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>\r\n";
                         break;
-                    case SuffixModes.OriginalName:
-                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
+                    case SuffixModes.DontKillMe:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.DontKillMe")}</color>\r\n";
                         break;
                 }
             }

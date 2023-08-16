@@ -7,14 +7,14 @@ using Hazel;
 using InnerNet;
 using UnityEngine;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Impostor;
-using static TownOfHost.Translator;
+using DarkRoles.Modules;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Core.Interfaces;
+using DarkRoles.Roles.Neutral;
+using DarkRoles.Roles.AddOns.Impostor;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     static class ExtendedPlayerControl
     {

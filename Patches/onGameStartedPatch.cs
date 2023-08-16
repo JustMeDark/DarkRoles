@@ -5,14 +5,14 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using TownOfHost.Attributes;
-using TownOfHost.Modules;
-using TownOfHost.Roles;
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.AddOns.Common;
-using static TownOfHost.Translator;
+using DarkRoles.Attributes;
+using DarkRoles.Modules;
+using DarkRoles.Roles;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.AddOns.Common;
+using static DarkRoles.Translator;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class ChangeRoleSettings

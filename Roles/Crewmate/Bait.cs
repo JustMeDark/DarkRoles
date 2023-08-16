@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using AmongUs.GameOptions;
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Bait : RoleBase
 {
     public static List<byte> BaitAlive = new();
@@ -30,12 +30,14 @@ public sealed class Bait : RoleBase
     {
     }
 
-    private static float TaskCompletedVision;
-    private static bool TaskCompletedDisableLightOut;
+    public enum Options
+    {
+        RevealBait
+    }
 
     private static void SetupOptionItem()
     {
-        OptionBaitReveal = BooleanOptionItem.Create(10, "Reveal Bait", true, TabGroup.CrewmateRoles, false);
+        OptionBaitReveal = BooleanOptionItem.Create(10, Options.RevealBait, true, TabGroup.CrewmateRoles, false);
     }
 
     public override void OnStartMeeting()

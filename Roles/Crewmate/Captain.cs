@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Modules;
-using TownOfHost.Roles.Core;
+using DarkRoles.Modules;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Crewmate;
+namespace DarkRoles.Roles.Crewmate;
 public sealed class Captain : RoleBase
 {
     private static OptionItem OptionAllowedVotes;

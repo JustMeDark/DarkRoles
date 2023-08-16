@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using TownOfHost.Roles.Core;
+using DarkRoles.Roles.Core;
 
-namespace TownOfHost.Roles.Vanilla;
+namespace DarkRoles.Roles.Vanilla;
 
 public sealed class Crewmate : RoleBase
 {

@@ -1,9 +1,9 @@
 using Hazel;
 
-using TownOfHost.Roles.Core;
-using TownOfHost.Roles.Impostor;
+using DarkRoles.Roles.Core;
+using DarkRoles.Roles.Impostor;
 
-namespace TownOfHost
+namespace DarkRoles
 {
     public static class NameColorManager
     {
