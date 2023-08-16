@@ -75,9 +75,8 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner
                     break;
                 case CustomRoles.SerialKiller:
                     var serialKiller = (SerialKiller)killer.GetRoleClass();
-                    serialKiller.SuicideTimer = null;
                     break;
-                case CustomRoles.Sheriff:
+                case CustomRoles.Detective:
                     target.RpcSetCustomRole(CustomRoles.CSchrodingerCat);
                     break;
                 case CustomRoles.Egoist:

@@ -145,5 +145,6 @@ namespace TownOfHost
         Crew,
         Impostor,
         Jackal,
+        SerialKiller,
     }
 }

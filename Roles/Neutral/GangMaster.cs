@@ -3,21 +3,22 @@ using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 
-namespace TownOfHost.Roles.Impostor;
-public sealed class Mafia : RoleBase, IImpostor
+namespace TownOfHost.Roles.Neutral;
+public sealed class GangMaster : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
-            typeof(Mafia),
-            player => new Mafia(player),
-            CustomRoles.Mafia,
+            typeof(GangMaster),
+            player => new GangMaster(player),
+            CustomRoles.GangMaster,
             () => RoleTypes.Impostor,
-            CustomRoleTypes.Impostor,
+            CustomRoleTypes.Neutral,
             1600,
             null,
-            "mf"
+            "gama",
+            "#6e69ff"
         );
-    public Mafia(PlayerControl player)
+    public GangMaster(PlayerControl player)
     : base(
         RoleInfo,
         player
@@ -27,13 +28,13 @@ public sealed class Mafia : RoleBase, IImpostor
     {
         if (PlayerState.AllPlayerStates == null) return false;
         //マフィアを除いた生きているインポスターの人数  Number of Living Impostors excluding mafia
-        int livingImpostorsNum = 0;
+        int livingGangNum = 0;
         foreach (var pc in Main.AllAlivePlayerControls)
         {
             var role = pc.GetCustomRole();
-            if (role != CustomRoles.Mafia && role.IsImpostor()) livingImpostorsNum++;
+            if (role != CustomRoles.GangMaster && role.IsNeutral()) livingGangNum++;
         }
 
-        return livingImpostorsNum <= 0;
+        return livingGangNum <= 0;
     }
 }

@@ -7,9 +7,10 @@ using UnityEngine;
 
 using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
-using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
+using TownOfHost.Roles.Crewmate;
+using TownOfHost.Roles.AddOns.Common;
 
 namespace TownOfHost
 {
@@ -342,6 +343,7 @@ namespace TownOfHost
             LastImpostor.SetupCustomOption();
             Watcher.SetupCustomOption();
             Workhorse.SetupCustomOption();
+            Bait.SetupCustomOption();
             #endregion
 
             KillFlashDuration = FloatOptionItem.Create(90000, "KillFlashDuration", new(0.1f, 0.45f, 0.05f), 0.3f, TabGroup.MainSettings, false)

@@ -17,24 +17,24 @@ using TownOfHost.Roles.Core;
 [assembly: AssemblyInformationalVersionAttribute(TownOfHost.Main.PluginVersion)]
 namespace TownOfHost
 {
-    [BepInPlugin(PluginGuid, "Town Of Host", PluginVersion)]
+    [BepInPlugin(PluginGuid, "Dark Roles Mod", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
         // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string ModName = "Town Of Host";
+        public static readonly string ModName = "Dark Roles Mod";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#00bfff";
+        public static readonly string ModColor = "#ffa1cd";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
         public static readonly string ForkId = "OriginalTOH";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
-        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
-        public static readonly string DiscordInviteUrl = "https://discord.gg/W5ug6hXB9V";
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/maul)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/maul";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         // == 認証設定 / Authentication Config ==
@@ -50,7 +50,7 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "5.0.3";
+        public const string PluginVersion = "0.1.0 (dev 4)";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2023.7.11";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -82,6 +82,7 @@ namespace TownOfHost
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static ConfigEntry<float> LastShapeshifterCooldown { get; private set; }
         public static OptionBackupData RealOptionsData;
+        public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
@@ -189,6 +190,7 @@ namespace TownOfHost
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Workhorse, "#00ffff"},
+                    {CustomRoles.Bait, "#00f7ff" },
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -234,12 +236,14 @@ namespace TownOfHost
         Spell,
         FollowingSuicide,
         Bite,
+        Poisoned,
         Bombed,
         Misfire,
         Torched,
         Sniped,
         Revenge,
         Execution,
+        Eaten,
         Disconnected,
         Fall,
         etc = -1
@@ -259,6 +263,11 @@ namespace TownOfHost
         Arsonist = CustomRoles.Arsonist,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
+        Poisoner = CustomRoles.Poisoner,
+        GangMaster = CustomRoles.GangMaster,
+        CurseMaster = CustomRoles.CurseMaster,
+        Pelican = CustomRoles.Pelican,
+        SerialKiller = CustomRoles.SerialKiller,
         HASTroll = CustomRoles.HASTroll,
     }
     public enum AdditionalWinners
@@ -278,7 +287,8 @@ namespace TownOfHost
     public enum SuffixModes
     {
         None = 0,
-        TOH,
+        DarkRoles,
+        DontKillMe,
         Streaming,
         Recording,
         RoomHost,

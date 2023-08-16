@@ -40,7 +40,7 @@ namespace TownOfHost
 
                 if (GameStates.IsLobby)
                 {
-                    if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
+                    if (Options.IsStandardHAS && !CustomRoles.Detective.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
                         sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin")));
                 }
 

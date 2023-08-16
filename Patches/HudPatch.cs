@@ -201,7 +201,7 @@ namespace TownOfHost
             if (player == null) return;
             switch (player.GetCustomRole())
             {
-                case CustomRoles.Sheriff:
+                case CustomRoles.Detective:
                 case CustomRoles.Arsonist:
                     __instance.SabotageButton.ToggleVisible(false);
                     break;

@@ -5,9 +5,9 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHost.Roles.Neutral
 {
-    public sealed class SerialKiller : RoleBase, IImpostor
+    public sealed class SerialKiller : RoleBase, IKiller
     {
         public static readonly SimpleRoleInfo RoleInfo =
             SimpleRoleInfo.Create(
@@ -15,10 +15,11 @@ namespace TownOfHost.Roles.Impostor
                 player => new SerialKiller(player),
                 CustomRoles.SerialKiller,
                 () => RoleTypes.Shapeshifter,
-                CustomRoleTypes.Impostor,
+                CustomRoleTypes.Neutral,
                 1100,
                 SetUpOptionItem,
-                "sk"
+                "sk",
+                "#ff9794"
             );
         public SerialKiller(PlayerControl player)
         : base(

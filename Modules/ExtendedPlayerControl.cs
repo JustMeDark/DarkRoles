@@ -10,7 +10,6 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Impostor;
 using static TownOfHost.Translator;
@@ -405,7 +404,7 @@ namespace TownOfHost
 
             return pc.GetCustomRole() switch
             {
-                CustomRoles.Sheriff => false,
+                CustomRoles.Detective => false,
                 CustomRoles.Egoist => true,
                 CustomRoles.Jackal => Jackal.CanVent,
                 CustomRoles.Arsonist => Arsonist.IsDouseDone(pc),
@@ -523,10 +522,10 @@ namespace TownOfHost
             if (!InfoLong)
                 switch (role)
                 {
-                    case CustomRoles.Mafia:
-                        if (roleClass is not Mafia mafia) break;
+                    case CustomRoles.GangMaster:
+                        if (roleClass is not GangMaster gang) break;
 
-                        Prefix = mafia.CanUseKillButton() ? "After" : "Before";
+                        Prefix = gang.CanUseKillButton() ? "After" : "Before";
                         break;
                     case CustomRoles.MadSnitch:
                     case CustomRoles.MadGuardian:

@@ -32,7 +32,7 @@ namespace TownOfHost
             }
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
-            // GitHubボタンを生成
+            /* GitHubボタンを生成
             if (gitHubButton == null)
             {
                 gitHubButton = CreateButton(
@@ -58,9 +58,9 @@ namespace TownOfHost
                         ModUpdater.StartUpdate(ModUpdater.downloadUrl);
                     },
                     $"{Translator.GetString("updateButton")}\n{ModUpdater.latestTitle}",
-                    new(2.5f, 1f));
+                   new(2.5f, 1f));
             }
-            UpdateButton.gameObject.SetActive(false);
+            UpdateButton.gameObject.SetActive(false); */
 
 #if RELEASE
             // フリープレイの無効化

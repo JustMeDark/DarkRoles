@@ -9,13 +9,13 @@ using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Sheriff : RoleBase, IKiller
+public sealed class Detective : RoleBase, IKiller
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
-            typeof(Sheriff),
-            player => new Sheriff(player),
-            CustomRoles.Sheriff,
+            typeof(Detective),
+            player => new Detective(player),
+            CustomRoles.Detective,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Crewmate,
             20400,
@@ -25,7 +25,7 @@ public sealed class Sheriff : RoleBase, IKiller
             true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
-    public Sheriff(PlayerControl player)
+    public Detective(PlayerControl player)
     : base(
         RoleInfo,
         player,

@@ -226,6 +226,9 @@ public static class CustomRoleManager
                 case CustomRoles.Watcher:
                     Watcher.Add(pc.PlayerId);
                     break;
+                case CustomRoles.Bait:
+                    Bait.Add(pc.PlayerId);
+                    break;
             }
         }
     }
@@ -365,12 +368,9 @@ public enum CustomRoles
     //Impostor
     BountyHunter,
     FireWorks,
-    Mafia,
-    SerialKiller,
     ShapeMaster,
     Sniper,
     Vampire,
-    Witch,
     Warlock,
     Mare,
     Puppeteer,
@@ -387,15 +387,14 @@ public enum CustomRoles
     GuardianAngel,
     Scientist,
     //Crewmate
-    Bait,
     Lighter,
     Mayor,
     SabotageMaster,
-    Sheriff,
+    Detective,
     Snitch,
     SpeedBooster,
     Trapper,
-    Dictator,
+    Captain,
     Doctor,
     Seer,
     TimeManager,
@@ -403,9 +402,14 @@ public enum CustomRoles
     //Neutral
     Arsonist,
     Egoist,
+    Poisoner,
+    Pelican,
+    SerialKiller,
     EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
     Jester,
     Opportunist,
+    CurseMaster,
+    GangMaster,
     SchrodingerCat,//無所属のシュレディンガーの猫
     Terrorist,
     Executioner,
@@ -421,7 +425,9 @@ public enum CustomRoles
     LastImpostor,
     Lovers,
     Watcher,
+    Bait,
     Workhorse,
+    Test,
 }
 public enum CustomRoleTypes
 {

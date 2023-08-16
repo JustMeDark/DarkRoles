@@ -4,6 +4,7 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Crewmate;
 
 namespace TownOfHost

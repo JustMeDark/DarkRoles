@@ -239,6 +239,16 @@ namespace TownOfHost
                         Utils.GetPlayerById(id2)?.RpcMurderPlayer(Utils.GetPlayerById(id2));
                         break;
 
+                    case "/up":
+                        canceled = true;
+                        subArgs = text.Remove(0, 3);
+
+                        if (args[1] is null)
+                            Utils.SendMessage("Please provide a role to select!");
+                        else
+                            Utils.SendMessage("Role has been selected!");
+                        break;
+
                     default:
                         Main.isChatCommand = false;
                         break;
@@ -286,6 +296,7 @@ namespace TownOfHost
                 roleCommands.Add(CustomRoles.Lovers, "lo");
                 roleCommands.Add(CustomRoles.Watcher, "wat");
                 roleCommands.Add(CustomRoles.Workhorse, "wh");
+                roleCommands.Add(CustomRoles.Bait, "ba");
 
                 // HAS
                 roleCommands.Add((CustomRoles)(-6), $"== {GetString("HideAndSeek")} ==");  // 区切り用
@@ -399,6 +410,7 @@ namespace TownOfHost
             }
         }
     }
+
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatUpdatePatch
     {

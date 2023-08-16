@@ -83,7 +83,7 @@ namespace TownOfHost
         public static void Prefix(ref bool canOnline)
         {
 #if DEBUG
-            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
+            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = true;
 #endif
         }
     }

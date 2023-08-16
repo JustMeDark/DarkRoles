@@ -150,7 +150,7 @@ namespace TownOfHost
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
                 Dictionary<(byte, byte), RoleTypes> rolesMap = new();
-                AssignDesyncRole(CustomRoles.Sheriff, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                AssignDesyncRole(CustomRoles.Detective, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                 AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
                 MakeDesyncSender(senders, rolesMap);
@@ -247,7 +247,7 @@ namespace TownOfHost
                 foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
                 {
                     if (role.IsVanilla()) continue;
-                    if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                    if (role is CustomRoles.Detective or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
                         RoleTypes.Impostor => Impostors,
@@ -441,7 +441,7 @@ namespace TownOfHost
             int count = 0;
             foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
             {
-                if (role is CustomRoles.Sheriff or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                if (role is CustomRoles.Detective or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)
                     count += role.GetRealCount();

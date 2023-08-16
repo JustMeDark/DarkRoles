@@ -7,22 +7,23 @@ using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using static TownOfHost.Translator;
 
-namespace TownOfHost.Roles.Impostor
+namespace TownOfHost.Roles.Neutral
 {
-    public sealed class Witch : RoleBase, IImpostor
+    public sealed class CurseMaster : RoleBase, IKiller
     {
         public static readonly SimpleRoleInfo RoleInfo =
             SimpleRoleInfo.Create(
-                typeof(Witch),
-                player => new Witch(player),
-                CustomRoles.Witch,
+                typeof(CurseMaster),
+                player => new CurseMaster(player),
+                CustomRoles.CurseMaster,
                 () => RoleTypes.Impostor,
-                CustomRoleTypes.Impostor,
+                CustomRoleTypes.Neutral,
                 1500,
                 SetupOptionItem,
-                "wi"
+                "wi",
+                "#c09ffc"
             );
-        public Witch(PlayerControl player)
+        public CurseMaster(PlayerControl player)
         : base(
             RoleInfo,
             player
@@ -32,7 +33,7 @@ namespace TownOfHost.Roles.Impostor
         }
         public override void OnDestroy()
         {
-            Witches.Clear();
+            Curses.Clear();
             SpelledPlayer.Clear();
             CustomRoleManager.MarkOthers.Remove(GetMarkOthers);
         }
@@ -52,7 +53,7 @@ namespace TownOfHost.Roles.Impostor
         public List<byte> SpelledPlayer = new();
         public SwitchTrigger NowSwitchTrigger;
 
-        public static List<Witch> Witches = new();
+        public static List<CurseMaster> Curses = new();
         public static void SetupOptionItem()
         {
             OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, EnumHelper.GetAllNames<SwitchTrigger>(), 0, false);
@@ -62,7 +63,7 @@ namespace TownOfHost.Roles.Impostor
             IsSpellMode = false;
             SpelledPlayer.Clear();
             NowSwitchTrigger = (SwitchTrigger)OptionModeSwitchAction.GetValue();
-            Witches.Add(this);
+            Curses.Add(this);
             Player.AddDoubleTrigger();
 
         }
@@ -71,13 +72,9 @@ namespace TownOfHost.Roles.Impostor
             using var sender = CreateSender(CustomRPC.WitchSync);
             sender.Writer.Write(doSpell);
             if (doSpell)
-            {
                 sender.Writer.Write(target);
-            }
             else
-            {
                 sender.Writer.Write(IsSpellMode);
-            }
         }
 
         public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
@@ -89,18 +86,12 @@ namespace TownOfHost.Roles.Impostor
             {
                 var spelledId = reader.ReadByte();
                 if (spelledId == 255)
-                {
                     SpelledPlayer.Clear();
-                }
                 else
-                {
                     SpelledPlayer.Add(spelledId);
-                }
             }
             else
-            {
                 IsSpellMode = reader.ReadBoolean();
-            }
         }
         public void SwitchSpellMode(bool kill)
         {
@@ -123,14 +114,12 @@ namespace TownOfHost.Roles.Impostor
         }
         public static bool IsSpelled(byte target = 255)
         {
-            foreach (var witch in Witches)
+            foreach (var curse in Curses)
             {
-                if (target == 255 && witch.SpelledPlayer.Count != 0) return true;
+                if (target == 255 && curse.SpelledPlayer.Count != 0) return true;
 
-                if (witch.SpelledPlayer.Contains(target))
-                {
+                if (curse.SpelledPlayer.Contains(target))
                     return true;
-                }
             }
             return false;
         }
@@ -148,9 +137,7 @@ namespace TownOfHost.Roles.Impostor
         {
             var (killer, target) = info.AttemptTuple;
             if (NowSwitchTrigger == SwitchTrigger.TriggerDouble)
-            {
                 info.DoKill = killer.CheckDoubleTrigger(target, () => { SetSpelled(target); });
-            }
             else
             {
                 if (IsSpellMode)
@@ -169,13 +156,11 @@ namespace TownOfHost.Roles.Impostor
             {//吊られなかった時呪いキル発動
                 var spelledIdList = new List<byte>();
                 foreach (var pc in Main.AllAlivePlayerControls)
-                {
                     if (SpelledPlayer.Contains(pc.PlayerId) && !Main.AfterMeetingDeathPlayers.ContainsKey(pc.PlayerId))
                     {
                         pc.SetRealKiller(Player);
                         spelledIdList.Add(pc.PlayerId);
                     }
-                }
                 MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Spell, spelledIdList.ToArray());
             }
             //実行してもしなくても呪いはすべて解除
@@ -187,9 +172,7 @@ namespace TownOfHost.Roles.Impostor
         {
             seen ??= seer;
             if (isForMeeting && IsSpelled(seen.PlayerId))
-            {
                 return Utils.ColorString(Palette.ImpostorRed, "†");
-            }
             return "";
         }
         public override string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
@@ -200,13 +183,9 @@ namespace TownOfHost.Roles.Impostor
             var sb = new StringBuilder();
             sb.Append(isForHud ? GetString("WitchCurrentMode") : "Mode:");
             if (NowSwitchTrigger == SwitchTrigger.TriggerDouble)
-            {
                 sb.Append(GetString("WitchModeDouble"));
-            }
             else
-            {
                 sb.Append(IsSpellMode ? GetString("WitchModeSpell") : GetString("WitchModeKill"));
-            }
             return sb.ToString();
         }
         public bool OverrideKillButtonText(out string text)
@@ -222,9 +201,7 @@ namespace TownOfHost.Roles.Impostor
         public override bool OnEnterVent(PlayerPhysics physics, int ventId)
         {
             if (NowSwitchTrigger is SwitchTrigger.TriggerVent)
-            {
                 SwitchSpellMode(false);
-            }
             return true;
         }
     }

@@ -12,8 +12,9 @@ using TownOfHost.Roles;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
 using TownOfHost.Roles.Neutral;
-using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
+using TownOfHost.Roles.AddOns.Common;
+using TownOfHost.Roles.AddOns.Crewmate;
 
 namespace TownOfHost
 {
@@ -24,7 +25,7 @@ namespace TownOfHost
         {
             if (!AmongUsClient.Instance.AmHost) return false;
             Logger.Info("CheckProtect発生: " + __instance.GetNameWithRole() + "=>" + target.GetNameWithRole(), "CheckProtect");
-            if (__instance.Is(CustomRoles.Sheriff))
+            if (__instance.Is(CustomRoles.Detective))
             {
                 if (__instance.Data.IsDead)
                 {

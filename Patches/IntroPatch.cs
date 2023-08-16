@@ -135,7 +135,7 @@ namespace TownOfHost
             }
             switch (role)
             {
-                case CustomRoles.Sheriff:
+                case CustomRoles.Detective:
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     __instance.ImpostorText.gameObject.SetActive(true);
                     var numImpostors = Main.NormalOptions.NumImpostors;
@@ -196,7 +196,7 @@ namespace TownOfHost
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Detective))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();

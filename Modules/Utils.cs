@@ -15,12 +15,12 @@ using UnityEngine;
 using TownOfHost.Modules;
 using TownOfHost.Roles.Core;
 using TownOfHost.Roles.Core.Interfaces;
-using TownOfHost.Roles.Impostor;
 using TownOfHost.Roles.Neutral;
 using TownOfHost.Roles.AddOns.Common;
 using TownOfHost.Roles.AddOns.Impostor;
 using TownOfHost.Roles.AddOns.Crewmate;
 using static TownOfHost.Translator;
+using Hazel;
 
 namespace TownOfHost
 {
@@ -80,6 +80,18 @@ namespace TownOfHost
                     return false;
             }
         }
+
+        public static void TP(CustomNetworkTransform nt, Vector2 location)
+        {
+            location += new Vector2(0, 0.3636f);
+            if (AmongUsClient.Instance.AmHost) nt.SnapTo(location);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(nt.NetId, (byte)RpcCalls.SnapTo, SendOption.None);
+            //nt.WriteVector2(location, writer);
+            NetHelpers.WriteVector2(location, writer);
+            writer.Write(nt.lastSequenceId);
+            AmongUsClient.Instance.FinishRpcImmediately(writer);
+        }
+
         public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)
@@ -263,6 +275,9 @@ namespace TownOfHost
                     {
                         case CustomRoles.Watcher:
                             sb.Append(Watcher.SubRoleMark);
+                            break;
+                        case CustomRoles.Bait:
+                            sb.Append(Bait.SubRoleMark);
                             break;
                     }
                 }
@@ -696,8 +711,11 @@ namespace TownOfHost
                 {
                     case SuffixModes.None:
                         break;
-                    case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
+                    case SuffixModes.DarkRoles:
+                        name += $"\r\n<color={Main.ModColor}>Dark Roles v{Main.PluginVersion}</color>";
+                        break;
+                    case SuffixModes.DontKillMe:
+                        name += $"\r\n<color={Main.ModColor}>Dont Kill Me ;-;</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
@@ -779,7 +797,7 @@ namespace TownOfHost
                 SelfMark.Append(CustomRoleManager.GetMarkOthers(seer, isForMeeting: isForMeeting));
 
                 //ハートマークを付ける(自分に)
-                if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "♡"));
+                if (seer.Is(CustomRoles.Lovers)) SelfMark.Append(ColorString(GetRoleColor(CustomRoles.Lovers), "\uf004"));
 
                 //Markとは違い、改行してから追記されます。
                 SelfSuffix.Clear();
@@ -820,7 +838,7 @@ namespace TownOfHost
                     || PlayerState.GetByPlayerId(seer.PlayerId).TargetColorData.Count > 0 //seer視点用の名前色データが一つ以上ある
                     || seer.Is(CustomRoles.Arsonist)
                     || seer.Is(CustomRoles.Lovers)
-                    || Witch.IsSpelled()
+                    || CurseMaster.IsSpelled()
                     || seer.Is(CustomRoles.Executioner)
                     || seer.Is(CustomRoles.Doctor) //seerがドクター
                     || seer.Is(CustomRoles.Puppeteer)

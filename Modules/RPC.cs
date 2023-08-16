@@ -23,6 +23,7 @@ namespace TownOfHost
         WitchSync,
         SetSheriffShotLimit,
         SetDousedPlayer,
+        SetEatenPlayer,
         SetNameColorData,
         SniperSync,
         SetLoversPlayers,

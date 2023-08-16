@@ -14,7 +14,7 @@ namespace TownOfHost
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
+        private static readonly string URL = "https://api.github.com/repos/JustMeDark/TownOfHost-Dark";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
