@@ -135,6 +135,8 @@ public abstract class RoleBase : IDisposable
     /// <returns>false:キル行為を起こさせない</returns>
     public virtual bool OnCheckMurderAsTarget(MurderInfo info) => true;
 
+    public virtual bool OnCheckMurder(PlayerControl pc, PlayerControl tpc) => true;
+
     /// <summary>
     /// ターゲットとしてのMurderPlayer処理
     /// </summary>

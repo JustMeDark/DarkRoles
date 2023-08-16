@@ -22,7 +22,8 @@ namespace TownOfHost.Roles.Neutral
                 SetupOptionItem,
                 "poi",
                 "#653782",
-                introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
+                introSound: () => GetIntroSound(RoleTypes.Shapeshifter),
+                countType: CountTypes.Poisoner
             );
         public Poisoner(PlayerControl player)
         : base(

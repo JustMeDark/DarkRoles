@@ -36,9 +36,9 @@ public sealed class Detective : RoleBase, IKiller
         CurrentKillCooldown = KillCooldown.GetFloat();
     }
 
-    private static OptionItem KillCooldown;
+    public static OptionItem KillCooldown;
     private static OptionItem MisfireKillsTarget;
-    private static OptionItem ShotLimitOpt;
+    public static OptionItem ShotLimitOpt;
     private static OptionItem CanKillAllAlive;
     public static OptionItem CanKillNeutrals;
     enum OptionName

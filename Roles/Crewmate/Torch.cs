@@ -2,13 +2,13 @@ using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Lighter : RoleBase
+public sealed class Torch : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
-            typeof(Lighter),
-            player => new Lighter(player),
-            CustomRoles.Lighter,
+            typeof(Torch),
+            player => new Torch(player),
+            CustomRoles.Torch,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             20100,
@@ -16,7 +16,7 @@ public sealed class Lighter : RoleBase
             "li",
             "#eee5be"
         );
-    public Lighter(PlayerControl player)
+    public Torch(PlayerControl player)
     : base(
         RoleInfo,
         player

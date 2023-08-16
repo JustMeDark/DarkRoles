@@ -226,9 +226,6 @@ public static class CustomRoleManager
                 case CustomRoles.Watcher:
                     Watcher.Add(pc.PlayerId);
                     break;
-                case CustomRoles.Bait:
-                    Bait.Add(pc.PlayerId);
-                    break;
             }
         }
     }
@@ -371,6 +368,8 @@ public enum CustomRoles
     ShapeMaster,
     Sniper,
     Vampire,
+    Karen,
+    Manager,
     Warlock,
     Mare,
     Puppeteer,
@@ -387,9 +386,11 @@ public enum CustomRoles
     GuardianAngel,
     Scientist,
     //Crewmate
-    Lighter,
+    Torch,
     Mayor,
+    Clone,
     SabotageMaster,
+    Spy,
     Detective,
     Snitch,
     SpeedBooster,

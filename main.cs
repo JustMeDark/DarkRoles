@@ -50,7 +50,8 @@ namespace TownOfHost
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.1.0 (dev 4)";
+        public const string PluginVersion = "0.2.1";
+        public const string DevVersion = "(Dev 2)";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2023.7.11";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
@@ -287,8 +288,7 @@ namespace TownOfHost
     public enum SuffixModes
     {
         None = 0,
-        DarkRoles,
-        DontKillMe,
+        TOH,
         Streaming,
         Recording,
         RoomHost,

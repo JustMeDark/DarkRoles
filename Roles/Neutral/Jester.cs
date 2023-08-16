@@ -10,7 +10,7 @@ public sealed class Jester : RoleBase
             typeof(Jester),
             player => new Jester(player),
             CustomRoles.Jester,
-            () => RoleTypes.Crewmate,
+            () => RoleTypes.Engineer,
             CustomRoleTypes.Neutral,
             50000,
             null,

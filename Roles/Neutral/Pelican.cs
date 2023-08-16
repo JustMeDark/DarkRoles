@@ -9,11 +9,12 @@ using Epic.OnlineServices;
 using Hazel;
 using TMPro;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 using UnityEngine;
 
 namespace TownOfHost.Roles.Neutral
 {
-    public sealed class Pelican : RoleBase
+    public sealed class Pelican : RoleBase, IKiller
     {
 
         private static OptionItem OptionKillCooldown;

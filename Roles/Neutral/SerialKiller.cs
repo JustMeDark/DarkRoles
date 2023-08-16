@@ -19,7 +19,8 @@ namespace TownOfHost.Roles.Neutral
                 1100,
                 SetUpOptionItem,
                 "sk",
-                "#ff9794"
+                "#ff9794",
+                countType: CountTypes.SerialKiller
             );
         public SerialKiller(PlayerControl player)
         : base(
@@ -41,7 +42,6 @@ namespace TownOfHost.Roles.Neutral
         private static float KillCooldown;
         private static float TimeLimit;
 
-        public bool CanBeLastImpostor { get; } = false;
         public float? SuicideTimer;
 
         private static void SetUpOptionItem()

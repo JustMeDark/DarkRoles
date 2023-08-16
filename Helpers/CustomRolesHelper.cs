@@ -1,3 +1,4 @@
+using System.Linq;
 using AmongUs.GameOptions;
 
 using TownOfHost.Roles.Core;
@@ -41,6 +42,7 @@ namespace TownOfHost
                 CustomRoles.HASTroll or
                 CustomRoles.HASFox;
         }
+        public static bool RoleExist(this CustomRoles role, bool countDead = false) => Main.AllPlayerControls.Any(x => x.Is(role) && (x.IsAlive() || countDead));
         public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
         public static bool IsVanilla(this CustomRoles role)
         {
@@ -146,5 +148,6 @@ namespace TownOfHost
         Impostor,
         Jackal,
         SerialKiller,
+        Poisoner
     }
 }

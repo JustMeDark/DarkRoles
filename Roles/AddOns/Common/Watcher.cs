@@ -10,7 +10,7 @@ namespace TownOfHost.Roles.AddOns.Common
     {
         private static readonly int Id = 80200;
         private static Color RoleColor = Utils.GetRoleColor(CustomRoles.Watcher);
-        public static string SubRoleMark = Utils.ColorString(RoleColor, "Ｗ");
+        public static string SubRoleMark = Utils.ColorString(RoleColor, "(Watcher)");
         private static List<byte> playerIdList = new();
 
         public static void SetupCustomOption()

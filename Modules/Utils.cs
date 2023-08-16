@@ -276,9 +276,6 @@ namespace TownOfHost
                         case CustomRoles.Watcher:
                             sb.Append(Watcher.SubRoleMark);
                             break;
-                        case CustomRoles.Bait:
-                            sb.Append(Bait.SubRoleMark);
-                            break;
                     }
                 }
             }
@@ -711,11 +708,8 @@ namespace TownOfHost
                 {
                     case SuffixModes.None:
                         break;
-                    case SuffixModes.DarkRoles:
+                    case SuffixModes.TOH:
                         name += $"\r\n<color={Main.ModColor}>Dark Roles v{Main.PluginVersion}</color>";
-                        break;
-                    case SuffixModes.DontKillMe:
-                        name += $"\r\n<color={Main.ModColor}>Dont Kill Me ;-;</color>";
                         break;
                     case SuffixModes.Streaming:
                         name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
