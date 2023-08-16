@@ -3,9 +3,10 @@ using System.Linq;
 using System.Net.Mail;
 using AmongUs.GameOptions;
 using TownOfHost.Roles.Core;
+using TownOfHost.Roles.Core.Interfaces;
 
 namespace TownOfHost.Roles.Crewmate;
-public sealed class Spy : RoleBase
+public sealed class Spy : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     //public static OptionItem OptionBaitReveal;
 
@@ -17,7 +18,7 @@ public sealed class Spy : RoleBase
             () => RoleTypes.Engineer,
             CustomRoleTypes.Crewmate,
             20100,
-            SetupOptionItem,
+            null,
             "ba",
             "#00f7ff"
         );
@@ -25,8 +26,6 @@ public sealed class Spy : RoleBase
     {
     }
 
-    private static void SetupOptionItem()
-    {
-        //OptionBaitReveal = BooleanOptionItem.Create(10, "Reveal Bait", true, TabGroup.CrewmateRoles, false);
-    }
+    public bool CheckKillFlash(MurderInfo info) => true;
+    public bool CheckSeeDeathReason(PlayerControl seen) => true;
 }
