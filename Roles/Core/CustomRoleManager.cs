@@ -391,6 +391,7 @@ public enum CustomRoles
     Clone,
     SabotageMaster,
     Spy,
+    Colorist,
     Detective,
     Snitch,
     SpeedBooster,
@@ -406,6 +407,8 @@ public enum CustomRoles
     Poisoner,
     Pelican,
     SerialKiller,
+    Mario,
+    Dream,
     EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
     Jester,
     Opportunist,

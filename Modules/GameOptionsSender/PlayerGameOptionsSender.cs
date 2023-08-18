@@ -8,6 +8,7 @@ using Mathf = UnityEngine.Mathf;
 
 using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Neutral;
+using DarkRoles.Roles.Crewmate;
 
 namespace DarkRoles.Modules
 {
@@ -110,8 +111,15 @@ namespace DarkRoles.Modules
             {
                 switch (subRole)
                 {
+                    case CustomRoles.Spy:
                     case CustomRoles.Watcher:
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        break;
+                    case CustomRoles.Colorist:
+                        if (Colorist.UsesLeft > 0)
+                            opt.SetBool(BoolOptionNames.AnonymousVotes, false);
+                        else
+                            opt.SetBool(BoolOptionNames.AnonymousVotes, true);
                         break;
                 }
             }

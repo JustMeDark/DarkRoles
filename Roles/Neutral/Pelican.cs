@@ -32,7 +32,7 @@ namespace DarkRoles.Roles.Neutral
              typeof(Pelican),
              player => new Pelican(player),
              CustomRoles.Pelican,
-             () => RoleTypes.Crewmate,
+             () => RoleTypes.Impostor,
              CustomRoleTypes.Neutral,
              60000,
              SetupOptionItem,
@@ -47,10 +47,9 @@ namespace DarkRoles.Roles.Neutral
             HasImpostorVision = OptionHasImpostorVision.GetBool();
         }
 
-        public override void Add()
+        public override void Add(byte playerId)
         {
-            foreach (var ar in Main.AllPlayerControls)
-                playerIdList.Add(ar.PlayerId);
+            playerIdList.Add(playerId);
         }
 
         public static void SendRPC(byte targetId = byte.MaxValue)
@@ -151,22 +150,23 @@ namespace DarkRoles.Roles.Neutral
             Logger.Info($"{pc.GetRealName()} 吞掉了 {target.GetRealName()}", "Pelican");
         }
 
-        public static void OnReportDeadBody()
+        public override void OnReportDeadBody(PlayerControl reporter, GameData.PlayerInfo target)
         {
             foreach (var pc in eatenList)
             {
                 foreach (var tar in pc.Value)
                 {
-                    var target = Utils.GetPlayerById(tar);
+                    var targetted = Utils.GetPlayerById(tar);
                     var killer = Utils.GetPlayerById(pc.Key);
-                    if (killer == null || target == null) continue;
+                    if (killer == null || targetted == null) continue;
                     Main.AllPlayerSpeed[tar] = Main.AllPlayerSpeed[tar] - 0.5f + originalSpeed[tar];
                     ReportDeadBodyPatch.CanReport[tar] = true;
-                    target.RpcExileV2();
-                    target.SetRealKiller(killer);
-                    PlayerState.GetByPlayerId(target.PlayerId).DeathReason = CustomDeathReason.Bite;
+                    targetted.RpcExileV2();
+                    targetted.SetRealKiller(killer);
+                    PlayerState.GetByPlayerId(targetted.PlayerId).DeathReason = CustomDeathReason.Eaten;
                     Main.PlayerStates[tar].SetDead();
-                    Logger.Info($"{killer.GetRealName()} 消化了 {target.GetRealName()}", "Pelican");
+                    Utils.AfterPlayerDeathTasks(targetted, true);
+                    Logger.Info($"{killer.GetRealName()} 消化了 {targetted.GetRealName()}", "Pelican");
                 }
             }
             eatenList.Clear();
@@ -198,7 +198,7 @@ namespace DarkRoles.Roles.Neutral
         {
             if (!GameStates.IsInTask)
             {
-                if (eatenList.Count > 0)
+                if (eatenList.Any())
                 {
                     eatenList.Clear();
                     SyncEatenList(byte.MaxValue);
@@ -223,7 +223,6 @@ namespace DarkRoles.Roles.Neutral
             }
         }
 
-            public float CalculateKillCooldown() => KillCooldown;
         public override void ApplyGameOptions(IGameOptions opt) => opt.SetVision(HasImpostorVision);
 
         private static void SetupOptionItem()

@@ -926,6 +926,18 @@ namespace DarkRoles
                 AirShipElectricalDoors.Initialize();
         }
 
+        public static void AfterPlayerDeathTasks(PlayerControl target, bool onMeeting = false)
+        {
+            switch (target.GetCustomRole())
+            {
+                case CustomRoles.Pelican:
+                    Pelican.OnPelicanDied(target.PlayerId);
+                    break;
+            }
+
+            FixedUpdatePatch.LoversSuicide(target.PlayerId, onMeeting);
+        }
+
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {
             var tmp = ChangeTo * 10;

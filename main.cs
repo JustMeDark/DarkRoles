@@ -50,7 +50,7 @@ namespace DarkRoles
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.2.1";
+        public const string PluginVersion = "0.2.2";
         public const string DevVersion = "(Dev 2)";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2023.7.11";
@@ -262,6 +262,8 @@ namespace DarkRoles
         Lovers = CustomRoles.Lovers,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
+        Mario = CustomRoles.Mario,
+        Dream = CustomRoles.Dream,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
         Poisoner = CustomRoles.Poisoner,

@@ -74,6 +74,9 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void Add()
     { }
+
+    public virtual void Add(byte playerId)
+    { }
     /// <summary>
     /// ロールベースが破棄されるときに呼ばれる関数
     /// </summary>
