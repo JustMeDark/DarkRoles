@@ -59,3 +59,4 @@ You can execute chat commands by typing in chat.
 | /help now<br>/help n        | Show active setting descriptions        |
 | /template <tag><br>/t <tag> | Show template text corresponding to tag |
 | /myrole<br>/m               | Display a description of your role      |
+| /role<br>/r				  | Get information about a specified role  |
