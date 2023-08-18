@@ -27,7 +27,7 @@ Only the host needs the mod installed to host a lobby, and players can join on v
 ### Template
 This function allows you to send prepared messages.<br>
 Execute by typing `/template <tag>` or `/t <tag>`.<br>
-To set the text, edit `./TOH_DATA/template.txt` in the same folder as AmongUs.exe.<br>
+To set the text, edit `./DARK_ROLES_DATA/template.txt` in the same folder as AmongUs.exe.<br>
 Separate each entry with a colon, such as `tag:content`.<br>
 Also, you can break lines by writing `\n` in the sentence like `tag:line breaks can be\nmade like this`.<br>
 
