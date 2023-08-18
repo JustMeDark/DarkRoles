@@ -1,6 +1,6 @@
 # Dark Roles
 
-<img align="left" alt="Cover" src="Resources/TempImage.png" height="360" /> 
+<img align="left" alt="Cover" src="Resources/TempImage.png" height="390" /> 
 
 ## Regarding this mod
 
@@ -10,7 +10,7 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 [You can join our discord here for all news on the mod!](https://discord.gg/DGmNvfPr)
 
-## Releases
+## Version Support
 
 AmongUs Version: **2023.7.11**
 
