@@ -1,6 +1,6 @@
 # Dark Roles
 
-<img align="left" alt="Cover" src="Resources/TempImage.png" height="410" /> 
+<img align="left" alt="Cover" src="Resources/TempImage.png" height="420" /> 
 
 ## Regarding this mod
 
