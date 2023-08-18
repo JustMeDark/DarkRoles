@@ -33,8 +33,8 @@ namespace DarkRoles
         public static readonly string ForkId = "Dark Roles Mod";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
-        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/maul)
-        public static readonly string DiscordInviteUrl = "https://discord.gg/maul";
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/DGmNvfPr)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/DGmNvfPr";
         // ==========
         public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         // == 認証設定 / Authentication Config ==
@@ -50,8 +50,8 @@ namespace DarkRoles
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.2.2";
-        public const string DevVersion = "(Dev 2)";
+        public const string PluginVersion = "0.2.3";
+        public const string DevVersion = "(Dev 1)";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2023.7.11";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);

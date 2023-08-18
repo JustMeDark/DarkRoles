@@ -938,6 +938,15 @@ namespace DarkRoles
             FixedUpdatePatch.LoversSuicide(target.PlayerId, onMeeting);
         }
 
+        public static Color ColorMethod(string hex)
+        {
+            Color32 color;
+            Color color2;
+            bool result = ColorUtility.DoTryParseHtmlColor(hex, out color);
+            color2 = color;
+            return color2;
+        }
+
         public static void ChangeInt(ref int ChangeTo, int input, int max)
         {
             var tmp = ChangeTo * 10;

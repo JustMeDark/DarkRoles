@@ -9,6 +9,8 @@ namespace DarkRoles
     [HarmonyPatch(typeof(MainMenuManager))]
     public class MainMenuManagerPatch
     {
+        public static Color color;
+        public static Color32 ButtonColor;
         private static PassiveButton template;
         private static PassiveButton discordButton;
         public static PassiveButton UpdateButton { get; private set; }
@@ -25,27 +27,26 @@ namespace DarkRoles
                 discordButton = CreateButton(
                     "DiscordButton",
                     new(-1f, -1f, 1f),
-                    new(88, 101, 242, byte.MaxValue),
-                    new(148, 161, byte.MaxValue, byte.MaxValue),
+                    Utils.ColorMethod("#f9a0ff"), Utils.ColorMethod("#fcc9ff"),
                     () => Application.OpenURL(Main.DiscordInviteUrl),
                     "Discord");
             }
             discordButton.gameObject.SetActive(Main.ShowDiscordButton);
 
-            /* GitHubボタンを生成
+            //GitHubボタンを生成
             if (gitHubButton == null)
             {
                 gitHubButton = CreateButton(
                     "GitHubButton",
                     new(1f, -1f, 1f),
-                    new(153, 153, 153, byte.MaxValue),
-                    new(209, 209, 209, byte.MaxValue),
-                    () => Application.OpenURL("https://github.com/tukasa0001/TownOfHost"),
+                    Utils.ColorMethod("#f9a0ff"), Utils.ColorMethod("#fcc9ff"),
+                    () => Application.OpenURL("https://github.com/JustMeDark/DarkRoles"),
                     "GitHub");
             }
+            gitHubButton.gameObject.SetActive(true);
 
             //Updateボタンを生成
-            if (UpdateButton == null)
+            /*if (UpdateButton == null)
             {
                 UpdateButton = CreateButton(
                     "UpdateButton",
