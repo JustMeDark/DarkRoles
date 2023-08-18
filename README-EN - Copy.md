@@ -4,7 +4,7 @@
 
 Dark roles is a fork of Town Of Host with some new fun roles, along with a focus on stability to ensure everyone who plays enjoys their time playing!
 
-You can join our discord here for news on the mod!(https://discord.gg/DGmNvfPr)
+[You can join our discord here for all news on the mod!](https://discord.gg/DGmNvfPr)
 
 ## Regarding this mod
 
