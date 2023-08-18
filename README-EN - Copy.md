@@ -1,6 +1,6 @@
 # Dark Roles
 
-[![DarkRoles-Title](./Resources/TempImage.png)]
+<img align="left" alt="Cover" src="Resources/TempImage.png" width="50%" height="240" /> 
 
 Dark roles is a fork of Town Of Host with some new fun roles, along with a focus on stability to ensure everyone who plays enjoys their time playing!
 
