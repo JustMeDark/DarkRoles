@@ -211,7 +211,6 @@ namespace DarkRoles
         public static OptionItem CommsCamouflage;
 
         // プリセット対象外
-        public static OptionItem NoGameEnd;
         public static OptionItem AutoDisplayLastResult;
         public static OptionItem AutoDisplayKillLog;
         public static OptionItem SuffixMode;
@@ -532,8 +531,6 @@ namespace DarkRoles
                 .SetHeader(true)
                 .SetGameMode(CustomGameMode.All);
             DisableTaskWin = BooleanOptionItem.Create(900_001, "DisableTaskWin", false, TabGroup.MainSettings, false)
-                .SetGameMode(CustomGameMode.All);
-            NoGameEnd = BooleanOptionItem.Create(900_002, "NoGameEnd", false, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);
             GhostCanSeeOtherRoles = BooleanOptionItem.Create(900_010, "GhostCanSeeOtherRoles", true, TabGroup.MainSettings, false)
                 .SetGameMode(CustomGameMode.All);

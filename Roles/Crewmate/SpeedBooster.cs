@@ -42,8 +42,10 @@ public sealed class SpeedBooster : RoleBase
         OptionUpSpeed = FloatOptionItem.Create(RoleInfo, 10, OptionName.FlashSpeed, new(1.0f, 3.5f, 0.25f), 2.0f, false);
     }
 
+
+
     public override void OnFixedUpdate(PlayerControl player)
     {
-        Main.AllPlayerSpeed[Player.PlayerId] = FlashSpeedAmonut;
+        Main.AllPlayerSpeed[player.PlayerId] = FlashSpeedAmonut;
     }
 }

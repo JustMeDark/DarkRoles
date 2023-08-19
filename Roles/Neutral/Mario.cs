@@ -42,7 +42,7 @@ public sealed class Mario : RoleBase
 
     public override bool OnEnterVent(PlayerPhysics physics, int ventId)
     {
-        if(UsedVents > VentAmount)
+        if(UsedVents < VentAmount)
         {
             UsedVents++;
         }
@@ -53,6 +53,12 @@ public sealed class Mario : RoleBase
             return true;
         }
         return false;
+    }
+
+    public override void ApplyGameOptions(IGameOptions opt)
+    {
+        var vent = FloatOptionNames.EngineerCooldown;
+        opt.SetFloat(vent, 0.0f);
     }
 
     public override string GetProgressText(bool comms = false) => Utils.ColorString(Color.red, $"({VentAmount - UsedVents})");

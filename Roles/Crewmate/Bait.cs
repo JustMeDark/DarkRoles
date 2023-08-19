@@ -40,7 +40,7 @@ public sealed class Bait : RoleBase
         OptionBaitReveal = BooleanOptionItem.Create(RoleInfo, 10, Options.RevealBait, true, false);
     }
 
-    public override void OnStartMeeting()
+   /* public override void OnStartMeeting()
     {
         if((MeetingStates.FirstMeeting && OptionBaitReveal.GetBool()) && CustomRoles.Bait.RoleExist())
         {
@@ -51,7 +51,7 @@ public sealed class Bait : RoleBase
                 baitAliveList.Add(Main.AllPlayerNames[whId]);
             Utils.SendMessage("The bait is " + baitAliveList);
         }
-    }
+    }*/
 
     public override void OnMurderPlayerAsTarget(MurderInfo info)
     {

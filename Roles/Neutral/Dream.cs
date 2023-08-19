@@ -34,6 +34,15 @@ public sealed class Dream : RoleBase
         AURoleOptions.EngineerInVentMaxTime = 0;
     }
 
+    public override void OnFixedUpdate(PlayerControl player)
+    {
+        if (IsTaskFinished)
+        {
+            CustomWinnerHolder.ShiftWinnerAndSetWinner(CustomWinner.Dream);
+            CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
+        }
+    }
+
     public override bool OnCompleteTask()
     {
         if (IsTaskFinished)

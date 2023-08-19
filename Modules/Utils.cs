@@ -510,7 +510,6 @@ namespace DarkRoles
                     if (role.IsEnable() && !role.IsVanilla()) SendMessage(GetRoleName(role) + GetString(Enum.GetName(typeof(CustomRoles), role) + "InfoLong"), PlayerId);
                 }
             }
-            if (Options.NoGameEnd.GetBool()) { SendMessage(GetString("NoGameEndInfo"), PlayerId); }
         }
         public static void ShowActiveSettings(byte PlayerId = byte.MaxValue)
         {
@@ -695,10 +694,17 @@ namespace DarkRoles
         {
             if (!AmongUsClient.Instance.AmHost) return;
             string name = DataManager.player.Customization.Name;
-            name = $"<color={"#ffa1cd"}>D</color>" + $"<color={"#fc8bc0"}>a</color>" + $"<color={"#fa7fb9"}>r</color>" + $"<color={"#fc6fb2"}>k </color>"
-                + $"<color={"#fa64ab"}>R</color>" + $"<color={"#fc6fb2"}>o</color>" + $"<color={"#fa7fb9"}>l</color>" + $"<color={"#fc8bc0"}>e</color>"
-                + $"<color={"#ffa1cd"}>s</color>" + $"<color={"#fab6d6"}>{GetString("Icon")}</color>" + $"<color={"#8460fc"}>{DataManager.player.Customization.Name}</color>";
-            if (Main.nickName != "") name = Main.nickName;
+            if (GameStates.IsLobby)
+            {
+                name = $"<color={"#ffa1cd"}>D</color>" + $"<color={"#fc8bc0"}>a</color>" + $"<color={"#fa7fb9"}>r</color>" + $"<color={"#fc6fb2"}>k </color>"
+                    + $"<color={"#fa64ab"}>R</color>" + $"<color={"#fc6fb2"}>o</color>" + $"<color={"#fa7fb9"}>l</color>" + $"<color={"#fc8bc0"}>e</color>"
+                    + $"<color={"#ffa1cd"}>s</color>" + $"<color={"#fab6d6"}>{GetString("Icon")}</color>" + $"<color={"#8460fc"}>{DataManager.player.Customization.Name}</color>";
+            }
+            if (GameStates.InGame || AmongUsClient.Instance.IsGameStarted)
+            {
+                name = DataManager.player.Customization.Name;
+            }
+                if (Main.nickName != "") name = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
                 if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);

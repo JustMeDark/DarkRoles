@@ -16,16 +16,16 @@ namespace DarkRoles.Roles.Neutral
                 CustomRoles.SerialKiller,
                 () => RoleTypes.Shapeshifter,
                 CustomRoleTypes.Neutral,
-                1100,
+                10000,
                 SetUpOptionItem,
-                "sk",
-                "#ff9794",
-                countType: CountTypes.SerialKiller
+                "sr",
+                "#ff9794"
             );
         public SerialKiller(PlayerControl player)
         : base(
             RoleInfo,
-            player
+            player,
+            () => HasTask.False
         )
         {
             KillCooldown = OptionKillCooldown.GetFloat();

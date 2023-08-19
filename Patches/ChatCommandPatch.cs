@@ -166,12 +166,6 @@ namespace DarkRoles
                                     case "has":
                                         Utils.SendMessage(GetString("HideAndSeekInfo"));
                                         break;
-
-                                    case "nogameend":
-                                    case "nge":
-                                        Utils.SendMessage(GetString("NoGameEndInfo"));
-                                        break;
-
                                     case "syncbuttonmode":
                                     case "sbm":
                                         Utils.SendMessage(GetString("SyncButtonModeInfo"));
@@ -183,7 +177,7 @@ namespace DarkRoles
                                         break;
 
                                     default:
-                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), nogameend(nge), syncbuttonmode(sbm), randommapsmode(rmm)");
+                                        Utils.SendMessage($"{GetString("Command.h_args")}:\n hideandseek(has), syncbuttonmode(sbm), randommapsmode(rmm)");
                                         break;
                                 }
                                 break;

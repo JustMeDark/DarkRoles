@@ -192,7 +192,7 @@ namespace DarkRoles
     {
         public static bool Prefix(ref bool __result)
         {
-            if (Options.DisableTaskWin.GetBool() || Options.NoGameEnd.GetBool() || TaskState.InitialTotalTasks == 0)
+            if (Options.DisableTaskWin.GetBool() || TaskState.InitialTotalTasks == 0)
             {
                 __result = false;
                 return false;

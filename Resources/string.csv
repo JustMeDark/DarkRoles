@@ -6,6 +6,7 @@
 
 "## 役職"
 "Neutral","Neutral","ニュートラル","独立阵营","中立陣營","Нейтрал","Neutro"
+"BaitAdviceAlive","<b>{0}</b> is the Bait. Whoever kills the Bait will commit self report."
 
 "Icon","♥","♥"
 
@@ -389,6 +390,7 @@
 "BountyShowTargetArrow","Bounty hunter show arrow pointing to target","ターゲットへの矢印を表示する","赏金猎人的目标以箭头显示位置","賞金獵人獲得指向目標的箭頭","Показывать стрелку указывающую на Цель",""
 "DefaultShapeshiftCooldown","Default Shapeshift Cooldown","デフォルトの変身クールダウン","默认变形冷却时间","預設變身時間","Обычная перезарядка Оборотня","Tempo de Recarga Padrão (Mutar)"
 "VampireKillDelay","Kill Delay(S)","殺害までの時間(秒)","吸血目标延迟死亡时间","殺人延遲","Длительность укуса(Секунды)","Atraso do Abate (S)"
+"PoisonerKillDelay","Kill Delay(S)"
 "MareAddSpeedInLightsOut","Mare Add Player Add Speed In Lights Out","停電時のメアーの加速値","梦魇熄灯时的额外速度","關燈時黑暗博士的額外速度","Скорость Ночного при Саботаже Света","Velocidade Adicional do Mare em Apagão"
 "MareKillCooldownInLightsOut","Kill Cooldown During Fix Lights","停電時のメアーのキルクール","梦魇熄灯时的击杀冷却","關燈時黑暗博士的殺人冷卻","Откат убийства Ночного при Саботаже Света","Tempo de Recarga (abate) Durante Apagão"
 "SabotageMasterSkillLimit","Ability Use Count(Excluding Doors)","修理能力を使用できる回数(ﾄﾞｱ閉鎖は除く)","修理大师修理破坏的最大次数","修理工修理破壞次數上限","Лимит способности (Кроме открытия дверей)","Máximo de Usos da Habilidade (Menos Portas)"

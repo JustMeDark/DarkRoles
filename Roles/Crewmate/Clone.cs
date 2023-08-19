@@ -30,7 +30,7 @@ public sealed class Clone : RoleBase
     {
     }
 
-    public static void Add(byte playerId)
+    public override void Add(byte playerId)
     {
         playerIdList.Add(playerId);
         CurrentKillCooldown.Add(playerId, OptionKillCooldown.GetFloat());

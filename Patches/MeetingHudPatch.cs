@@ -8,12 +8,17 @@ using DarkRoles.Modules;
 using DarkRoles.Roles;
 using DarkRoles.Roles.Core;
 using static DarkRoles.Translator;
+using DarkRoles.Roles.Crewmate;
+using System.Linq;
 
 namespace DarkRoles;
 
 [HarmonyPatch]
 public static class MeetingHudPatch
 {
+
+    public static List<byte> BaitAlive = new();
+
     [HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.CheckForEndVoting))]
     class CheckForEndVotingPatch
     {
@@ -249,5 +254,33 @@ class SetHighlightedPatch
         if (!__instance.HighlightedFX) return false;
         __instance.HighlightedFX.enabled = value;
         return false;
+    }
+}
+
+[HarmonyPatch(typeof(MeetingHud), nameof(MeetingHud.Start))]
+class MeetingHudStartPatch
+{
+
+    public static List<byte> BaitAlive = new();
+
+    public static void NotifyRoleSkillOnMeetingStart()
+    {
+        if (!AmongUsClient.Instance.AmHost) return;
+
+        List<(string, byte, string)> msgToSend = new();
+
+        void AddMsg(string text, byte sendTo = 255, string title = "")
+            => msgToSend.Add((text, sendTo, title));
+
+        if (MeetingStates.FirstMeeting && CustomRoles.Bait.RoleExist() && Bait.OptionBaitReveal.GetBool())
+        {
+            foreach (var pc in Main.AllAlivePlayerControls.Where(x => x.Is(CustomRoles.Bait)))
+                BaitAlive.Add(pc.PlayerId);
+            List<string> baitAliveList = new();
+            foreach (var whId in BaitAlive)
+                baitAliveList.Add(Main.AllPlayerNames[whId]);
+            string separator = TranslationController.Instance.currentLanguage.languageID is SupportedLangs.English or SupportedLangs.Russian ? "], [" : "】, 【";
+            AddMsg(string.Format(GetString("BaitAdviceAlive"), string.Join(separator, baitAliveList)), 255, Utils.ColorString(Utils.GetRoleColor(CustomRoles.Bait), GetString("BaitAliveTitle")));
+        }
     }
 }
