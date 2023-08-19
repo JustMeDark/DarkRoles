@@ -53,7 +53,7 @@ namespace DarkRoles
             static TextMeshPro SpecialEventText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion} {Main.DevVersion}";
+                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
                 Main.credentialsText += $"\n<color={Main.ModColor}>By JustMeDark";
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";

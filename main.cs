@@ -50,8 +50,7 @@ namespace DarkRoles
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.2.4";
-        public const string DevVersion = "(Dev 1)";
+        public const string PluginVersion = "0.2.4.1";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2023.7.11";
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
