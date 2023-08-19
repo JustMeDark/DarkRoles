@@ -8,6 +8,9 @@ using DarkRoles.Roles.Core;
 namespace DarkRoles.Roles.Crewmate;
 public sealed class SpeedBooster : RoleBase
 {
+    private static OptionItem OptionUpSpeed;
+    private static float FlashSpeedAmonut;
+
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
             typeof(SpeedBooster),
@@ -17,7 +20,7 @@ public sealed class SpeedBooster : RoleBase
             CustomRoleTypes.Crewmate,
             20600,
             SetupOptionItem,
-            "sb",
+            "fl",
             "#00ffff"
         );
     public SpeedBooster(PlayerControl player)
@@ -26,57 +29,21 @@ public sealed class SpeedBooster : RoleBase
         player
     )
     {
-        UpSpeed = OptionUpSpeed.GetFloat();
-        TaskTrigger = OptionTaskTrigger.GetInt();
-
-        BoostTarget = byte.MaxValue;
+        FlashSpeedAmonut = OptionUpSpeed.GetFloat();
     }
 
-    private static OptionItem OptionUpSpeed; //加速値
-    private static OptionItem OptionTaskTrigger; //効果を発動するタスク完了数
     enum OptionName
     {
-        SpeedBoosterUpSpeed,
-        SpeedBoosterTaskTrigger
+        FlashSpeed,
     }
-    private static float UpSpeed;
-    private static int TaskTrigger;
-
-    public byte BoostTarget;
 
     private static void SetupOptionItem()
     {
-        OptionUpSpeed = FloatOptionItem.Create(RoleInfo, 10, OptionName.SpeedBoosterUpSpeed, new(1.1f, 1.5f, 0.1f), 1.3f, false)
-                .SetValueFormat(OptionFormat.Multiplier);
-        OptionTaskTrigger = IntegerOptionItem.Create(RoleInfo, 11, OptionName.SpeedBoosterTaskTrigger, new(1, 99, 1), 5, false)
-            .SetValueFormat(OptionFormat.Pieces);
+        OptionUpSpeed = FloatOptionItem.Create(RoleInfo, 10, OptionName.FlashSpeed, new(1.0f, 3.5f, 0.25f), 2.0f, false);
     }
-    public override bool OnCompleteTask()
-    {
-        var playerId = Player.PlayerId;
-        if (Player.IsAlive()
-            && BoostTarget == byte.MaxValue
-            && (IsTaskFinished || MyTaskState.CompletedTasksCount >= TaskTrigger))
-        {   //ｽﾋﾟﾌﾞが生きていて、SpeedBoostTargetに登録済みでなく、全タスク完了orトリガー数までタスクを完了している場合
-            var rand = IRandom.Instance;
-            List<PlayerControl> targetPlayers = new();
-            targetPlayers.AddRange(Main.AllAlivePlayerControls.ToArray());
-            if (targetPlayers.Count >= 1)
-            {
-                var target = targetPlayers[rand.Next(0, targetPlayers.Count)];
-                Logger.Info("スピードブースト先:" + target.GetNameWithRole(), "SpeedBooster");
-                BoostTarget = target.PlayerId;
-                Main.AllPlayerSpeed[BoostTarget] *= UpSpeed;
-                target.MarkDirtySettings();
-            }
-            else //ターゲットが0ならアップ先をプレイヤーをnullに
-            {
-                BoostTarget = byte.MaxValue;
-                Logger.SendInGame("Error.SpeedBoosterNullException");
-                Logger.Warn("スピードブースト先がnullです。", "SpeedBooster");
-            }
-        }
 
-        return true;
+    public override void OnFixedUpdate(PlayerControl player)
+    {
+        Main.AllPlayerSpeed[Player.PlayerId] = FlashSpeedAmonut;
     }
 }
