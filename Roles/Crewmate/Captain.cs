@@ -14,7 +14,7 @@ public sealed class Captain : RoleBase
             typeof(Captain),
             player => new Captain(player),
             CustomRoles.Captain,
-            () => RoleTypes.Crewmate,
+            () => RoleTypes.Engineer,
             CustomRoleTypes.Crewmate,
             20900,
             SetupOptionItem,

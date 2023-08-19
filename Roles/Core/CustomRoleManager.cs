@@ -393,6 +393,7 @@ public enum CustomRoles
     Spy,
     Colorist,
     Detective,
+    OneHitWonder,
     Snitch,
     SpeedBooster,
     Trapper,
