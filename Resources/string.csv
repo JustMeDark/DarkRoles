@@ -57,7 +57,6 @@
 "TimeManager","TimeManager","タイムマネージャー","时间管理者","時間大師","Мастер Времени",""
 "Spy","Spy"
 "Colorist","Colorist"
-"OneHitWonder", "One Hit Wonder"
 
 "# ニュートラル役職"
 "Jester","Jester","ジェスター","小丑","小丑","Шут","Bobo"
@@ -78,6 +77,7 @@
 "CurseMaster","Curse Master"
 "Mario","Mario"
 "Dream","Dream"
+"OneHitWonder","One Hit Wonder","",""
 
 "# HideAndSeek"
 "HASFox","Fox","狐","狐狸","狐妖","Лис","Raposa"
@@ -240,7 +240,7 @@
 "ColoristInfoLong","(Crewmates):\nAs colorist, you can see colored views a certain amount of times specified by the host."
 "DreamInfoLong","(Neutrals):\nDreams job is to speedrun tasks to win. Once all tasks are completed, Dream instantly wins."
 "MarioInfoLong","(Neutrals):\nAs Mario, your job is to vent an amount of times specified by the host to win."
-"OneHitWonderInfoLong","(Crewmates):\nAs One Hit Wonder you get 1 shot, so use it wisely"
+"OneHitWonderInfoLong","(Crewmates):\nAs One Hit Wonder you get 1 shot, so use it wisely","",""
 
 "# HideAndSeek"
 "HASFoxInfoLong","(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.","(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。","（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。","(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。","(Прятки):\nЕсли какая-либо роль, кроме Тролля побеждает и выживает, то победившая роль может одержать дополнительную победу.","(Esconde-Esconde): \nEles ganham adicionalmente com qualquer classe (exceto Troll), se estiverem vivos no final."
@@ -468,9 +468,9 @@
 "WorkhorseNumLongTasks","Additional Long Tasks","追加ロングタスクの個数","额外长任务数","增加的長任務數量","Дополнительные долгие задания",""
 "WorkhorseNumShortTasks","Additional Short Tasks","追加ショートタスクの個数","额外短任务数","增加的短任務數量","Дополнительные короткие задания",""
 "ManagerAdditionalVote","Additional Votes"
-"RevealBait", "Reveal Bait"
+"RevealBait","Reveal Bait"
 "CloneCooldown","Clone Cooldown"
-"CaptainAllowedVotes", "Captain Votes"
+"CaptainAllowedVotes","Captain Votes"
 "ColoristAbilityUses","Ability Uses"
 "MarioVentAmount","Vents To Win"
 

@@ -64,7 +64,7 @@ public sealed class Clone : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionKillCooldown = FloatOptionItem.Create(10, Options.CloneCooldown, new(0f, 45f, 2.5f), 15f, TabGroup.CrewmateRoles, false)
+        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, Options.CloneCooldown, new(0f, 45f, 2.5f), 15f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
 

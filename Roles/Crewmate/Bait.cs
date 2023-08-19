@@ -37,7 +37,7 @@ public sealed class Bait : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionBaitReveal = BooleanOptionItem.Create(10, Options.RevealBait, true, TabGroup.CrewmateRoles, false);
+        OptionBaitReveal = BooleanOptionItem.Create(RoleInfo, 10, Options.RevealBait, true, false);
     }
 
     public override void OnStartMeeting()
