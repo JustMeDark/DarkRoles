@@ -14,6 +14,8 @@ This mod is not affiliated with Among Us or Innersloth LLC, and the content cont
 
 AmongUs Version: **2023.7.11**
 
+## Notice
+This project as of 22/10 is temporarily discontinued. Expect development to resume in following weeks
 
 ## Info
 
