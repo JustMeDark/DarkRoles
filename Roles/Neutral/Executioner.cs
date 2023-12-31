@@ -16,7 +16,7 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             CustomRoles.Executioner,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            50700,
+            10200,
             SetupOptionItem,
             "exe",
             "#611c3a",
@@ -65,9 +65,9 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     private static void SetupOptionItem()
     {
         var cRolesString = ChangeRoles.Select(x => x.ToString()).ToArray();
-        OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10, OptionName.ExecutionerCanTargetImpostor, false, false);
-        OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
-        OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 11, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
+        OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10201, OptionName.ExecutionerCanTargetImpostor, false, false);
+        OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 10202, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
+        OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 10203, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
     }
     public override void Add()
     {
@@ -153,9 +153,8 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
         }
         CustomWinnerHolder.WinnerIds.Add(Player.PlayerId);
     }
-    public bool CheckWin(out AdditionalWinners winnerType)
+    public bool CheckWin(ref CustomRoles winnerRole)
     {
-        winnerType = AdditionalWinners.Executioner;
         return TargetExiled && CustomWinnerHolder.WinnerTeam != CustomWinner.Default;
     }
     public void ChangeRole()

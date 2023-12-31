@@ -6,6 +6,7 @@ using UnityEngine;
 
 using DarkRoles.Modules;
 using DarkRoles.Roles.Core;
+using DarkRoles.Templates;
 using static DarkRoles.Translator;
 
 namespace DarkRoles
@@ -26,6 +27,8 @@ namespace DarkRoles
                 sb.Clear();
 
                 sb.Append("\r\n").Append(Main.credentialsText);
+
+                if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
                 if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("HideAndSeek")));
                 if (!GameStates.IsModHost) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("Warning.NoModHost")));
@@ -38,7 +41,7 @@ namespace DarkRoles
 
                 if (GameStates.IsLobby)
                 {
-                    if (Options.IsStandardHAS && !CustomRoles.Detective.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
+                    if (Options.IsStandardHAS && !CustomRoles.Sheriff.IsEnable() && !CustomRoles.SerialKiller.IsEnable() && CustomRoles.Egoist.IsEnable())
                         sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin")));
                 }
 
@@ -51,16 +54,18 @@ namespace DarkRoles
             static TextMeshPro SpecialEventText;
             static void Postfix(VersionShower __instance)
             {
-                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}";
-                Main.credentialsText += $"\n<color={Main.ModColor}>By JustMeDark";
+                TMPTemplate.SetBase(__instance.text);
+                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
-                var credentials = Object.Instantiate(__instance.text);
-                credentials.text = Main.credentialsText;
-                credentials.alignment = TextAlignmentOptions.Right;
+                var credentials = TMPTemplate.Create(
+                    "TOHCredentialsText",
+                    Main.credentialsText,
+                    fontSize: 2f,
+                    alignment: TextAlignmentOptions.Right,
+                    setActive: true);
                 credentials.transform.position = new Vector3(1f, 2.65f, -2f);
-                credentials.fontSize = credentials.fontSizeMax = credentials.fontSizeMin = 2f;
 
                 ErrorText.Create(__instance.text);
                 if (Main.hasArgumentException && ErrorText.Instance != null)
@@ -72,17 +77,20 @@ namespace DarkRoles
 
                 if (SpecialEventText == null && TohLogo != null)
                 {
-                    SpecialEventText = Object.Instantiate(__instance.text, TohLogo.transform);
+                    SpecialEventText = TMPTemplate.Create(
+                        "SpecialEventText",
+                        "",
+                        Color.white,
+                        alignment: TextAlignmentOptions.Center,
+                        parent: TohLogo.transform);
                     SpecialEventText.name = "SpecialEventText";
-                    SpecialEventText.text = "";
-                    SpecialEventText.color = Color.white;
                     SpecialEventText.fontSizeMin = 3f;
-                    SpecialEventText.alignment = TextAlignmentOptions.Center;
                     SpecialEventText.transform.localPosition = new Vector3(0f, 0.8f, 0f);
                 }
                 if (SpecialEventText != null)
                 {
                     SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
+                    SpecialEventText.gameObject.SetActive(true);
                 }
                 if (Main.IsInitialRelease)
                 {
@@ -103,7 +111,7 @@ namespace DarkRoles
         }
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-        class TitleLogoPatch
+        public class TitleLogoPatch
         {
             public static GameObject amongUsLogo;
 
@@ -119,7 +127,14 @@ namespace DarkRoles
                 logoTransform.parent = rightpanel;
                 logoTransform.localPosition = new(0f, 0.15f, 1f);
                 logoTransform.localScale *= 1.2f;
-                TohLogo.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);
+                /* TohLogo.sprite = Utils.LoadSprite("TownOfHost.Resources.TownOfHost-Logo.png", 300f);*/
+                GameObject splashArt = new("SplashArt")
+                {
+                    active = true
+                };
+                splashArt.transform.position = new Vector3(0, 0f, 600f); //= new Vector3(0, 0.40f, 600f);
+                var spriteRenderer = splashArt.AddComponent<SpriteRenderer>();
+                spriteRenderer.sprite = Utils.LoadSprite("DarkRoles.Resources.MainMenu.png", 180f);
             }
         }
         [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]

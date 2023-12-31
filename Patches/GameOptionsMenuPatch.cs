@@ -39,6 +39,12 @@ namespace DarkRoles
                     case StringNames.GameKillCooldown:
                         ob.Cast<NumberOption>().ValidRange = new FloatRange(0, 180);
                         break;
+                    case StringNames.GameNumImpostors:
+                        if (DebugModeManager.IsDebugMode)
+                        {
+                            ob.Cast<NumberOption>().ValidRange.min = 0;
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -110,7 +116,7 @@ namespace DarkRoles
                 menus.Add(tohSettings.gameObject);
 
                 var tohTab = Object.Instantiate(roleTab, roleTab.transform.parent);
-                tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite($"TownOfHost.Resources.TabIcon_{tab}.png", 100f);
+                tohTab.transform.FindChild("Hat Button").FindChild("Icon").GetComponent<SpriteRenderer>().sprite = Utils.LoadSprite($"DarkRoles.Resources.TabIcon_{tab}.png", 100f);
                 tabs.Add(tohTab);
                 var tohTabHighlight = tohTab.transform.FindChild("Hat Button").FindChild("Tab Background").GetComponent<SpriteRenderer>();
                 highlights.Add(tohTabHighlight);
@@ -118,7 +124,7 @@ namespace DarkRoles
 
             for (var i = 0; i < tabs.Count; i++)
             {
-                tabs[i].transform.position = new(0.8f * (i - 1) - tabs.Count / 2f, tabs[i].transform.position.y, tabs[i].transform.position.z);
+                tabs[i].transform.localPosition = new(0.8f * (i - 1) - tabs.Count / 3f, tabs[i].transform.localPosition.y, tabs[i].transform.localPosition.z);
                 var button = tabs[i].GetComponentInChildren<PassiveButton>();
                 if (button == null) continue;
                 var copiedIndex = i;
@@ -245,7 +251,7 @@ namespace DarkRoles
             var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.SetValue(option.CurrentValue + 1);
+            option.SetValue(option.CurrentValue + (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
             return false;
         }
     }
@@ -258,7 +264,7 @@ namespace DarkRoles
             var option = OptionItem.AllOptions.FirstOrDefault(opt => opt.OptionBehaviour == __instance);
             if (option == null) return true;
 
-            option.SetValue(option.CurrentValue - 1);
+            option.SetValue(option.CurrentValue - (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) ? 5 : 1));
             return false;
         }
     }

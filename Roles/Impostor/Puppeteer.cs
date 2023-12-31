@@ -18,7 +18,7 @@ public sealed class Puppeteer : RoleBase, IImpostor
             CustomRoles.Puppeteer,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            2000,
+            20900,
             null,
             "pup"
         );

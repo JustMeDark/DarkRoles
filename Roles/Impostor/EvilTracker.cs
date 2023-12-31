@@ -19,7 +19,7 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
             CustomRoles.EvilTracker,
             () => (TargetMode)OptionTargetMode.GetValue() == TargetMode.Never ? RoleTypes.Impostor : RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            2900,
+            20200,
             SetupOptionItem,
             "et",
             canMakeMadmate: () => OptionCanCreateMadmate.GetBool()
@@ -104,11 +104,11 @@ public sealed class EvilTracker : RoleBase, IImpostor, IKillFlashSeeable, ISidek
 
     private static void SetupOptionItem()
     {
-        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 10, OptionName.EvilTrackerCanSeeKillFlash, true, false);
-        OptionTargetMode = StringOptionItem.Create(RoleInfo, 11, OptionName.EvilTrackerTargetMode, TargetModeText, 2, false);
-        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanCreateMadmate, false, false);
+        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 20201, OptionName.EvilTrackerCanSeeKillFlash, true, false);
+        OptionTargetMode = StringOptionItem.Create(RoleInfo, 20202, OptionName.EvilTrackerTargetMode, TargetModeText, 2, false);
+        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 20203, GeneralOption.CanCreateMadmate, false, false);
         OptionCanCreateMadmate.SetParent(OptionTargetMode);
-        OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(RoleInfo, 13, OptionName.EvilTrackerCanSeeLastRoomInMeeting, false, false);
+        OptionCanSeeLastRoomInMeeting = BooleanOptionItem.Create(RoleInfo, 20204, OptionName.EvilTrackerCanSeeLastRoomInMeeting, false, false);
     }
     public bool CheckKillFlash(MurderInfo info) // IKillFlashSeeable
     {

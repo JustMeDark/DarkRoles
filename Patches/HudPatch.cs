@@ -4,7 +4,6 @@ using UnityEngine;
 
 using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Neutral;
 using static DarkRoles.Translator;
 
 namespace DarkRoles
@@ -84,7 +83,7 @@ namespace DarkRoles
                         LowerInfoText.fontSizeMax = 2.0f;
                     }
 
-                    LowerInfoText.text = roleClass?.GetLowerText(player, isForHud: true) ?? "";
+                    LowerInfoText.text = roleClass?.GetLowerText(player, isForMeeting: GameStates.IsMeeting, isForHud: true) ?? "";
                     LowerInfoText.enabled = LowerInfoText.text != "";
 
                     if (!AmongUsClient.Instance.IsGameStarted && AmongUsClient.Instance.NetworkMode != NetworkModes.FreePlay)
@@ -198,19 +197,9 @@ namespace DarkRoles
             if (!isActive) return;
 
             var player = PlayerControl.LocalPlayer;
-            if (player == null) return;
-            switch (player.GetCustomRole())
-            {
-                case CustomRoles.Detective:
-                case CustomRoles.Arsonist:
-                    __instance.SabotageButton.ToggleVisible(false);
-                    break;
-                case CustomRoles.Jackal:
-                    Jackal.SetHudActive(__instance, isActive);
-                    break;
-            }
             __instance.KillButton.ToggleVisible(player.CanUseKillButton());
             __instance.ImpostorVentButton.ToggleVisible(player.CanUseImpostorVentButton());
+            __instance.SabotageButton.ToggleVisible(player.CanUseSabotageButton());
         }
     }
     [HarmonyPatch(typeof(MapBehaviour), nameof(MapBehaviour.Show))]
@@ -223,7 +212,7 @@ namespace DarkRoles
             if (opts.Mode is MapOptions.Modes.Normal or MapOptions.Modes.Sabotage)
             {
                 var player = PlayerControl.LocalPlayer;
-                if (player.Is(CustomRoleTypes.Impostor) || (player.Is(CustomRoles.Jackal) && Jackal.CanUseSabotage) || player.Is(CustomRoles.Egoist))
+                if (player.GetRoleClass() is IKiller killer && killer.CanUseSabotageButton())
                     opts.Mode = MapOptions.Modes.Sabotage;
                 else
                     opts.Mode = MapOptions.Modes.Normal;
@@ -293,7 +282,7 @@ namespace DarkRoles
         }
         public static void Send()
         {
-            ShipStatus.Instance.RpcRepairSystem((SystemTypes)SystemType, amount);
+            ShipStatus.Instance.RpcUpdateSystem((SystemTypes)SystemType, (byte)amount);
             Reset();
         }
         public static void Reset()

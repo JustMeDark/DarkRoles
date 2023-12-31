@@ -17,10 +17,11 @@ public sealed class Arsonist : RoleBase, IKiller
             CustomRoles.Arsonist,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Neutral,
-            50500,
+            10000,
             SetupOptionItem,
             "ar",
             "#ff6633",
+            true,
             introSound: () => GetIntroSound(RoleTypes.Crewmate)
         );
     public Arsonist(PlayerControl player)
@@ -62,9 +63,9 @@ public sealed class Arsonist : RoleBase, IKiller
 
     private static void SetupOptionItem()
     {
-        OptionDouseTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.ArsonistDouseTime, new(1f, 10f, 1f), 3f, false)
+        OptionDouseTime = FloatOptionItem.Create(RoleInfo, 10001, OptionName.ArsonistDouseTime, new(1f, 10f, 1f), 3f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 11, GeneralOption.Cooldown, new(5f, 100f, 1f), 10f, false)
+        OptionDouseCooldown = FloatOptionItem.Create(RoleInfo, 10002, GeneralOption.Cooldown, new(5f, 100f, 1f), 10f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void Add()
@@ -73,8 +74,9 @@ public sealed class Arsonist : RoleBase, IKiller
             IsDoused.Add(ar.PlayerId, false);
     }
     public bool CanUseKillButton() => !IsDouseDone(Player);
+    public bool CanUseImpostorVentButton() => IsDouseDone(Player) && !Player.inVent;
     public float CalculateKillCooldown() => DouseCooldown;
-    public override bool OnInvokeSabotage(SystemTypes systemType) => false;
+    public bool CanUseSabotageButton() => false;
     public override string GetProgressText(bool comms = false)
     {
         var doused = GetDousedPlayerCount();
@@ -214,6 +216,16 @@ public sealed class Arsonist : RoleBase, IKiller
             return Utils.ColorString(RoleInfo.RoleColor, "△");
 
         return "";
+    }
+    public override string GetLowerText(PlayerControl seer, PlayerControl seen = null, bool isForMeeting = false, bool isForHud = false)
+    {
+        if (isForMeeting) return "";
+        //seenが省略の場合seer
+        seen ??= seer;
+        //seeおよびseenが自分である場合以外は関係なし
+        if (!Is(seer) || !Is(seen)) return "";
+
+        return IsDouseDone(Player) ? Utils.ColorString(RoleInfo.RoleColor, GetString("EnterVentToWin")) : "";
     }
     public bool IsDousedPlayer(byte targetId) => IsDoused.TryGetValue(targetId, out bool isDoused) && isDoused;
     public static bool IsDouseDone(PlayerControl player)

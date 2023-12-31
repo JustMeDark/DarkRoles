@@ -28,7 +28,6 @@ namespace DarkRoles
             Main.SKMadmateNowCount = 0;
 
             Main.AfterMeetingDeathPlayers = new();
-            Main.ResetCamPlayerList = new();
             Main.clientIdList = new();
 
             Main.CheckShapeshift = new();
@@ -41,7 +40,7 @@ namespace DarkRoles
 
             Main.introDestroyed = false;
 
-            RandomSpawn.CustomNetworkTransformPatch.NumOfTP = new();
+            RandomSpawn.CustomNetworkTransformPatch.FirstTP = new();
 
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
@@ -84,7 +83,7 @@ namespace DarkRoles
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;
 
-                RandomSpawn.CustomNetworkTransformPatch.NumOfTP.Add(pc.PlayerId, 0);
+                RandomSpawn.CustomNetworkTransformPatch.FirstTP.Add(pc.PlayerId, false);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
                 Main.clientIdList.Add(pc.GetClientId());
@@ -150,9 +149,13 @@ namespace DarkRoles
                     PlayerControl.LocalPlayer.Data.IsDead = true;
                 }
                 Dictionary<(byte, byte), RoleTypes> rolesMap = new();
-                AssignDesyncRole(CustomRoles.Detective, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Arsonist, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
-                AssignDesyncRole(CustomRoles.Jackal, AllPlayers, senders, rolesMap, BaseRole: RoleTypes.Impostor);
+                foreach (var (role, info) in CustomRoleManager.AllRolesInfo)
+                {
+                    if (info.IsDesyncImpostor)
+                    {
+                        AssignDesyncRole(role, AllPlayers, senders, rolesMap, BaseRole: info.BaseRoleType.Invoke());
+                    }
+                }
                 MakeDesyncSender(senders, rolesMap);
             }
             //以下、バニラ側の役職割り当てが入る
@@ -244,10 +247,10 @@ namespace DarkRoles
             }
             else
             {
-                foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
+                foreach (var role in CustomRolesHelper.AllStandardRoles)
                 {
                     if (role.IsVanilla()) continue;
-                    if (role is CustomRoles.Detective or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                    if (CustomRoleManager.GetRoleInfo(role)?.IsDesyncImpostor == true) continue;
                     var baseRoleTypes = role.GetRoleTypes() switch
                     {
                         RoleTypes.Impostor => Impostors,
@@ -439,9 +442,9 @@ namespace DarkRoles
         public static int GetRoleTypesCount(RoleTypes roleTypes)
         {
             int count = 0;
-            foreach (var role in CustomRolesHelper.AllRoles.Where(x => x < CustomRoles.NotAssigned))
+            foreach (var role in CustomRolesHelper.AllRoles)
             {
-                if (role is CustomRoles.Detective or CustomRoles.Arsonist or CustomRoles.Jackal) continue;
+                if (CustomRoleManager.GetRoleInfo(role)?.IsDesyncImpostor == true) continue;
                 if (role == CustomRoles.Egoist && Main.NormalOptions.GetInt(Int32OptionNames.NumImpostors) <= 1) continue;
                 if (role.GetRoleTypes() == roleTypes)
                     count += role.GetRealCount();

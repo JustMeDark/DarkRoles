@@ -12,9 +12,9 @@ namespace DarkRoles
 {
     public enum CustomRPC
     {
-        VersionCheck = 60,
-        RequestRetryVersionCheck = 61,
-        SyncCustomSettings = 80,
+        VersionCheck = 80,
+        RequestRetryVersionCheck = 81,
+        SyncCustomSettings = 100,
         SetDeathReason,
         EndGame,
         PlaySound,
@@ -23,7 +23,6 @@ namespace DarkRoles
         WitchSync,
         SetSheriffShotLimit,
         SetDousedPlayer,
-        SetEatenPlayer,
         SetNameColorData,
         SniperSync,
         SetLoversPlayers,
@@ -31,7 +30,13 @@ namespace DarkRoles
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
-        SyncPuppet
+        SyncPuppet,
+        SetSchrodingerCatTeam,
+        StealthDarken,
+        EvilHackerCreateMurderNotify,
+        PenguinSync,
+        MareSync,
+        SyncPlagueDoctor,
     }
     public enum Sounds
     {
@@ -95,7 +100,7 @@ namespace DarkRoles
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
+                        string forkId = Main.playerVersion[__instance.PlayerId].forkId;
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
@@ -115,7 +120,7 @@ namespace DarkRoles
                     foreach (var co in OptionItem.AllOptions)
                     {
                         //すべてのカスタムオプションについてインデックス値で受信
-                        co.SetValue(reader.ReadInt32());
+                        co.SetValue(reader.ReadPackedInt32());
                     }
                     break;
                 case CustomRPC.SetDeathReason:
@@ -160,11 +165,11 @@ namespace DarkRoles
         public static void SyncCustomSettingsRPC()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, 80, Hazel.SendOption.Reliable, -1);
+            MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SyncCustomSettings, SendOption.Reliable, -1);
             foreach (var co in OptionItem.AllOptions)
             {
                 //すべてのカスタムオプションについてインデックス値で送信
-                writer.Write(co.GetValue());
+                writer.WritePacked(co.GetValue());
             }
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }

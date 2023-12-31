@@ -14,7 +14,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
             CustomRoles.MadGuardian,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
-            10100,
+            30000,
             SetupOptionItem,
             "mg",
             introSound: () => GetIntroSound(RoleTypes.Impostor)
@@ -41,7 +41,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 
     private static void SetupOptionItem()
     {
-        OptionCanSeeWhoTriedToKill = BooleanOptionItem.Create(RoleInfo, 10, OptionName.MadGuardianCanSeeWhoTriedToKill, false, false);
+        OptionCanSeeWhoTriedToKill = BooleanOptionItem.Create(RoleInfo, 30001, OptionName.MadGuardianCanSeeWhoTriedToKill, false, false);
         //ID10120~10123を使用
         Tasks = OverrideTasksData.Create(RoleInfo, 20);
     }

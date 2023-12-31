@@ -13,7 +13,7 @@ public sealed class Doctor : RoleBase, IDeathReasonSeeable
             CustomRoles.Doctor,
             () => RoleTypes.Scientist,
             CustomRoleTypes.Crewmate,
-            20700,
+            1200,
             SetupOptionItem,
             "doc",
             "#80ffdd"
@@ -34,7 +34,7 @@ public sealed class Doctor : RoleBase, IDeathReasonSeeable
     private static float TaskCompletedBatteryCharge;
     private static void SetupOptionItem()
     {
-        OptionTaskCompletedBatteryCharge = FloatOptionItem.Create(RoleInfo, 10, OptionName.DoctorTaskCompletedBatteryCharge, new(0f, 10f, 1f), 5f, false)
+        OptionTaskCompletedBatteryCharge = FloatOptionItem.Create(RoleInfo, 1201, OptionName.DoctorTaskCompletedBatteryCharge, new(0f, 10f, 1f), 5f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void ApplyGameOptions(IGameOptions opt)

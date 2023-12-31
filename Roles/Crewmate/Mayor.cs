@@ -12,7 +12,7 @@ public sealed class Mayor : RoleBase
             CustomRoles.Mayor,
             () => OptionHasPortableButton.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20200,
+            1400,
             SetupOptionItem,
             "my",
             "#204d42",
@@ -47,15 +47,14 @@ public sealed class Mayor : RoleBase
     public int LeftButtonCount;
     private static void SetupOptionItem()
     {
-        OptionAdditionalVote = IntegerOptionItem.Create(RoleInfo, 10, OptionName.MayorAdditionalVote, new(1, 99, 1), 1, false)
+        OptionAdditionalVote = IntegerOptionItem.Create(RoleInfo, 1401, OptionName.MayorAdditionalVote, new(1, 99, 1), 1, false)
             .SetValueFormat(OptionFormat.Votes);
-        OptionHasPortableButton = BooleanOptionItem.Create(RoleInfo, 11, OptionName.MayorHasPortableButton, false, false);
-        OptionNumOfUseButton = IntegerOptionItem.Create(RoleInfo, 12, OptionName.MayorNumOfUseButton, new(1, 99, 1), 1, false, OptionHasPortableButton)
+        OptionHasPortableButton = BooleanOptionItem.Create(RoleInfo, 1402, OptionName.MayorHasPortableButton, false, false);
+        OptionNumOfUseButton = IntegerOptionItem.Create(RoleInfo, 1403, OptionName.MayorNumOfUseButton, new(1, 99, 1), 1, false, OptionHasPortableButton)
             .SetValueFormat(OptionFormat.Times);
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
-        Logger.Warn($"{LeftButtonCount} <= 0", "Mayor.ApplyGameOptions");
         AURoleOptions.EngineerCooldown =
             LeftButtonCount <= 0
             ? 255f
@@ -78,10 +77,10 @@ public sealed class Mayor : RoleBase
 
         return false;
     }
-    public override (byte? votedForId, int? numVotes, bool doVote) OnVote(byte voterId, byte sourceVotedForId)
+    public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
         // 既定値
-        var (votedForId, numVotes, doVote) = base.OnVote(voterId, sourceVotedForId);
+        var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId, isIntentional);
         if (voterId == Player.PlayerId)
         {
             numVotes = AdditionalVote + 1;

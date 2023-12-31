@@ -135,7 +135,7 @@ namespace DarkRoles
             }
             switch (role)
             {
-                case CustomRoles.Detective:
+                case CustomRoles.Sheriff:
                     __instance.BackgroundBar.material.color = Palette.CrewmateBlue;
                     __instance.ImpostorText.gameObject.SetActive(true);
                     var numImpostors = Main.NormalOptions.NumImpostors;
@@ -196,7 +196,7 @@ namespace DarkRoles
     {
         public static bool Prefix(IntroCutscene __instance, ref Il2CppSystem.Collections.Generic.List<PlayerControl> yourTeam)
         {
-            if (PlayerControl.LocalPlayer.Is(CustomRoles.Detective))
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.Sheriff))
             {
                 //シェリフの場合はキャンセルしてBeginCrewmateに繋ぐ
                 yourTeam = new Il2CppSystem.Collections.Generic.List<PlayerControl>();
@@ -241,7 +241,7 @@ namespace DarkRoles
                     PlayerControl.LocalPlayer.RpcExile();
                     PlayerState.GetByPlayerId(PlayerControl.LocalPlayer.PlayerId).SetDead();
                 }
-                if (Options.RandomSpawn.GetBool())
+                if (RandomSpawn.IsRandomSpawn())
                 {
                     RandomSpawn.SpawnMap map;
                     switch (Main.NormalOptions.MapId)
@@ -254,12 +254,20 @@ namespace DarkRoles
                             map = new RandomSpawn.MiraHQSpawnMap();
                             Main.AllPlayerControls.Do(map.RandomTeleport);
                             break;
+                        case 2:
+                            map = new RandomSpawn.PolusSpawnMap();
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
+                            break;
+                        case 5:
+                            map = new RandomSpawn.FungleSpawnMap();
+                            Main.AllPlayerControls.Do(map.RandomTeleport);
+                            break;
                     }
                 }
 
                 // そのままだとホストのみDesyncImpostorの暗室内での視界がクルー仕様になってしまう
                 var roleInfo = PlayerControl.LocalPlayer.GetCustomRole().GetRoleInfo();
-                var amDesyncImpostor = roleInfo?.RequireResetCam == true || Main.ResetCamPlayerList.Contains(PlayerControl.LocalPlayer.PlayerId);
+                var amDesyncImpostor = roleInfo?.IsDesyncImpostor == true;
                 if (amDesyncImpostor)
                 {
                     PlayerControl.LocalPlayer.Data.Role.AffectedByLightAffectors = false;

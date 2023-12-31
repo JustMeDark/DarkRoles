@@ -14,7 +14,7 @@ namespace DarkRoles
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://api.github.com/repos/JustMeDark/TownOfHost-Dark";
+        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TownOfHost";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
@@ -34,8 +34,6 @@ namespace DarkRoles
             {
                 CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
-            MainMenuManagerPatch.UpdateButton.gameObject.SetActive(hasUpdate);
-            MainMenuManagerPatch.UpdateButton.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
@@ -68,17 +66,17 @@ namespace DarkRoles
                     JArray assets = data["assets"].Cast<JArray>();
                     for (int i = 0; i < assets.Count; i++)
                     {
-                        if (assets[i]["name"].ToString() == "TownOfHost_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
+                        if (assets[i]["name"].ToString() == "DarkRoles_Steam.dll" && Constants.GetPlatformType() == Platforms.StandaloneSteamPC)
                         {
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
+                        if (assets[i]["name"].ToString() == "DarkRoles_Epic.dll" && Constants.GetPlatformType() == Platforms.StandaloneEpicPC)
                         {
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                        if (assets[i]["name"].ToString() == "DarkRoles.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
                     hasUpdate = latestVersion.CompareTo(Main.version) > 0;
@@ -149,7 +147,7 @@ namespace DarkRoles
                 {
                     using var content = response.Content;
                     using var stream = content.ReadAsStream();
-                    using var file = new FileStream("BepInEx/plugins/TownOfHost.dll", FileMode.Create, FileAccess.Write);
+                    using var file = new FileStream("BepInEx/plugins/DarkRoles.dll", FileMode.Create, FileAccess.Write);
                     stream.CopyTo(file);
                     ShowPopup(GetString("updateRestart"), true);
                     return true;
@@ -177,7 +175,11 @@ namespace DarkRoles
                     button.gameObject.SetActive(showButton);
                     button.GetComponentInChildren<TextTranslatorTMP>().TargetText = StringNames.QuitLabel;
                     button.GetComponent<PassiveButton>().OnClick = new();
-                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() => Application.Quit()));
+                    button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() =>
+                    {
+                        Application.OpenURL("https://github.com/tukasa0001/TownOfHost/releases/latest");
+                        Application.Quit();
+                    }));
                 }
             }
         }

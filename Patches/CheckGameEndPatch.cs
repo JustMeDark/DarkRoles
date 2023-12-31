@@ -21,6 +21,9 @@ namespace DarkRoles
             //ゲーム終了判定済みなら中断
             if (predicate == null) return false;
 
+            //ゲーム終了しないモードで廃村以外の場合は中断
+            if (Options.NoGameEnd.GetBool() && CustomWinnerHolder.WinnerTeam != CustomWinner.Draw) return false;
+
             //廃村用に初期値を設定
             var reason = GameOverReason.ImpostorByKill;
 
@@ -62,10 +65,11 @@ namespace DarkRoles
                     {
                         if (pc.GetRoleClass() is IAdditionalWinner additionalWinner)
                         {
-                            if (additionalWinner.CheckWin(out var winnerType))
+                            var winnerRole = pc.GetCustomRole();
+                            if (additionalWinner.CheckWin(ref winnerRole))
                             {
                                 CustomWinnerHolder.WinnerIds.Add(pc.PlayerId);
-                                CustomWinnerHolder.AdditionalWinnerTeams.Add(winnerType);
+                                CustomWinnerHolder.AdditionalWinnerRoles.Add(winnerRole);
                             }
                         }
                     }
@@ -202,7 +206,6 @@ namespace DarkRoles
                     reason = GameOverReason.ImpostorByKill;
                     CustomWinnerHolder.ResetAndSetWinner(CustomWinner.Jackal);
                     CustomWinnerHolder.WinnerRoles.Add(CustomRoles.Jackal);
-                    CustomWinnerHolder.WinnerRoles.Add(CustomRoles.JSchrodingerCat);
                 }
                 else if (Jackal == 0 && Imp == 0) //クルー勝利
                 {
@@ -302,6 +305,7 @@ namespace DarkRoles
             ISystemType sys = null;
             if (systems.ContainsKey(SystemTypes.Reactor)) sys = systems[SystemTypes.Reactor];
             else if (systems.ContainsKey(SystemTypes.Laboratory)) sys = systems[SystemTypes.Laboratory];
+            else if (systems.ContainsKey(SystemTypes.HeliSabotage)) sys = systems[SystemTypes.HeliSabotage];
 
             ICriticalSabotage critical;
             if (sys != null && // サボタージュ存在確認

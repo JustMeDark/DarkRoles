@@ -14,7 +14,7 @@ public sealed class ShapeMaster : RoleBase, IImpostor
             CustomRoles.ShapeMaster,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1200,
+            21100,
             SetupOptionItem,
             "sha"
         );
@@ -35,7 +35,7 @@ public sealed class ShapeMaster : RoleBase, IImpostor
 
     public static void SetupOptionItem()
     {
-        OptionShapeshiftDuration = FloatOptionItem.Create(RoleInfo, 10, OptionName.ShapeMasterShapeshiftDuration, new(1, 1000, 1), 10, false);
+        OptionShapeshiftDuration = FloatOptionItem.Create(RoleInfo, 21101, OptionName.ShapeMasterShapeshiftDuration, new(1, 1000, 1), 10, false);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)

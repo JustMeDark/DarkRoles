@@ -14,7 +14,7 @@ public sealed class Opportunist : RoleBase, IAdditionalWinner
             CustomRoles.Opportunist,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            50100,
+            10500,
             null,
             "op",
             "#00ff00"
@@ -26,9 +26,8 @@ public sealed class Opportunist : RoleBase, IAdditionalWinner
     )
     { }
 
-    public bool CheckWin(out AdditionalWinners winnerType)
+    public bool CheckWin(ref CustomRoles winnerRole)
     {
-        winnerType = AdditionalWinners.Opportunist;
         return Player.IsAlive();
     }
 }

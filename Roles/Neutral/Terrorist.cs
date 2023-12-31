@@ -14,10 +14,10 @@ public sealed class Terrorist : RoleBase
             CustomRoles.Terrorist,
             () => RoleTypes.Engineer,
             CustomRoleTypes.Neutral,
-            50200,
+            10800,
             SetupOptionItem,
             "te",
-            "#00ff91",
+            "#00ff00",
             introSound: () => ShipStatus.Instance.CommonTasks.Where(task => task.TaskType == TaskTypes.FixWiring).FirstOrDefault().MinigamePrefab.OpenSound
         );
     public Terrorist(PlayerControl player)
@@ -39,9 +39,9 @@ public sealed class Terrorist : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionCanSuicideWin = BooleanOptionItem.Create(RoleInfo, 10, OptionName.CanTerroristSuicideWin, false, false);
+        OptionCanSuicideWin = BooleanOptionItem.Create(RoleInfo, 10801, OptionName.CanTerroristSuicideWin, false, false);
         // 20-23を使用
-        Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
+        Tasks = Options.OverrideTasksData.Create(RoleInfo, 10802);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)

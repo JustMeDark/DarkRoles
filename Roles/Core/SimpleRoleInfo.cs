@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using AmongUs.GameOptions;
+using DarkRoles.Roles.Core.Descriptions;
 
 using static DarkRoles.Options;
 
@@ -22,11 +23,15 @@ public class SimpleRoleInfo
     public bool IsEnable = false;
     public OptionCreatorDelegate OptionCreator;
     public string ChatCommand;
-    public bool RequireResetCam;
+    /// <summary>本人視点のみインポスターに見える役職</summary>
+    public bool IsDesyncImpostor;
     private Func<AudioClip> introSound;
     public AudioClip IntroSound => introSound?.Invoke();
     private Func<bool> canMakeMadmate;
     public bool CanMakeMadmate => canMakeMadmate?.Invoke() == true;
+    public RoleAssignInfo AssignInfo { get; }
+    /// <summary>役職の説明関係</summary>
+    public RoleDescription Description { get; private set; }
 
     private SimpleRoleInfo(
         Type classType,
@@ -39,10 +44,11 @@ public class SimpleRoleInfo
         OptionCreatorDelegate optionCreator,
         string chatCommand,
         string colorCode,
-        bool requireResetCam,
+        bool isDesyncImpostor,
         TabGroup tab,
         Func<AudioClip> introSound,
-        Func<bool> canMakeMadmate
+        Func<bool> canMakeMadmate,
+        RoleAssignInfo assignInfo
     )
     {
         ClassType = classType;
@@ -53,15 +59,17 @@ public class SimpleRoleInfo
         CountType = countType;
         ConfigId = configId;
         OptionCreator = optionCreator;
-        RequireResetCam = requireResetCam;
+        IsDesyncImpostor = isDesyncImpostor;
         this.introSound = introSound;
         this.canMakeMadmate = canMakeMadmate;
         ChatCommand = chatCommand;
+        AssignInfo = assignInfo;
 
         if (colorCode == "")
             colorCode = customRoleType switch
             {
                 CustomRoleTypes.Impostor or CustomRoleTypes.Madmate => "#ff1919",
+                CustomRoleTypes.Crewmate => "#8cffff",
                 _ => "#ffffff"
             };
         RoleColorCode = colorCode;
@@ -91,41 +99,45 @@ public class SimpleRoleInfo
         OptionCreatorDelegate optionCreator,
         string chatCommand,
         string colorCode = "",
-        bool requireResetCam = false,
+        bool isDesyncImpostor = false,
         TabGroup tab = TabGroup.MainSettings,
         Func<AudioClip> introSound = null,
         Func<bool> canMakeMadmate = null,
-        CountTypes? countType = null
+        CountTypes? countType = null,
+        RoleAssignInfo assignInfo = null
     )
     {
         countType ??= customRoleType == CustomRoleTypes.Impostor ?
             CountTypes.Impostor :
             CountTypes.Crew;
+        assignInfo ??= new RoleAssignInfo(roleName, customRoleType);
 
-        return
-            new(
-                classType,
-                createInstance,
-                roleName,
-                baseRoleType,
-                customRoleType,
-                countType.Value,
-                configId,
-                optionCreator,
-                chatCommand,
-                colorCode,
-                requireResetCam,
-                tab,
-                introSound,
-                canMakeMadmate
-            );
+        var roleInfo = new SimpleRoleInfo(
+            classType,
+            createInstance,
+            roleName,
+            baseRoleType,
+            customRoleType,
+            countType.Value,
+            configId,
+            optionCreator,
+            chatCommand,
+            colorCode,
+            isDesyncImpostor,
+            tab,
+            introSound,
+            canMakeMadmate,
+            assignInfo);
+        roleInfo.Description = new SingleRoleDescription(roleInfo);
+        return roleInfo;
     }
     public static SimpleRoleInfo CreateForVanilla(
         Type classType,
         Func<PlayerControl, RoleBase> createInstance,
         RoleTypes baseRoleType,
         string colorCode = "",
-        bool canMakeMadmate = false
+        bool canMakeMadmate = false,
+        RoleAssignInfo assignInfo = null
     )
     {
         CustomRoles roleName;
@@ -161,23 +173,24 @@ public class SimpleRoleInfo
                 customRoleType = CustomRoleTypes.Crewmate;
                 break;
         }
-        return
-            new(
-                classType,
-                createInstance,
-                roleName,
-                () => baseRoleType,
-                customRoleType,
-                countType,
-                -1,
-                null,
-                null,
-                colorCode,
-                false,
-                TabGroup.MainSettings,
-                null,
-                () => canMakeMadmate
-            );
+        var roleInfo = new SimpleRoleInfo(
+            classType,
+            createInstance,
+            roleName,
+            () => baseRoleType,
+            customRoleType,
+            countType,
+            -1,
+            null,
+            null,
+            colorCode,
+            false,
+            TabGroup.MainSettings,
+            null,
+            () => canMakeMadmate,
+            assignInfo ?? new(roleName, customRoleType));
+        roleInfo.Description = new VanillaRoleDescription(roleInfo, baseRoleType);
+        return roleInfo;
     }
     public delegate void OptionCreatorDelegate();
 }

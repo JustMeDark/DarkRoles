@@ -4,7 +4,6 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 
 using DarkRoles.Roles.Core;
-using DarkRoles.Roles.AddOns.Common;
 using DarkRoles.Roles.AddOns.Crewmate;
 
 namespace DarkRoles
@@ -106,7 +105,7 @@ namespace DarkRoles
 
             //割り当て可能なショートタスクのリスト
             Il2CppSystem.Collections.Generic.List<NormalPlayerTask> ShortTasks = new();
-            foreach (var task in ShipStatus.Instance.NormalTasks)
+            foreach (var task in ShipStatus.Instance.ShortTasks)
                 ShortTasks.Add(task);
             Shuffle<NormalPlayerTask>(ShortTasks);
 

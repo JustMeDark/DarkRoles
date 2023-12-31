@@ -18,7 +18,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.Vampire,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                1300,
+                21500,
                 SetupOptionItem,
                 "va",
                 introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
@@ -47,7 +47,7 @@ namespace DarkRoles.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            OptionKillDelay = FloatOptionItem.Create(RoleInfo, 10, OptionName.VampireKillDelay, new(1f, 1000f, 1f), 10f, false)
+            OptionKillDelay = FloatOptionItem.Create(RoleInfo, 21501, OptionName.VampireKillDelay, new(1f, 1000f, 1f), 10f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public void OnCheckMurderAsKiller(MurderInfo info)

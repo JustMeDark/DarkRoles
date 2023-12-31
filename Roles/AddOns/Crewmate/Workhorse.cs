@@ -10,7 +10,6 @@ namespace DarkRoles.Roles.AddOns.Crewmate
 {
     public static class Workhorse
     {
-        private static readonly int Id = 80100;
         public static Color RoleColor = Utils.GetRoleColor(CustomRoles.Workhorse);
         public static List<byte> playerIdList = new();
         private static OptionItem OptionAssignOnlyToCrewmate;
@@ -21,12 +20,12 @@ namespace DarkRoles.Roles.AddOns.Crewmate
         public static int NumShortTasks;
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Workhorse);
-            OptionAssignOnlyToCrewmate = BooleanOptionItem.Create(Id + 10, "AssignOnlyTo%role%", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse]);
+            SetupRoleOptions(100200, TabGroup.Addons, CustomRoles.Workhorse);
+            OptionAssignOnlyToCrewmate = BooleanOptionItem.Create(100201, "AssignOnlyTo%role%", true, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse]);
             OptionAssignOnlyToCrewmate.ReplacementDictionary = new Dictionary<string, string> { { "%role%", Utils.ColorString(Palette.CrewmateBlue, Utils.GetRoleName(CustomRoles.Crewmate)) } };
-            OptionNumLongTasks = IntegerOptionItem.Create(Id + 11, "WorkhorseNumLongTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
+            OptionNumLongTasks = IntegerOptionItem.Create(100202, "WorkhorseNumLongTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
                 .SetValueFormat(OptionFormat.Pieces);
-            OptionNumShortTasks = IntegerOptionItem.Create(Id + 12, "WorkhorseNumShortTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
+            OptionNumShortTasks = IntegerOptionItem.Create(100203, "WorkhorseNumShortTasks", new(0, 5, 1), 1, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.Workhorse])
                 .SetValueFormat(OptionFormat.Pieces);
         }
         [GameModuleInitializer]

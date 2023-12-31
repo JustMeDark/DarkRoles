@@ -10,9 +10,9 @@ public sealed class Jester : RoleBase
             typeof(Jester),
             player => new Jester(player),
             CustomRoles.Jester,
-            () => RoleTypes.Engineer,
+            () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            50000,
+            10400,
             null,
             "je",
             "#ec62a5"

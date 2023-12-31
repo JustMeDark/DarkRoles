@@ -55,7 +55,7 @@ namespace DarkRoles
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
                 //霊界用暗転バグ対処
-                if (!AntiBlackout.OverrideExiledPlayer && (Main.ResetCamPlayerList.Contains(exiled.PlayerId) || (info?.RequireResetCam ?? false)))
+                if (!AntiBlackout.OverrideExiledPlayer && info?.IsDesyncImpostor == true)
                     exiled.Object?.ResetPlayerCam(1f);
 
                 exiled.IsDead = true;
@@ -65,7 +65,6 @@ namespace DarkRoles
                 {
                     roleClass.OnExileWrapUp(exiled, ref DecidedWinner);
                 }
-                SchrodingerCat.ChangeTeam(exiled.Object);
 
                 if (CustomWinnerHolder.WinnerTeam != CustomWinner.Terrorist) PlayerState.GetByPlayerId(exiled.PlayerId).SetDead();
             }
@@ -74,7 +73,7 @@ namespace DarkRoles
             {
                 pc.ResetKillCooldown();
             }
-            if (Options.RandomSpawn.GetBool())
+            if (RandomSpawn.IsRandomSpawn())
             {
                 RandomSpawn.SpawnMap map;
                 switch (Main.NormalOptions.MapId)
@@ -89,6 +88,10 @@ namespace DarkRoles
                         break;
                     case 2:
                         map = new RandomSpawn.PolusSpawnMap();
+                        Main.AllPlayerControls.Do(map.RandomTeleport);
+                        break;
+                    case 5:
+                        map = new RandomSpawn.FungleSpawnMap();
                         Main.AllPlayerControls.Do(map.RandomTeleport);
                         break;
                 }
@@ -122,7 +125,7 @@ namespace DarkRoles
                     {
                         var player = Utils.GetPlayerById(x.Key);
                         var roleClass = CustomRoleManager.GetByPlayerId(x.Key);
-                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.RequireResetCam;
+                        var requireResetCam = player?.GetCustomRole().GetRoleInfo()?.IsDesyncImpostor == true;
                         var state = PlayerState.GetByPlayerId(x.Key);
                         Logger.Info($"{player.GetNameWithRole()}を{x.Value}で死亡させました", "AfterMeetingDeath");
                         state.DeathReason = x.Value;
@@ -130,7 +133,7 @@ namespace DarkRoles
                         player?.RpcExileV2();
                         if (x.Value == CustomDeathReason.Suicide)
                             player?.SetRealKiller(player, true);
-                        if (Main.ResetCamPlayerList.Contains(x.Key) || (requireResetCam.HasValue && requireResetCam.Value))
+                        if (requireResetCam)
                             player?.ResetPlayerCam(1f);
                         if (roleClass is Executioner executioner && executioner.TargetId == x.Key)
                             Executioner.ChangeRoleByTarget(x.Key);

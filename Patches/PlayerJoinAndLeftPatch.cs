@@ -19,10 +19,6 @@ namespace DarkRoles
         {
             while (!Options.IsLoaded) System.Threading.Tasks.Task.Delay(1);
             Logger.Info($"{__instance.GameId}に参加", "OnGameJoined");
-            
-            if (__instance.GetClient(__instance.ClientId).Character.Is(CustomRoles.Pelican))
-            Pelican.OnPelicanDied(__instance.GetClient(__instance.ClientId).Character.PlayerId);
-
             Main.playerVersion = new Dictionary<byte, PlayerVersion>();
             RPC.RpcVersionCheck();
             SoundManager.Instance.ChangeAmbienceVolume(DataManager.Settings.Audio.AmbienceVolume);

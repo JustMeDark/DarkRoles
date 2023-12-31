@@ -51,6 +51,7 @@ namespace DarkRoles
                         .EndRpc();
                         sender.AutoStartRpc(player.NetId, (byte)RpcCalls.MurderPlayer)
                                 .WriteNetObject(player)
+                                .Write((int)ExtendedPlayerControl.SucceededFlags)
                         .EndRpc();
                         sender.SendMessage();
                         player.NetTransform.SnapTo(targetPos);
@@ -58,7 +59,7 @@ namespace DarkRoles
                         var state = PlayerState.GetByPlayerId(player.PlayerId);
                         state.DeathReason = CustomDeathReason.Fall;
                         state.SetDead();
-                    }, 0.05f, "LadderFallTask");
+                    }, 0.30f, "LadderFallTask");
                 }
             }
         }

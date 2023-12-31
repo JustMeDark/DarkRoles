@@ -14,7 +14,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.TimeThief,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                2400,
+                21400,
                 SetupOptionItem,
                 "tt"
             );
@@ -48,13 +48,13 @@ namespace DarkRoles.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 21401, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionDecreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeThiefDecreaseMeetingTime, new(0, 100, 1), 20, false)
+            OptionDecreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 21402, OptionName.TimeThiefDecreaseMeetingTime, new(0, 100, 1), 20, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionLowerLimitVotingTime = IntegerOptionItem.Create(RoleInfo, 12, OptionName.TimeThiefLowerLimitVotingTime, new(1, 300, 1), 10, false)
+            OptionLowerLimitVotingTime = IntegerOptionItem.Create(RoleInfo, 21403, OptionName.TimeThiefLowerLimitVotingTime, new(1, 300, 1), 10, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 13, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
+            OptionReturnStolenTimeUponDeath = BooleanOptionItem.Create(RoleInfo, 21404, OptionName.TimeThiefReturnStolenTimeUponDeath, true, false);
         }
         public float CalculateKillCooldown() => KillCooldown;
         public int CalculateMeetingTimeDelta()

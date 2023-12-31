@@ -29,7 +29,7 @@ public static class CustomRoleManager
     /// </summary>
     /// <param name="attemptKiller">実際にキルを行ったプレイヤー 不変</param>
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
-    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
+    public static bool OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget)
         => OnCheckMurder(attemptKiller, attemptTarget, attemptKiller, attemptTarget);
     /// <summary>
     ///
@@ -38,7 +38,7 @@ public static class CustomRoleManager
     /// <param name="attemptTarget">>Killerが実際にキルを行おうとしたプレイヤー 不変</param>
     /// <param name="appearanceKiller">見た目上でキルを行うプレイヤー 可変</param>
     /// <param name="appearanceTarget">見た目上でキルされるプレイヤー 可変</param>
-    public static void OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
+    public static bool OnCheckMurder(PlayerControl attemptKiller, PlayerControl attemptTarget, PlayerControl appearanceKiller, PlayerControl appearanceTarget)
     {
         Logger.Info($"Attempt  :{attemptKiller.GetNameWithRole()} => {attemptTarget.GetNameWithRole()}", "CheckMurder");
         if (appearanceKiller != attemptKiller || appearanceTarget != attemptTarget)
@@ -49,7 +49,10 @@ public static class CustomRoleManager
         appearanceKiller.ResetKillCooldown();
 
         // 無効なキルをブロックする処理 必ず最初に実行する
-        if (!CheckMurderPatch.CheckForInvalidMurdering(info)) return;
+        if (!CheckMurderPatch.CheckForInvalidMurdering(info))
+        {
+            return false;
+        }
 
         var killerRole = attemptKiller.GetRoleClass();
         var targetRole = attemptTarget.GetRoleClass();
@@ -62,7 +65,10 @@ public static class CustomRoleManager
                 // ターゲットのキルチェック処理実行
                 if (targetRole != null)
                 {
-                    if (!targetRole.OnCheckMurderAsTarget(info)) return;
+                    if (!targetRole.OnCheckMurderAsTarget(info))
+                    {
+                        return false;
+                    }
                 }
             }
             // キラーのキルチェック処理実行
@@ -75,11 +81,13 @@ public static class CustomRoleManager
             //MurderPlayer用にinfoを保存
             CheckMurderInfos[appearanceKiller.PlayerId] = info;
             appearanceKiller.RpcMurderPlayer(appearanceTarget);
+            return true;
         }
         else
         {
             if (!info.CanKill) Logger.Info($"{appearanceTarget.GetNameWithRole()}をキル出来ない。", "CheckMurder");
             if (!info.DoKill) Logger.Info($"{appearanceKiller.GetNameWithRole()}はキルしない。", "CheckMurder");
+            return false;
         }
     }
     /// <summary>
@@ -166,19 +174,15 @@ public static class CustomRoleManager
     /// </summary>
     public static HashSet<Action<PlayerControl>> OnFixedUpdateOthers = new();
 
-    public static bool OnSabotage(PlayerControl player, SystemTypes systemType, byte amount)
+    public static bool OnSabotage(PlayerControl player, SystemTypes systemType)
     {
         bool cancel = false;
         foreach (var roleClass in AllActiveRoles.Values)
         {
-            if (!roleClass.OnSabotage(player, systemType, amount))
+            if (!roleClass.OnSabotage(player, systemType))
             {
                 cancel = true;
             }
-        }
-        if (!RepairSystemPatch.OnSabotage(player, systemType, amount))
-        {
-            cancel = true;
         }
         return !cancel;
     }
@@ -365,61 +369,55 @@ public enum CustomRoles
     //Impostor
     BountyHunter,
     FireWorks,
+    Mafia,
+    SerialKiller,
     ShapeMaster,
     Sniper,
     Vampire,
-    Karen,
-    Manager,
+    Witch,
     Warlock,
     Mare,
+    Penguin,
     Puppeteer,
     TimeThief,
     EvilTracker,
+    Stealth,
+    NekoKabocha,
+    EvilHacker,
+    Insider,
     //Madmate
     MadGuardian,
     Madmate,
     MadSnitch,
     SKMadmate,
-    MSchrodingerCat,//インポスター陣営のシュレディンガーの猫
     //Crewmate(Vanilla)
     Engineer,
     GuardianAngel,
     Scientist,
     //Crewmate
-    Torch,
+    Bait,
+    Lighter,
     Mayor,
-    Clone,
     SabotageMaster,
-    Spy,
-    Colorist,
-    Detective,
-    OneHitWonder,
+    Sheriff,
     Snitch,
     SpeedBooster,
     Trapper,
-    Captain,
+    Spy,
+    Dictator,
     Doctor,
     Seer,
     TimeManager,
-    CSchrodingerCat,//クルー陣営のシュレディンガーの猫
     //Neutral
     Arsonist,
     Egoist,
-    Poisoner,
-    Pelican,
-    SerialKiller,
-    Mario,
-    Dream,
-    EgoSchrodingerCat,//エゴイスト陣営のシュレディンガーの猫
     Jester,
     Opportunist,
-    CurseMaster,
-    GangMaster,
-    SchrodingerCat,//無所属のシュレディンガーの猫
+    PlagueDoctor,
+    SchrodingerCat,
     Terrorist,
     Executioner,
     Jackal,
-    JSchrodingerCat,//ジャッカル陣営のシュレディンガーの猫
     //HideAndSeek
     HASFox,
     HASTroll,
@@ -430,9 +428,7 @@ public enum CustomRoles
     LastImpostor,
     Lovers,
     Watcher,
-    Bait,
     Workhorse,
-    Test,
 }
 public enum CustomRoleTypes
 {

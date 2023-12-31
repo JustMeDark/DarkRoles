@@ -7,8 +7,7 @@ using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
 using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Neutral;
-using DarkRoles.Roles.Crewmate;
+using Epic.OnlineServices.Presence;
 
 namespace DarkRoles.Modules
 {
@@ -98,28 +97,12 @@ namespace DarkRoles.Modules
 
             var roleClass = player.GetRoleClass();
             roleClass?.ApplyGameOptions(opt);
-            switch (role)
-            {
-                case CustomRoles.EgoSchrodingerCat:
-                    opt.SetVision(true);
-                    break;
-                case CustomRoles.JSchrodingerCat:
-                    ((Jackal)roleClass).ApplyGameOptions(opt);
-                    break;
-            }
             foreach (var subRole in player.GetCustomSubRoles())
             {
                 switch (subRole)
                 {
-                    case CustomRoles.Spy:
                     case CustomRoles.Watcher:
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                        break;
-                    case CustomRoles.Colorist:
-                        if (Colorist.UsesLeft > 0)
-                            opt.SetBool(BoolOptionNames.AnonymousVotes, false);
-                        else
-                            opt.SetBool(BoolOptionNames.AnonymousVotes, true);
                         break;
                 }
             }

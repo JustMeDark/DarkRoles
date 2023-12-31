@@ -15,7 +15,7 @@ public class Snitch : RoleBase
             CustomRoles.Snitch,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20500,
+            1800,
             SetupOptionItem,
             "sn",
             "#b8fb4f"
@@ -68,11 +68,11 @@ public class Snitch : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionEnableTargetArrow = BooleanOptionItem.Create(RoleInfo, 10, OptionName.SnitchEnableTargetArrow, false, false);
-        OptionCanGetColoredArrow = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SnitchCanGetArrowColor, false, false);
-        OptionCanFindNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SnitchCanFindNeutralKiller, false, false);
-        OptionRemainingTasks = IntegerOptionItem.Create(RoleInfo, 13, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, false);
-        Options.OverrideTasksData.Create(RoleInfo, 20);
+        OptionEnableTargetArrow = BooleanOptionItem.Create(RoleInfo, 1801, OptionName.SnitchEnableTargetArrow, false, false);
+        OptionCanGetColoredArrow = BooleanOptionItem.Create(RoleInfo, 1802, OptionName.SnitchCanGetArrowColor, false, false);
+        OptionCanFindNeutralKiller = BooleanOptionItem.Create(RoleInfo, 1803, OptionName.SnitchCanFindNeutralKiller, false, false);
+        OptionRemainingTasks = IntegerOptionItem.Create(RoleInfo, 1804, OptionName.SnitchRemainingTaskFound, new(0, 10, 1), 1, false);
+        Options.OverrideTasksData.Create(RoleInfo, 1820);
     }
     /// <summary>
     /// スニッチのターゲットであるかの判定

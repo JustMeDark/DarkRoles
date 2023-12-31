@@ -12,7 +12,7 @@ public sealed class Trapper : RoleBase
             CustomRoles.Trapper,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20800,
+            2200,
             SetupOptionItem,
             "tra",
             "#5a8fd0"
@@ -36,7 +36,7 @@ public sealed class Trapper : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionBlockMoveTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.TrapperBlockMoveTime, new(1f, 180f, 1f), 5f, false)
+        OptionBlockMoveTime = FloatOptionItem.Create(RoleInfo, 2201, OptionName.TrapperBlockMoveTime, new(1f, 180f, 1f), 5f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void OnMurderPlayerAsTarget(MurderInfo info)

@@ -7,13 +7,12 @@ namespace DarkRoles.Roles.AddOns.Impostor
 {
     public static class LastImpostor
     {
-        private static readonly int Id = 80000;
         public static byte currentId = byte.MaxValue;
         public static OptionItem KillCooldown;
         public static void SetupCustomOption()
         {
-            SetupSingleRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, 1);
-            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.LastImpostor])
+            SetupRoleOptions(100000, TabGroup.Addons, CustomRoles.LastImpostor, new(1, 1, 1));
+            KillCooldown = FloatOptionItem.Create(100001, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.LastImpostor])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         [GameModuleInitializer]

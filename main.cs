@@ -17,26 +17,26 @@ using DarkRoles.Roles.Core;
 [assembly: AssemblyInformationalVersionAttribute(DarkRoles.Main.PluginVersion)]
 namespace DarkRoles
 {
-    [BepInPlugin(PluginGuid, "Dark Roles Mod", PluginVersion)]
+    [BepInPlugin(PluginGuid, "DarkRolesReloaded", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
         // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string ModName = "Dark Roles Mod";
+        public static readonly string ModName = "Dark Roles Reloaded";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#ffa1cd";
+        public static readonly string ModColor = "#C092C0";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "Dark Roles Mod";
+        public static readonly string ForkId = "DarkRoles";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
-        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/DGmNvfPr)
-        public static readonly string DiscordInviteUrl = "https://discord.gg/DGmNvfPr";
+        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/W5ug6hXB9V)
+        public static readonly string DiscordInviteUrl = "https://discord.gg/imtoolazytograbaninvite";
         // ==========
-        public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
+        //public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         // == 認証設定 / Authentication Config ==
         // デバッグキーの認証インスタンス
         public static HashAuth DebugKeyAuth { get; private set; }
@@ -50,9 +50,11 @@ namespace DarkRoles
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "0.2.4.4";
+        public const string PluginVersion = "1.0.0";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2023.7.11";
+        public static readonly string LowestSupportedVersion = "2023.10.24";
+        // このバージョンのみで公開ルームを無効にする場合
+        public static readonly bool IsPublicAvailableOnThisVersion = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -68,6 +70,7 @@ namespace DarkRoles
         public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
+        public static ConfigEntry<bool> ShowResults { get; private set; }
 
         public static Dictionary<byte, PlayerVersion> playerVersion = new();
         //Preset Name Options
@@ -82,13 +85,11 @@ namespace DarkRoles
         public static ConfigEntry<float> LastKillCooldown { get; private set; }
         public static ConfigEntry<float> LastShapeshifterCooldown { get; private set; }
         public static OptionBackupData RealOptionsData;
-        public static Dictionary<byte, PlayerState> PlayerStates = new();
         public static Dictionary<byte, string> AllPlayerNames;
         public static Dictionary<(byte, byte), string> LastNotifyNames;
         public static Dictionary<byte, Color32> PlayerColors = new();
         public static Dictionary<byte, CustomDeathReason> AfterMeetingDeathPlayers = new();
-        public static Dictionary<CustomRoles, String> roleColors;
-        public static List<byte> ResetCamPlayerList;
+        public static Dictionary<CustomRoles, string> roleColors;
         public static List<byte> winnerList;
         public static List<int> clientIdList;
         public static List<(string, byte, string)> MessagesToSend;
@@ -130,6 +131,7 @@ namespace DarkRoles
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
+            ShowResults = Config.Bind("Result", "Show Results", true);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
             DarkRoles.Logger.Enable();
@@ -173,13 +175,8 @@ namespace DarkRoles
                 roleColors = new Dictionary<CustomRoles, string>()
                 {
                     // マッドメイト役職
-                    {CustomRoles.MSchrodingerCat, "#ff1919"},
                     {CustomRoles.SKMadmate, "#ff1919"},
                     //特殊クルー役職
-                    {CustomRoles.CSchrodingerCat, "#ffffff"}, //シュレディンガーの猫の派生
-                    //ニュートラル役職
-                    {CustomRoles.EgoSchrodingerCat, "#5600ff"},
-                    {CustomRoles.JSchrodingerCat, "#00b4eb"},
                     //HideAndSeek
                     {CustomRoles.HASFox, "#e478ff"},
                     {CustomRoles.HASTroll, "#00ff00"},
@@ -190,7 +187,6 @@ namespace DarkRoles
                     {CustomRoles.Lovers, "#ff6be4"},
                     {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Workhorse, "#00ffff"},
-                    {CustomRoles.Bait, "#00f7ff" },
 
                     {CustomRoles.NotAssigned, "#ffffff"}
                 };
@@ -236,14 +232,13 @@ namespace DarkRoles
         Spell,
         FollowingSuicide,
         Bite,
-        Poisoned,
         Bombed,
         Misfire,
         Torched,
         Sniped,
         Revenge,
         Execution,
-        Eaten,
+        Infected,
         Disconnected,
         Fall,
         etc = -1
@@ -261,24 +256,10 @@ namespace DarkRoles
         Lovers = CustomRoles.Lovers,
         Executioner = CustomRoles.Executioner,
         Arsonist = CustomRoles.Arsonist,
-        Mario = CustomRoles.Mario,
-        Dream = CustomRoles.Dream,
         Egoist = CustomRoles.Egoist,
         Jackal = CustomRoles.Jackal,
-        Poisoner = CustomRoles.Poisoner,
-        GangMaster = CustomRoles.GangMaster,
-        CurseMaster = CustomRoles.CurseMaster,
-        Pelican = CustomRoles.Pelican,
-        SerialKiller = CustomRoles.SerialKiller,
+        PlagueDoctor = CustomRoles.PlagueDoctor,
         HASTroll = CustomRoles.HASTroll,
-    }
-    public enum AdditionalWinners
-    {
-        None = -1,
-        Opportunist = CustomRoles.Opportunist,
-        SchrodingerCat = CustomRoles.SchrodingerCat,
-        Executioner = CustomRoles.Executioner,
-        HASFox = CustomRoles.HASFox,
     }
     /*public enum CustomRoles : byte
     {
@@ -289,11 +270,11 @@ namespace DarkRoles
     public enum SuffixModes
     {
         None = 0,
-        DarkRoles,
+        TOH,
         Streaming,
         Recording,
         RoomHost,
-        DontKillMe
+        OriginalName
     }
     public enum VoteMode
     {

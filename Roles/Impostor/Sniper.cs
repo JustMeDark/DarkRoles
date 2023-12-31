@@ -18,7 +18,7 @@ public sealed class Sniper : RoleBase, IImpostor
             CustomRoles.Sniper,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1800,
+            21200,
             SetupOptionItem,
             "snp"
         );
@@ -68,11 +68,11 @@ public sealed class Sniper : RoleBase, IImpostor
     bool MeetingReset;
     public static void SetupOptionItem()
     {
-        SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
+        SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 21201, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
             .SetValueFormat(OptionFormat.Pieces);
-        SniperPrecisionShooting = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SniperPrecisionShooting, false, false);
-        SniperAimAssist = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SniperAimAssist, false, false);
-        SniperAimAssistOnshot = BooleanOptionItem.Create(RoleInfo, 13, OptionName.SniperAimAssistOneshot, false, false, SniperAimAssist);
+        SniperPrecisionShooting = BooleanOptionItem.Create(RoleInfo, 21202, OptionName.SniperPrecisionShooting, false, false);
+        SniperAimAssist = BooleanOptionItem.Create(RoleInfo, 21203, OptionName.SniperAimAssist, false, false);
+        SniperAimAssistOnshot = BooleanOptionItem.Create(RoleInfo, 21204, OptionName.SniperAimAssistOneshot, false, false, SniperAimAssist);
     }
     public override void Add()
     {
@@ -235,7 +235,7 @@ public sealed class Sniper : RoleBase, IImpostor
             );
 
             //あたった通知
-            Player.RpcGuardAndKill();
+            Player.RpcProtectedMurderPlayer();
 
             //スナイプが起きたことを聞こえそうな対象に通知したい
             targets.Remove(snipedTarget);

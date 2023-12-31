@@ -7,7 +7,14 @@ namespace DarkRoles
 {
     static class CustomRolesHelper
     {
-        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>();
+        /// <summary>すべての役職(属性は含まない)</summary>
+        public static readonly CustomRoles[] AllRoles = EnumHelper.GetAllValues<CustomRoles>().Where(role => role < CustomRoles.NotAssigned).ToArray();
+        /// <summary>すべての属性</summary>
+        public static readonly CustomRoles[] AllAddOns = EnumHelper.GetAllValues<CustomRoles>().Where(role => role > CustomRoles.NotAssigned).ToArray();
+        /// <summary>スタンダードモードで出現できるすべての役職</summary>
+        public static readonly CustomRoles[] AllStandardRoles = AllRoles.Where(role => role is not (CustomRoles.HASFox or CustomRoles.HASTroll)).ToArray();
+        /// <summary>HASモードで出現できるすべての役職</summary>
+        public static readonly CustomRoles[] AllHASRoles = { CustomRoles.HASFox, CustomRoles.HASTroll };
         public static readonly CustomRoleTypes[] AllRoleTypes = EnumHelper.GetAllValues<CustomRoleTypes>();
 
         public static bool IsImpostor(this CustomRoles role)
@@ -23,10 +30,7 @@ namespace DarkRoles
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Madmate;
-            return
-                role is
-                CustomRoles.SKMadmate or
-                CustomRoles.MSchrodingerCat;
+            return role == CustomRoles.SKMadmate;
         }
         public static bool IsImpostorTeam(this CustomRoles role) => role.IsImpostor() || role.IsMadmate();
         public static bool IsNeutral(this CustomRoles role)
@@ -34,15 +38,8 @@ namespace DarkRoles
             var roleInfo = role.GetRoleInfo();
             if (roleInfo != null)
                 return roleInfo.CustomRoleType == CustomRoleTypes.Neutral;
-            return
-                role is
-                CustomRoles.SchrodingerCat or
-                CustomRoles.EgoSchrodingerCat or
-                CustomRoles.JSchrodingerCat or
-                CustomRoles.HASTroll or
-                CustomRoles.HASFox;
+            return role is CustomRoles.HASTroll or CustomRoles.HASFox;
         }
-        public static bool RoleExist(this CustomRoles role, bool countDead = false) => Main.AllPlayerControls.Any(x => x.Is(role) && (x.IsAlive() || countDead));
         public static bool IsCrewmate(this CustomRoles role) => role.GetRoleInfo()?.CustomRoleType == CustomRoleTypes.Crewmate || (!role.IsImpostorTeam() && !role.IsNeutral());
         public static bool IsVanilla(this CustomRoles role)
         {
@@ -53,15 +50,6 @@ namespace DarkRoles
                 CustomRoles.GuardianAngel or
                 CustomRoles.Impostor or
                 CustomRoles.Shapeshifter;
-        }
-        public static bool IsKilledSchrodingerCat(this CustomRoles role)
-        {
-            return role is
-                CustomRoles.SchrodingerCat or
-                CustomRoles.MSchrodingerCat or
-                CustomRoles.CSchrodingerCat or
-                CustomRoles.EgoSchrodingerCat or
-                CustomRoles.JSchrodingerCat;
         }
 
         public static CustomRoleTypes GetCustomRoleTypes(this CustomRoles role)
@@ -147,7 +135,5 @@ namespace DarkRoles
         Crew,
         Impostor,
         Jackal,
-        SerialKiller,
-        Poisoner
     }
 }

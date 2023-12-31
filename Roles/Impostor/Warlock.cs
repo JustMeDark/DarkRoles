@@ -18,7 +18,7 @@ public sealed class Warlock : RoleBase, IImpostor
             CustomRoles.Warlock,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            1400,
+            21600,
             null,
             "wa"
         );
@@ -74,6 +74,7 @@ public sealed class Warlock : RoleBase, IImpostor
                 CursedPlayer = target;
                 //呪える相手は一人だけなのでキルボタン無効化
                 killer.SetKillCooldown(255f);
+                killer.RpcResetAbilityCooldown();
             }
             //どちらにしてもキルは無効
             info.DoKill = false;
