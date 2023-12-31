@@ -1,6 +1,6 @@
 <h1 align="center">$\mathbb{\color{#C092C0}{Dark \ Roles } \ {Reloaded }}$</h1>
 
-<img align="left" alt="Cover" src="Resources/TempImage.png" width="490" height="320" /> 
+<img align="left" alt="Cover" src="Resources/TempImage.png" width="470" height="470" /> 
   
 <p align="right">
   <pre>
