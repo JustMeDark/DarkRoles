@@ -35,6 +35,7 @@ Innersloth LLC. © Innersloth LLC.
  - Zoom (originally from TOP?)
  - RPC Teleport methods
  - /r command
+ - Gradients
 </pre>
 
 

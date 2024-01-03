@@ -743,36 +743,40 @@ namespace DarkRoles
         public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string name = DataManager.player.Customization.Name;
-            if (Main.nickName != "") name = Main.nickName;
+            string name = "";
+            string tempname = DataManager.player.Customization.Name;
+            string originalname = DataManager.player.Customization.Name;
+            if (Main.nickName != "") tempname = Main.nickName;
             if (AmongUsClient.Instance.IsGameStarted)
             {
                 if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
             }
             else
             {
-                if (AmongUsClient.Instance.IsGamePublic)
-                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion}</color>\r\n" + name;
+                //name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}\n");
+
                 switch (Options.GetSuffixMode())
                 {
                     case SuffixModes.None:
                         break;
                     case SuffixModes.TOH:
-                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
+                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName} v{Main.version}\n");
                         break;
                     case SuffixModes.Streaming:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
+                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("StreamingSuffix")}\n");
                         break;
                     case SuffixModes.Recording:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
+                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("RecordingSuffix")}\n");
                         break;
                     case SuffixModes.RoomHost:
-                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}\n");
                         break;
                     case SuffixModes.OriginalName:
-                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
+                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{originalname}\n");
                         break;
                 }
+
+                name += GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{tempname}");
             }
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
@@ -787,6 +791,55 @@ namespace DarkRoles
             var player = Main.AllPlayerControls.Where(pc => pc.PlayerId == playerId).FirstOrDefault();
             cachedPlayers[playerId] = player;
             return player;
+        }
+
+        public static string GradientColorText(string startColorHex, string endColorHex, string text)
+        {
+            if (startColorHex.Length != 6 || endColorHex.Length != 6)
+            {
+                Logger.Error("Invalid color hex code. Hex code should be 6 characters long (without #) (e.g., FFFFFF).", "GradientColorText");
+                //throw new ArgumentException("Invalid color hex code. Hex code should be 6 characters long (e.g., FFFFFF).");
+                return text;
+            }
+
+            Color startColor = HexToColor(startColorHex);
+            Color endColor = HexToColor(endColorHex);
+
+            int textLength = text.Length;
+            float stepR = (endColor.r - startColor.r) / (float)textLength;
+            float stepG = (endColor.g - startColor.g) / (float)textLength;
+            float stepB = (endColor.b - startColor.b) / (float)textLength;
+            float stepA = (endColor.a - startColor.a) / (float)textLength;
+
+            string gradientText = "";
+
+            for (int i = 0; i < textLength; i++)
+            {
+                float r = startColor.r + (stepR * i);
+                float g = startColor.g + (stepG * i);
+                float b = startColor.b + (stepB * i);
+                float a = startColor.a + (stepA * i);
+
+
+                string colorHex = ColorToHex(new Color(r, g, b, a));
+                //Logger.Msg(colorHex, "color");
+                gradientText += $"<color=#{colorHex}>{text[i]}</color>";
+            }
+
+            return gradientText;
+        }
+
+        private static Color HexToColor(string hex)
+        {
+            Color color = new Color();
+            ColorUtility.TryParseHtmlString("#" + hex, out color);
+            return color;
+        }
+
+        private static string ColorToHex(Color color)
+        {
+            Color32 color32 = (Color32)color;
+            return $"{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
         }
 
         public static long GetTimeStamp(DateTime? dateTime = null) => (long)((dateTime ?? DateTime.Now).ToUniversalTime() - timeStampStartTime).TotalSeconds;
