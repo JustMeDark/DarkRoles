@@ -13,7 +13,7 @@ namespace DarkRoles
 {
     public static class TemplateManager
     {
-        private static readonly string TEMPLATE_FILE_PATH = "./TOH_DATA/template.txt";
+        private static readonly string TEMPLATE_FILE_PATH = "./Dark Roles Data/template.txt";
         private static Dictionary<string, Func<string>> _replaceDictionary = new()
         {
             ["RoomCode"] = () => InnerNet.GameCode.IntToGameName(AmongUsClient.Instance.GameId),
@@ -48,7 +48,7 @@ namespace DarkRoles
             {
                 try
                 {
-                    if (!Directory.Exists(@"TOH_DATA")) Directory.CreateDirectory(@"TOH_DATA");
+                    if (!Directory.Exists(@"Dark Roles Data")) Directory.CreateDirectory(@"Dark Roles Data");
                     if (File.Exists(@"./template.txt"))
                     {
                         File.Move(@"./template.txt", TEMPLATE_FILE_PATH);

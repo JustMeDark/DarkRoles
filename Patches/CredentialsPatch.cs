@@ -23,10 +23,10 @@ namespace DarkRoles
             static void Postfix(PingTracker __instance)
             {
                 __instance.text.alignment = TextAlignmentOptions.TopRight;
-
                 sb.Clear();
-
-                sb.Append("\r\n").Append(Main.credentialsText);
+                sb.Append(Main.credentialsText);
+                var ping = AmongUsClient.Instance.Ping;
+                sb.Append($"\r\n").Append($"<color={Main.ModColor}>Ping:</color> {ping}ms");
 
                 if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
                 if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
@@ -45,7 +45,7 @@ namespace DarkRoles
                         sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("Warning.EgoistCannotWin")));
                 }
 
-                __instance.text.text += sb.ToString();
+                __instance.text.text = sb.ToString();
             }
         }
         [HarmonyPatch(typeof(VersionShower), nameof(VersionShower.Start))]
@@ -59,13 +59,11 @@ namespace DarkRoles
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
-                var credentials = TMPTemplate.Create(
-                    "TOHCredentialsText",
-                    Main.credentialsText,
-                    fontSize: 2f,
-                    alignment: TextAlignmentOptions.Right,
-                    setActive: true);
-                credentials.transform.position = new Vector3(1f, 2.65f, -2f);
+                var credentials = Object.Instantiate(__instance.text);
+                credentials.text = Main.credentialsText;
+                credentials.alignment = TextAlignmentOptions.Right;
+                credentials.transform.position = new Vector3(1f, 2.68f, -2f);
+                credentials.fontSize = credentials.fontSizeMax = credentials.fontSizeMin = 2f;
 
                 ErrorText.Create(__instance.text);
                 if (Main.hasArgumentException && ErrorText.Instance != null)
