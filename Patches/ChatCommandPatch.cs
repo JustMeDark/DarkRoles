@@ -81,8 +81,13 @@ namespace DarkRoles
                         canceled = true;
                         Utils.ShowKillLog();
                         break;
-
-                    case "/r":
+                    case "r":
+                    case "role":
+                        canceled = true;
+                        SendRolesInfo(subArgs, 255);
+                        break;
+                    case "/name":
+                    case "/rn":
                     case "/rename":
                         canceled = true;
                         Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
@@ -349,6 +354,45 @@ namespace DarkRoles
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
+
+    public static void SendRolesInfo(string role, byte playerId)
+        {
+            role = role.Trim().ToLower();
+            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
+            if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
+            if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
+            if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
+
+            if (role == "" || role == string.Empty)
+            {
+                Utils.ShowActiveRoles(playerId);
+                return;
+            }
+
+           // role = FixRoleNameInput(role).ToLower().Trim().Replace(" ", string.Empty);
+           role = role.ToLower().Trim().Replace(" ", string.Empty);
+
+            foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
+            {
+                if (rl.IsVanilla()) continue;
+                var roleName = GetString(rl.ToString());
+                if (role == roleName.ToLower().Trim().TrimStart('*').Replace(" ", string.Empty))
+                {
+
+                    var sb = new StringBuilder();
+                    sb.Append(roleName + GetString($"{rl}InfoLong"));
+                    if (Options.CustomRoleSpawnChances.ContainsKey(rl))
+                    {
+                        var txt = sb.ToString();
+                        sb.Clear().Append(txt.RemoveHtmlTags());
+                    }
+                    Utils.SendMessage(sb.ToString(), playerId);
+                    return;
+                }
+            }
+            return;
+        }
+
         private static void ConcatCommands(CustomRoleTypes roleType)
         {
             var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
@@ -375,7 +419,10 @@ namespace DarkRoles
                 case "/killlog":
                     Utils.ShowKillLog(player.PlayerId);
                     break;
-
+                case "r":
+                case "role":
+                    SendRolesInfo(subArgs, 255);
+                    break;
                 case "/n":
                 case "/now":
                     subArgs = args.Length < 2 ? "" : args[1];
