@@ -34,6 +34,7 @@ Innersloth LLC. © Innersloth LLC.
  - NameNotifyManager
  - Zoom (originally from TOP?)
  - RPC Teleport methods
+ - /r command
 </pre>
 
 
