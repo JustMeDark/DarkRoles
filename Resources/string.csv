@@ -34,6 +34,7 @@
 "EvilHacker","Evil Hacker","イビルハッカー","","","Злой Хакер","Hacker do Mal",""
 "Penguin","Penguin","ペンギン","","","Пингвин","Pinguim",""
 "Insider","Insider","インサイダー","","","Инсайдер","Informante",""
+"Grappler","Grappler"
 
 "# マッドメイト系役職"
 "Madmate","Madmate","マッドメイト","叛徒","叛徒","Безумец","Tripulante Louco","Tripulante Louco"
@@ -117,6 +118,7 @@
 "EvilHackerInfo","Hack systems","システムをハッキングせよ","","","Взломайте систему","Hackeie sistemas",""
 "PenguinInfo","Let's drag and kill!","ぺちぺち！","","","Давайте тащить и убивать!","Vamos arrastar e matar!",""
 "InsiderInfo","Knowledge is power","知は力なり","","","Знание - сила!","Conhecimento é poder",""
+"GrapplerInfo","Grapple players by shifting"
 
 "# マッドメイト系役職"
 "MadmateInfo","Help the Impostors","インポスターの援助をしよう","帮助内鬼","幫助偽裝者","Помогите Предателям","Ajude os Impostores","Ajude os Impostores"
@@ -187,7 +189,7 @@
 "EvilHackerInfoLong","The EvilHacker can get the last-minute admin information at the meeting beginning.\nUnoccupied rooms are not shown.\nA '★' marks rooms with impostors.\nRooms with dead-bodies are marked with the number of bodies.\ne.g.)★Cafeteria: 3(DEAD×1)","会議直前のアドミン情報を見ることができる。\n誰もいない部屋は省略される。\nインポスターがいる部屋には★印が付く。\n死体がある部屋には死体数が表記される。\n例)★カフェテリア: 3(死体×1)","","","Злой Хакер может получить последнюю информацию на админке в начале встречи.\nНезанятые локации не показаны.\nA '★' Помечает локации с Предателями.\nЛокации с трупами помечаются количеством трупом) \nНапример: \n★Кафетерия: 3 (Мертвы×1)""","O Hacker do Mal pode obter as informações recentes do admin no início da reunião.\nAs salas desocupadas não são mostradas.\nUm '★' marca as salas com impostores.\nAs salas com mortos são marcadas com o número de corpos.\nEx:)★Cafeteria: 3( MORTO×1)",""
 "PenguinInfoLong","Penguins can restrain target by pressing the kill button, and drag around.\While dragging, the target dies by pressing the kill button again or after a certain period of time.\nPress the kill button twice for a direct kill.","キルボタン一回で相手を拘束して連れまわすことが出来る。\nもう一度キルボタンを押すか一定時間経過でキルする。\nキルボタン2回で直接キル可能。","","","Пингвины могут удерживать цель, нажимая кнопку убийства, и перетаскивать ее.\Во время перетаскивания цель умирает, нажав кнопку убийства еще раз или через определенный промежуток времени.\nНажмите кнопку убийства дважды, чтобы убить напрямую.","Os Pinguins podem prender o alvo pressionando o botão de matar e arrastá-lo.\nEnquanto estiver arrastando, o alvo morre ao pressionar o botão de matar novamente ou após um determinado período de tempo.\nPressione o botão de matar duas vezes para matar imediatamente.",""
 "InsiderInfoLong","You can see roles whose you killed.\nYou can also see roles and abilities of all Impostors.\nKIlling specified times tells you Madmate as well.","キルした相手の役職が分かる。\nまた、味方インポスターの役職と能力が見える。\nさらに、特定回数キルするとマッドメイトも分かる。","","","Вы можете увидеть роли, которых  Вы убили\nВы также можете увидеть роли и способности всех Предателей.\nУбийство в указанное время также сообщает вам о Безумце.","Você pode ver as classes de quem matou.\nVocê também pode ver as classes e as habilidades de todos os Impostores.\nAo matar em horários específicos, você verá o Tripulante Louco.",""
-
+"GrapplerInfoLong","(Impostors):\nUsing your shapeshift button, you can grapple players to you to kill or mess with >:)."
 
 "# マッドメイト系役職"
 "MadmateInfoLong","You are a crewmate, but you act as the impostors' ally.\nYou and the impostors cannot recognize each other.\nYou can vent, and you have no tasks.","クルーだがインポスターの味方をする。\nインポスターと互いに認識できない。\nベントが使え、タスクはない。","叛徒伪装成船员来帮助内鬼阵营，但是他们并不知道谁是内鬼。\n叛徒不可以进行击杀或者破坏，可以跳管道且没有任务。","叛徒屬於偽裝者陣營。\n偽裝者無法知道叛徒是誰，他可以使用通風口且沒有任務。","Член Экипажа, который на стороне Предателей. \nНо он не знает кто является Предателем в игре. \nМожет использовать вентиляцию, но нет заданий.","Você é um tripulante que se aliou ao impostor.\nOs Impostores não sabem quem você é e vice-versa.\nPode usar a ventilação, e não tem tarefas.","Você é um tripulante que se aliou ao impostor.\nOs Impostores não sabem quem você é e vice-versa.\nPode usar a ventilação, e não tem tarefas."
@@ -484,6 +486,13 @@
 "PlagueDoctorCanInfectVent","Can Infect in Vent","ベント内外でも感染する","","","Может заразить в вентиляции","Pode Infectar no Duto",""
 "SpyVentCooldown","Spy Vent Cooldown"
 "SpyVentDuration","Spy Vent Duration"
+"GrapplerFailChance","Fail Chance"
+"GrapplerGrappleCooldown","Grapple Cooldown"
+"GrapplerShiftDuration","Shift Duration"
+
+"## Notify Messages"
+"Grappling": "You are being grappled!",
+"GrapplingFailed": "Couldnt grapple player!",
 
 "## ランダムスポーンポイント"
 "Junction","Junction","三叉路","","","","",""

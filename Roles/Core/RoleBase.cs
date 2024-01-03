@@ -154,6 +154,9 @@ public abstract class RoleBase : IDisposable
     public virtual void OnShapeshift(PlayerControl target)
     { }
 
+    public virtual void OnShapeshift(PlayerControl player, PlayerControl target, bool shapeshifting)
+    { }
+
     /// <summary>
     /// タスクターンに常時呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要

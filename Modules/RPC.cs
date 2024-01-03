@@ -7,6 +7,7 @@ using Hazel;
 
 using DarkRoles.Roles.Core;
 using static DarkRoles.Translator;
+using DarkRoles.Modules;
 
 namespace DarkRoles
 {
@@ -30,6 +31,7 @@ namespace DarkRoles
         SetCurrentDousingTarget,
         SetEvilTrackerTarget,
         SetRealKiller,
+        SyncNameNotify, //credit tohe
         SyncPuppet,
         SetSchrodingerCatTeam,
         StealthDarken,
@@ -152,6 +154,9 @@ namespace DarkRoles
                     byte targetId = reader.ReadByte();
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
+                    break;
+                case CustomRPC.SyncNameNotify:
+                    NameNotifyManager.ReceiveRPC(reader);
                     break;
                 default:
                     CustomRoleManager.DispatchRpc(reader, rpcType);

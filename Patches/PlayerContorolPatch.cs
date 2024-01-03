@@ -211,9 +211,12 @@ namespace DarkRoles
 
             shapeshifter.GetRoleClass()?.OnShapeshift(target);
 
+
             if (!AmongUsClient.Instance.AmHost) return;
 
             if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
+
+            shapeshifter.GetRoleClass()?.OnShapeshift(shapeshifter, target, shapeshifting);
 
             // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
@@ -343,9 +346,11 @@ namespace DarkRoles
 
             if (!GameStates.IsModHost) return;
 
+            Zoom.OnFixedUpdate();
             TargetArrow.OnFixedUpdate(player);
-
+            NameNotifyManager.OnFixedUpdate(player);
             CustomRoleManager.OnFixedUpdate(player);
+            
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -431,6 +436,9 @@ namespace DarkRoles
 
                     //名前変更
                     RealName = target.GetRealName();
+
+                    if (NameNotifyManager.GetNameNotify(target, out var name))
+                        RealName = name;
 
                     //NameColorManager準拠の処理
                     RealName = RealName.ApplyNameColorData(seer, target, false);

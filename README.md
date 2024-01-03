@@ -31,6 +31,9 @@ Innersloth LLC. © Innersloth LLC.
 ### ⭐ [Town Of Host: Enhanced](https://github.com/0xDrMoe/TownofHost-Enhanced) :
  - Main menu stuff
  - Discord RPC
+ - NameNotifyManager
+ - Zoom (originally from TOP?)
+ - RPC Teleport methods
 </pre>
 
 

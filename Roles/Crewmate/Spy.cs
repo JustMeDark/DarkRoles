@@ -37,7 +37,7 @@ namespace DarkRoles.Roles.Crewmate
         {
             AURoleOptions.EngineerCooldown = VentCooldown.GetFloat();
             AURoleOptions.EngineerInVentMaxTime = VentDuration.GetFloat();
-            opt.SetBool(BoolOptionNames.AnonymousVotes, true);
+            opt.SetBool(BoolOptionNames.AnonymousVotes, false);
         }
     }
 }

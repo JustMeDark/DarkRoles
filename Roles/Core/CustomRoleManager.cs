@@ -372,6 +372,7 @@ public enum CustomRoles
     Mafia,
     SerialKiller,
     ShapeMaster,
+    Grappler,
     Sniper,
     Vampire,
     Witch,
