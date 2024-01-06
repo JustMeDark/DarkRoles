@@ -8,6 +8,7 @@ using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
 using DarkRoles.Roles.Neutral;
 using static DarkRoles.Translator;
+using static Il2CppSystem.TimeZoneInfo;
 
 namespace DarkRoles.Roles.Crewmate;
 public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
@@ -190,7 +191,7 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
             };
         }
 
-        return cRole.GetCustomRoleTypes() switch
+        return Utils.IsActive(SystemTypes.Electrical) ? (!player.Is(CustomRoles.Batman)) : cRole.GetCustomRoleTypes() switch
         {
             CustomRoleTypes.Impostor => true,
             CustomRoleTypes.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),

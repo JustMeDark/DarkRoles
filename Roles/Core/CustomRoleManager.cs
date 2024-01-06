@@ -377,6 +377,7 @@ public enum CustomRoles
     Vampire,
     Witch,
     Warlock,
+    Batman,
     Mare,
     Penguin,
     Puppeteer,
