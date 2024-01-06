@@ -5,6 +5,7 @@ using UnityEngine;
 using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
 using static DarkRoles.Translator;
+using DarkRoles.Roles.Crewmate;
 
 namespace DarkRoles
 {
@@ -60,6 +61,8 @@ namespace DarkRoles
                     var roleClass = player.GetRoleClass();
                     if (roleClass != null)
                     {
+                        if (player.Is(CustomRoles.Magician))
+                            Magician.VentButtonText(__instance);
                         var killLabel = (roleClass as IKiller)?.OverrideKillButtonText(out string text) == true ? text : GetString(StringNames.KillLabel);
                         __instance.KillButton.OverrideText(killLabel);
                         if (roleClass.HasAbility)

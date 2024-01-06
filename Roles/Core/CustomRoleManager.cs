@@ -405,6 +405,7 @@ public enum CustomRoles
     SpeedBooster,
     Trapper,
     Spy,
+    Magician,
     Dictator,
     Doctor,
     Seer,

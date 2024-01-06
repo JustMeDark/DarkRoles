@@ -12,6 +12,7 @@ using DarkRoles.Roles;
 using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
 using DarkRoles.Roles.AddOns.Crewmate;
+using DarkRoles.Roles.Crewmate;
 
 namespace DarkRoles
 {
@@ -350,7 +351,7 @@ namespace DarkRoles
             TargetArrow.OnFixedUpdate(player);
             NameNotifyManager.OnFixedUpdate(player);
             CustomRoleManager.OnFixedUpdate(player);
-            
+
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -364,6 +365,14 @@ namespace DarkRoles
                     Logger.Info($"{__instance.GetNameWithRole()}:通報可能になったため通報処理を行います", "ReportDeadbody");
                     __instance.ReportDeadBody(info);
                 }
+
+                // OnExitVent
+                if (player.Is(CustomRoles.Magician))
+                    if (Magician.HasVented[player.PlayerId] && !player.inVent)
+                    {
+                        Magician.OnExitVent(player);
+                        Magician.HasVented[player.PlayerId] = false;
+                    }
 
                 DoubleTrigger.OnFixedUpdate(player);
 
@@ -559,6 +568,21 @@ namespace DarkRoles
             return true;
         }
     }
+
+    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+    class EnterVentPatch
+    {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+        {
+            switch (pc.GetCustomRole())
+            {
+                case CustomRoles.Magician:
+                    Magician.HasVented[pc.PlayerId] = true;
+                    break;
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch
     {
