@@ -740,46 +740,51 @@ namespace DarkRoles
             if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
             Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
+
         public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            string name = "";
-            string tempname = DataManager.player.Customization.Name;
-            string originalname = DataManager.player.Customization.Name;
-            if (Main.nickName != "") tempname = Main.nickName;
+            var temp = DataManager.player.Customization.Name;
+            var name = DataManager.player.Customization.Name;
+            if (Main.nickName != "") temp = Main.nickName;
+            var host = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
+            name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : $"{host}\n{GetSuffix()}";
+            if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+        }
+
+        public static string GetSuffix()
+        {
+            var suffix = Options.GetSuffixMode() switch
+            {
+                SuffixModes.TOH => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName} v{Main.version}"),
+                SuffixModes.Streaming => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("StreamingSuffix")}"),
+                SuffixModes.Recording => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("RecordingSuffix")}"),
+                SuffixModes.RoomHost => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}"),
+                SuffixModes.OriginalName => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{DataManager.player.Customization.Name}"),
+                _ => ""
+            };
+            return suffix;
+        }
+
+        public static void SetSuffix(string name, string temp)
+        {
+           
             if (AmongUsClient.Instance.IsGameStarted)
             {
-                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
+                
             }
             else
             {
-                //name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}\n");
-
-                switch (Options.GetSuffixMode())
-                {
-                    case SuffixModes.None:
-                        break;
-                    case SuffixModes.TOH:
-                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName} v{Main.version}\n");
-                        break;
-                    case SuffixModes.Streaming:
-                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("StreamingSuffix")}\n");
-                        break;
-                    case SuffixModes.Recording:
-                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("RecordingSuffix")}\n");
-                        break;
-                    case SuffixModes.RoomHost:
-                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}\n");
-                        break;
-                    case SuffixModes.OriginalName:
-                        name = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{originalname}\n");
-                        break;
-                }
-
-                name += GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{tempname}");
+                
             }
-            if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
+
+        public static string SetInGameName(string name)
+        {
+            if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
+            return name;
+        }
+
         private static Dictionary<byte, PlayerControl> cachedPlayers = new(15);
         public static PlayerControl GetPlayerById(int playerId) => GetPlayerById((byte)playerId);
         public static PlayerControl GetPlayerById(byte playerId)

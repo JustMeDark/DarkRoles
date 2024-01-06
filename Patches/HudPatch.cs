@@ -61,14 +61,14 @@ namespace DarkRoles
                     var roleClass = player.GetRoleClass();
                     if (roleClass != null)
                     {
-                        if (player.Is(CustomRoles.Magician))
-                            Magician.VentButtonText(__instance);
                         var killLabel = (roleClass as IKiller)?.OverrideKillButtonText(out string text) == true ? text : GetString(StringNames.KillLabel);
                         __instance.KillButton.OverrideText(killLabel);
                         if (roleClass.HasAbility)
                         {
                             __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
                             __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                            if (player.Is(CustomRoles.Magician))
+                                Magician.VentButtonText(__instance);
                         }
                     }
 
