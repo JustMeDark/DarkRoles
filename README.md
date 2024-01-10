@@ -36,6 +36,7 @@ Innersloth LLC. © Innersloth LLC.
  - RPC Teleport methods
  - /r command
  - Gradients
+ - /colour command
 </pre>
 
 

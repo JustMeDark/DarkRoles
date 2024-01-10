@@ -487,7 +487,8 @@ namespace DarkRoles
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal;
+                CustomRoles.Jackal or
+                CustomRoles.Agent47;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {

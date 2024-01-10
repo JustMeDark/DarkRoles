@@ -95,7 +95,8 @@ namespace DarkRoles.Roles.AddOns.Common
 
                 foreach (var pc in assignTargetList)
                 {
-                    PlayerState.GetByPlayerId(pc.PlayerId).SetSubRole(role);
+                    if (pc.GetCustomSubRoles().Count == 0)
+                        PlayerState.GetByPlayerId(pc.PlayerId).SetSubRole(role);
                     Logger.Info("役職設定:" + pc?.Data?.PlayerName + " = " + pc.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCustomSubRoles");
                 }
             }

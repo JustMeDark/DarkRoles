@@ -424,6 +424,9 @@ namespace DarkRoles
             SetupRoleOptions(122, TabGroup.Addons, CustomRoles.Lovers, assignCountRule: new(2, 2, 2));
             LastImpostor.SetupCustomOption();
             Watcher.SetupCustomOption();
+            Sloth.SetupCustomOption();
+            Flash.SetupCustomOption();
+            Torch.SetupCustomOption();
             Workhorse.SetupCustomOption();
             #endregion
 

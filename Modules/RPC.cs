@@ -23,6 +23,7 @@ namespace DarkRoles
         SetBountyTarget,
         WitchSync,
         SetSheriffShotLimit,
+        SetMarkedPlayers,
         SetDousedPlayer,
         SetNameColorData,
         SniperSync,

@@ -8,6 +8,7 @@ using Mathf = UnityEngine.Mathf;
 
 using DarkRoles.Roles.Core;
 using Epic.OnlineServices.Presence;
+using DarkRoles.Roles.AddOns.Crewmate;
 
 namespace DarkRoles.Modules
 {
@@ -104,7 +105,17 @@ namespace DarkRoles.Modules
                     case CustomRoles.Watcher:
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                         break;
-                }
+                    case CustomRoles.Torch:
+                        opt.SetVision(true);
+                        break;
+                    case CustomRoles.Flash:
+                        Flash.DoSpeed(player);
+                        break;
+                    case CustomRoles.Sloth:
+                        Sloth.DoSpeed(player);
+                        break;
+
+                }  
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {

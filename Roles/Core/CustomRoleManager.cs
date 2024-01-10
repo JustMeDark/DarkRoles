@@ -9,6 +9,7 @@ using AmongUs.GameOptions;
 using DarkRoles.Attributes;
 using DarkRoles.Roles.Core.Interfaces;
 using DarkRoles.Roles.AddOns.Common;
+using DarkRoles.Roles.AddOns.Crewmate;
 
 namespace DarkRoles.Roles.Core;
 
@@ -377,6 +378,7 @@ public enum CustomRoles
     Vampire,
     Witch,
     Warlock,
+    Karen,
     Batman,
     Mare,
     Penguin,
@@ -403,7 +405,6 @@ public enum CustomRoles
     SabotageMaster,
     Sheriff,
     Snitch,
-    SpeedBooster,
     Trapper,
     Spy,
     Magician,
@@ -415,6 +416,7 @@ public enum CustomRoles
     Arsonist,
     Egoist,
     Jester,
+    Agent47,
     Opportunist,
     PlagueDoctor,
     SchrodingerCat,
@@ -431,6 +433,9 @@ public enum CustomRoles
     LastImpostor,
     Lovers,
     Watcher,
+    Flash,
+    Torch,
+    Sloth,
     Workhorse,
 }
 public enum CustomRoleTypes

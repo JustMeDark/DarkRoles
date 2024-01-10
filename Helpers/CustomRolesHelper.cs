@@ -135,5 +135,6 @@ namespace DarkRoles
         Crew,
         Impostor,
         Jackal,
+        Agent47,
     }
 }

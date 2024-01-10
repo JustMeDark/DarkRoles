@@ -14,7 +14,7 @@ namespace DarkRoles
         ///<summary>
         ///追放処理を上書きするかどうか
         ///</summary>
-        public static bool OverrideExiledPlayer => Options.NoGameEnd.GetBool() || Jackal.RoleInfo.IsEnable;
+        public static bool OverrideExiledPlayer => Options.NoGameEnd.GetBool() || Jackal.RoleInfo.IsEnable || Agent47.RoleInfo.IsEnable;
 
         public static bool IsCached { get; private set; } = false;
         private static Dictionary<byte, (bool isDead, bool Disconnected)> isDeadCache = new();

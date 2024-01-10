@@ -8,75 +8,49 @@ namespace DarkRoles.Roles.Crewmate;
 
 public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
 {
+    public static OptionItem OptionSkillLimit, OptionVentCooldown, OptionVentDuration, OptionCanVent, OptionFixesDoors, OptionFixesReactors, OptionFixesOxygens, OptionFixesComms, OptionFixesElectrical;
+    private bool DoorsProgressing = false;
+    private bool fixedComms = false;
+    public int UsedSkillCount;
+
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
             typeof(SabotageMaster),
             player => new SabotageMaster(player),
             CustomRoles.SabotageMaster,
-            () => RoleTypes.Crewmate,
+            () => OptionCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
             1500,
             SetupOptionItem,
-            "sa",
-            "#0000ff",
+            "me",
+            "#787afa",
             introSound: () => ShipStatus.Instance.SabotageSound
         );
-    public SabotageMaster(PlayerControl player)
-    : base(
-        RoleInfo,
-        player
-    )
-    {
-        SkillLimit = OptionSkillLimit.GetInt();
-        FixesDoors = OptionFixesDoors.GetBool();
-        FixesReactors = OptionFixesReactors.GetBool();
-        FixesOxygens = OptionFixesOxygens.GetBool();
-        FixesComms = OptionFixesComms.GetBool();
-        FixesElectrical = OptionFixesElectrical.GetBool();
 
+    public SabotageMaster(PlayerControl player) : base(RoleInfo, player)
+    {
         UsedSkillCount = 0;
     }
 
-    public static OptionItem OptionSkillLimit;
-    public static OptionItem OptionFixesDoors;
-    public static OptionItem OptionFixesReactors;
-    public static OptionItem OptionFixesOxygens;
-    public static OptionItem OptionFixesComms;
-    public static OptionItem OptionFixesElectrical;
-    enum OptionName
-    {
-        SabotageMasterSkillLimit,
-        SabotageMasterFixesDoors,
-        SabotageMasterFixesReactors,
-        SabotageMasterFixesOxygens,
-        SabotageMasterFixesCommunications,
-        SabotageMasterFixesElectrical,
-    }
-    private int SkillLimit;
-    private bool FixesDoors;
-    private bool FixesReactors;
-    private bool FixesOxygens;
-    private bool FixesComms;
-    private bool FixesElectrical;
-    public int UsedSkillCount;
-
-    private bool DoorsProgressing = false;
-    private bool fixedComms = false;
-
     public static void SetupOptionItem()
     {
-        OptionSkillLimit = IntegerOptionItem.Create(RoleInfo, 1501, OptionName.SabotageMasterSkillLimit, new(0, 99, 1), 1, false)
+        OptionSkillLimit = IntegerOptionItem.Create(RoleInfo, 1501, "SabotageMasterSkillLimit", new(0, 99, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
-        OptionFixesDoors = BooleanOptionItem.Create(RoleInfo, 1502, OptionName.SabotageMasterFixesDoors, false, false);
-        OptionFixesReactors = BooleanOptionItem.Create(RoleInfo, 1503, OptionName.SabotageMasterFixesReactors, false, false);
-        OptionFixesOxygens = BooleanOptionItem.Create(RoleInfo, 1504, OptionName.SabotageMasterFixesOxygens, false, false);
-        OptionFixesComms = BooleanOptionItem.Create(RoleInfo, 1505, OptionName.SabotageMasterFixesCommunications, false, false);
-        OptionFixesElectrical = BooleanOptionItem.Create(RoleInfo, 1506, OptionName.SabotageMasterFixesElectrical, false, false);
+        OptionCanVent = BooleanOptionItem.Create(RoleInfo, 1504, "MechanicCanVent", true, false);
+        OptionVentCooldown = FloatOptionItem.Create(RoleInfo, 1502, "MechanicVentCooldown", new(0f, 90f, 2.5f), 10f, false)
+        .SetValueFormat(OptionFormat.Seconds).SetParent(OptionCanVent);
+        OptionVentDuration = FloatOptionItem.Create(RoleInfo, 1503, "MechanicVentDuration", new(0f, 90f, 2.5f), 15f, false)
+        .SetValueFormat(OptionFormat.Seconds).SetParent(OptionCanVent);
+        OptionFixesDoors = BooleanOptionItem.Create(RoleInfo, 1505, "SabotageMasterFixesDoors", false, false);
+        OptionFixesReactors = BooleanOptionItem.Create(RoleInfo, 1506, "SabotageMasterFixesReactors", false, false);
+        OptionFixesOxygens = BooleanOptionItem.Create(RoleInfo, 1507, "SabotageMasterFixesOxygens", false, false);
+        OptionFixesComms = BooleanOptionItem.Create(RoleInfo, 1508, "SabotageMasterFixesCommunications", false, false);
+        OptionFixesElectrical = BooleanOptionItem.Create(RoleInfo, 1509, "SabotageMasterFixesElectrical", false, false);
     }
     bool ISystemTypeUpdateHook.UpdateReactorSystem(ReactorSystemType reactorSystem, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesReactors) return true;
+        if (!OptionFixesReactors.GetBool()) return true;
         if (amount.HasAnyBit(ReactorSystemType.AddUserOp))
         {
             //片方を直したタイミング
@@ -88,7 +62,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     bool ISystemTypeUpdateHook.UpdateHeliSabotageSystem(HeliSabotageSystem heliSabotageSystem, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesReactors) return true;
+        if (!OptionFixesReactors.GetBool()) return true;
         var tags = (HeliSabotageSystem.Tags)(amount & HeliSabotageSystem.TagMask);
         if (tags == HeliSabotageSystem.Tags.FixBit)
         {
@@ -104,7 +78,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     bool ISystemTypeUpdateHook.UpdateLifeSuppSystem(LifeSuppSystemType lifeSuppSystem, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesOxygens) return true;
+        if (!OptionFixesOxygens.GetBool()) return true;
         if (amount.HasAnyBit(LifeSuppSystemType.AddUserOp))
         {
             //片方の入力が正解したタイミング
@@ -116,7 +90,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     bool ISystemTypeUpdateHook.UpdateHqHudSystem(HqHudSystemType hqHudSystemType, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesComms) return true;
+        if (!OptionFixesComms.GetBool()) return true;
         var tags = (HqHudSystemType.Tags)(amount & HqHudSystemType.TagMask);
         if (tags == HqHudSystemType.Tags.ActiveBit)
         {
@@ -139,7 +113,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     bool ISystemTypeUpdateHook.UpdateSwitchSystem(SwitchSystem switchSystem, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesElectrical) return true;
+        if (!OptionFixesElectrical.GetBool()) return true;
         if (amount.HasBit(SwitchSystem.DamageSystem)) return true;
         //いずれかのスイッチが変更されたタイミング
         //現在のスイッチ状態を今から動かすスイッチ以外を正解にする
@@ -152,7 +126,7 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
     bool ISystemTypeUpdateHook.UpdateDoorsSystem(DoorsSystemType doorsSystem, byte amount)
     {
         if (!IsSkillAvailable()) return true;
-        if (!FixesDoors) return true;
+        if (!OptionFixesDoors.GetBool()) return true;
         if (DoorsProgressing) return true;
 
         int mapId = Main.NormalOptions.MapId;
@@ -203,5 +177,12 @@ public sealed class SabotageMaster : RoleBase, ISystemTypeUpdateHook
         DoorsProgressing = false;
         return true;
     }
-    private bool IsSkillAvailable() => SkillLimit <= 0 || UsedSkillCount < SkillLimit;
+
+    public override void ApplyGameOptions(IGameOptions opt)
+    {
+        AURoleOptions.EngineerCooldown = OptionVentCooldown.GetFloat();
+        AURoleOptions.EngineerInVentMaxTime = OptionVentDuration.GetFloat();
+    }
+
+    private bool IsSkillAvailable() => OptionSkillLimit.GetInt() <= 0 || UsedSkillCount < OptionSkillLimit.GetInt();
 }

@@ -75,14 +75,32 @@ namespace DarkRoles
                         canceled = true;
                         Utils.ShowLastResult();
                         break;
-
+                    case "/colour":
+                    case "/color":
+                    case "/c":
+                        canceled = true;
+                        if (GameStates.IsInGame)
+                        {
+                            Utils.SendMessage(GetString("ColorCommandNotInLobby"), PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        var color = Utils.MsgToColor(subArgs, true);
+                        if (color == byte.MaxValue)
+                        {
+                            Utils.SendMessage(GetString("ColorNotAllowed"), PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        PlayerControl.LocalPlayer.RpcSetColor(color);
+                        Utils.SendMessage(string.Format(GetString("ColorSet"), subArgs), PlayerControl.LocalPlayer.PlayerId);
+                        break;
                     case "/kl":
                     case "/killlog":
                         canceled = true;
                         Utils.ShowKillLog();
                         break;
-                    case "r":
-                    case "role":
+                    case "/r":
+                    case "/role":
                         canceled = true;
                         SendRolesInfo(subArgs, 255);
                         break;
@@ -115,7 +133,10 @@ namespace DarkRoles
                                 break;
                         }
                         break;
-
+                    case "/perc":
+                        canceled = true;
+                        Utils.ShowActiveRoles();
+                        break;
                     case "/dis":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
@@ -241,6 +262,7 @@ namespace DarkRoles
                         break;
 
                     case "/say":
+                    case "/s":
                         canceled = true;
                         if (args.Length > 1)
                             Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
@@ -358,7 +380,7 @@ namespace DarkRoles
     public static void SendRolesInfo(string role, byte playerId)
         {
             role = role.Trim().ToLower();
-            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
+            //if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
             if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
             if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
             if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
@@ -419,9 +441,27 @@ namespace DarkRoles
                 case "/killlog":
                     Utils.ShowKillLog(player.PlayerId);
                     break;
-                case "r":
-                case "role":
+                case "/r":
+                case "/role":
                     SendRolesInfo(subArgs, 255);
+                    break;
+                case "/colour": //credit tohe
+                case "/color":
+                case "/c":
+                        if (GameStates.IsInGame)
+                        {
+                            Utils.SendMessage(GetString("ColorCommandNotInLobby"), player.PlayerId);
+                            break;
+                        }
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        var color = Utils.MsgToColor(subArgs);
+                        if (color == byte.MaxValue)
+                        {
+                            Utils.SendMessage(GetString("ColorNotAllowed"), player.PlayerId);
+                            break;
+                        }
+                        player.RpcSetColor(color);
+                        Utils.SendMessage(string.Format(GetString("ColorSet"), subArgs), player.PlayerId);
                     break;
                 case "/n":
                 case "/now":
@@ -438,7 +478,9 @@ namespace DarkRoles
                             break;
                     }
                     break;
-
+                case "/perc":
+                    Utils.ShowActiveRoles();
+                    break;
                 case "/h":
                 case "/help":
                     subArgs = args.Length < 2 ? "" : args[1];

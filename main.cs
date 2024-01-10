@@ -185,7 +185,10 @@ namespace DarkRoles
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
-                    {CustomRoles.Watcher, "#800080"},
+                    {CustomRoles.Watcher, "#800080"}, 
+                    {CustomRoles.Flash, "#fabf78"},
+                    {CustomRoles.Sloth, "#658a94"},
+                    {CustomRoles.Torch, "#f2f7a3"},
                     {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -235,6 +238,7 @@ namespace DarkRoles
         Bombed,
         Misfire,
         Torched,
+        Hit,
         Sniped,
         Revenge,
         Execution,
