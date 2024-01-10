@@ -102,7 +102,16 @@ namespace DarkRoles
                     case "/r":
                     case "/role":
                         canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
                         SendRolesInfo(subArgs, 255);
+                        break;
+                    case "/perc":
+                        canceled = true;
+                        Utils.ShowActiveRoles();
+                        break;
+                    case "/settings":
+                        canceled = true;
+                        Utils.ShowActiveSettings();
                         break;
                     case "/name":
                     case "/rn":
@@ -116,26 +125,6 @@ namespace DarkRoles
                         canceled = true;
                         Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
                         GameStartManagerPatch.HideName.text = Main.HideName.Value;
-                        break;
-
-                    case "/n":
-                    case "/now":
-                        canceled = true;
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        switch (subArgs)
-                        {
-                            case "r":
-                            case "roles":
-                                Utils.ShowActiveRoles();
-                                break;
-                            default:
-                                Utils.ShowActiveSettings();
-                                break;
-                        }
-                        break;
-                    case "/perc":
-                        canceled = true;
-                        Utils.ShowActiveRoles();
                         break;
                     case "/dis":
                         canceled = true;
@@ -377,11 +366,10 @@ namespace DarkRoles
             Utils.SendMessage(msg);
         }
 
-    public static void SendRolesInfo(string role, byte playerId)
+        public static void SendRolesInfo(string role, byte playerId)
         {
             role = role.Trim().ToLower();
-            //if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
-            if (role.StartsWith("/up")) role.Replace("/up", string.Empty);
+            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
             if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
             if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
 
@@ -391,8 +379,7 @@ namespace DarkRoles
                 return;
             }
 
-           // role = FixRoleNameInput(role).ToLower().Trim().Replace(" ", string.Empty);
-           role = role.ToLower().Trim().Replace(" ", string.Empty);
+            role = role.ToLower().Trim().Replace(" ", string.Empty);
 
             foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
             {
@@ -443,7 +430,14 @@ namespace DarkRoles
                     break;
                 case "/r":
                 case "/role":
-                    SendRolesInfo(subArgs, 255);
+                    subArgs = args.Length < 2 ? "" : args[1];
+                    SendRolesInfo(subArgs, player.PlayerId);
+                    break;
+                case "/perc":
+                    Utils.ShowActiveRoles();
+                    break;
+                case "/settings":
+                    Utils.ShowActiveSettings(player.PlayerId);
                     break;
                 case "/colour": //credit tohe
                 case "/color":
@@ -462,24 +456,6 @@ namespace DarkRoles
                         }
                         player.RpcSetColor(color);
                         Utils.SendMessage(string.Format(GetString("ColorSet"), subArgs), player.PlayerId);
-                    break;
-                case "/n":
-                case "/now":
-                    subArgs = args.Length < 2 ? "" : args[1];
-                    switch (subArgs)
-                    {
-                        case "r":
-                        case "roles":
-                            Utils.ShowActiveRoles(player.PlayerId);
-                            break;
-
-                        default:
-                            Utils.ShowActiveSettings(player.PlayerId);
-                            break;
-                    }
-                    break;
-                case "/perc":
-                    Utils.ShowActiveRoles();
                     break;
                 case "/h":
                 case "/help":
