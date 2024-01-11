@@ -524,9 +524,6 @@ namespace DarkRoles
                         case CustomRoles.Torch:
                             sb.Append(ColorString(GetRoleColor(CustomRoles.Torch), "(Torch)"));
                             break;
-                        case CustomRoles.LastImpostor:
-                            sb.Append("(Last)");
-                            break;
                     }
                 }
             }
