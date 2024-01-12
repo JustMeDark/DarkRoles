@@ -66,6 +66,7 @@
 "Seer","Seer","シーア","灵媒","靈媒","Провидец","Vidente","Vidente"
 "TimeManager","TimeManager","タイムマネージャー","时间管理者","時間大師","Мастер Времени","Dono do Tempo",""
 "Magician","Magician"
+"Visionary","Visionary"
 
 "# ニュートラル役職"
 "Jester","Jester","ジェスター","小丑","小丑","Шут","Bobo","Bobo"
@@ -157,6 +158,7 @@
 "SeerInfo","You see the moment someone dies","他人の死んだ瞬間がわかる","你能感知死亡","你擁有陰陽眼","Вы видите когда умирают игроки","Veja o momento em que alguém morre","Veja o momento em que alguém morre"
 "TimeManagerInfo","Do the tasks and extend meeting time","タスクをして会議時間を延ばそう","任务搞快点，不就有时间开会了嘛","完成你的任務來延長會議時間","Выполняйте задания чтобы увеличить время встречи","Faça as tarefas e aumente o tempo de reunião",""
 "MagicianInfo","Now you see me now you dont"
+"VisionaryInfo","Reveal roles"
 
 "# ニュートラル役職"
 "ArsonistInfo","Burn them to crisps","燃やせ","火焰给我燃烧起来吧！","燒吧，燒吧，燃燒吧","Облейте и подожгите всех игроков","Queime tudo em pedacinhos","Queime tudo em pedacinhos"
@@ -235,6 +237,7 @@
 "SeerInfoLong","(Crewmates):\nWhenever someone dies, you will see a ""Kill Flash"".","プレイヤーが死亡するごとに、シーアはキルフラッシュを見ることができる。","每当玩家死亡时，灵媒将会看到击杀闪烁。","當有玩家死亡時,靈媒將看到閃光","Провидец видит ''Вспышку Убийства'' каждый раз, когда игроки умирают.","Quando alguém morre, você vê um ""clarão de abate"" (a sua tela piscará brevemente).",""
 "TimeManagerInfoLong","(Crewmates):\nThe more tasks you do, the longer your meeting will last. When you die, the meeting time will be restored.","タスクを終わらせるごとに会議時間が延びる。死亡すると会議時間は元に戻る。","你做的任务越多，会议时间就会越长。在你死后，会议时间会复原。","時間大師做越多任務，那麼會議時間就會延長越多(直到上限)。如果時間大師死亡，那麼會議時間就會恢復原狀。","Мастер Времени может увеличить время встречи, увеличивается время по мере выполнения заданий. Но когда он умрет, время встречи будет сброшено по умолчанию.","Ao fazer tarefas você aumenta o tempo de reunião. Quando você morre, o tempo de reunião volta ao normal.",""
 "MagicianInfoLong","(Crewmates):\nThe Magician can jump into a vent to pop out at a random vent. This can be useful for escaping the killer(s)."
+"VisionaryInfoLong","(Crewmates):\nYour job as the Visionary is to use your kill button to mark a player for role reveal. When the meeting starts, youll be either notified of your targets role or that your vision failed. womp womp."
 
 "# ニュートラル役職"
 "ArsonistInfoLong","(Neutral):\nWhen you use the kill button, you douse your target in oil.\nAfter dousing all living players, you set everything ablaze and win by venting.","キルボタンを使おうとすると、ターゲットに油を塗れる。\nすべてのクルーに油を塗ったら船を燃やして勝利する。","纵火犯可以通过对玩家点击击杀按钮并在跟随其数秒来完成涂油行为。\n当所有存活玩家都被纵火犯涂油后，纵火犯可以通过跳通风管来点火，并单独获得胜利。","當縱火犯嘗試使用殺人鍵,它將對他身邊最近的一個人澆上油,\n當他對所有玩家澆上油之後,縱火縱火犯點火即勝利。","Поджигатель может обливать игроков, нажав на кнопку 'Убить' и находясь рядом с игроком в течение нескольких секунд. \nПосле того как он обольёт всех живых игроков Поджигатель сможет запрыгнуть в вентиляцию, чтобы поджечь всех игроков, что приводит к победе Поджигателя.","Ao apertar o botão de matar, você encharca o seu inimigo em óleo.\nApós ter encharcado todos os jogadores vivos, você coloca tudo em chamas e ganha entrando na ventilação.",""
@@ -529,6 +532,8 @@
 "MechanicVentDuration","Vent Duration"
 "SlothSpeed","Speed"
 "47MarkCooldown","Mark Cooldown"
+"VisionaryCooldown","Vision Cooldown"
+"VisionaryChance","Vision Chance"
 
 "## Notify Messages"
 "Grappling": "You are being grappled!",

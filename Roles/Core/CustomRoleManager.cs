@@ -408,6 +408,7 @@ public enum CustomRoles
     Trapper,
     Spy,
     Magician,
+    Visionary,
     Dictator,
     Doctor,
     Seer,

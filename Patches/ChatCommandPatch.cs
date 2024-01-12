@@ -254,7 +254,7 @@ namespace DarkRoles
                     case "/s":
                         canceled = true;
                         if (args.Length > 1)
-                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
+                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{GetString("MessageFromTheHost")}</color>");
                         break;
 
                     case "/exile":

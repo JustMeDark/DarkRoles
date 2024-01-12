@@ -948,7 +948,7 @@ namespace DarkRoles
         public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "", bool removeTags = true)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            if (title == "") title = $"<color={Main.ModColor}>" + GetString("DefaultSystemMessageTitle") + "</color>";
             Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
 
