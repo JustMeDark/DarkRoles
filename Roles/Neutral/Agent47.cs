@@ -63,6 +63,7 @@ namespace DarkRoles.Roles.Neutral
                 SendRPC();
             }
             info.DoKill = false;
+            return;
         }
 
         public override void OnStartMeeting()
@@ -79,6 +80,7 @@ namespace DarkRoles.Roles.Neutral
                     Marked = 0;
                     SendRPC();
                 }
+            return;
         }
 
         public override string GetProgressText(bool comms = false) => Utils.ColorString(Color.gray, $"({Marked})");

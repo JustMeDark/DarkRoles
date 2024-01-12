@@ -103,7 +103,7 @@ namespace DarkRoles
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        string forkId = Main.playerVersion[__instance.PlayerId].forkId;
+                        string forkId = Main.ForkId;
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch

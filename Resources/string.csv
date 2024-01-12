@@ -79,6 +79,7 @@
 "Jackal","Jackal","ジャッカル","豺狼","豺狼","Шакал","Lobo-Guará","Chacal"
 "PlagueDoctor","Plague Doctor","ペスト医師","","","Чумной Доктор","Médico da Peste",""
 "Agent47","Agent47"
+"Troll","Troll"
 
 "# HideAndSeek"
 "HASFox","Fox","狐","狐狸","狐妖","Лис","Raposa","Raposa"
@@ -176,6 +177,7 @@
 "JackalInfo","Kill Everyone","すべてを殺せ","快去杀光所有人，一只苍蝇都不要剩下！","殺光所有人不留活口","Убей всех игроков","Mate todos","Mate todos"
 "PlagueDoctorInfo","Spread disease to wipe out the crew","ペストをばらまけ","","","Распространите чуму","Espalhe doenças para acabar com a tripulação",""
 "Agent47Info","Good work 47"
+"TrollInfo","Troll the crew"
 
 "# HideAndSeek"
 "HASFoxInfo","Just stay alive","とにかく生き残りましょう","活下去吧！活到最后你就成为了赢家！","盡你所能地活下去吧!","Останьтесь в живых","Sobreviva a qualquer custo","Sobreviva a qualquer custo"
@@ -250,6 +252,7 @@
 "JackalInfoLong","(Neutral):\nJackal can kill all Crewmates, Impostors and Neutrals.\nTeam Jackal wins when living Jackal outnumbers living Crewmates and when there are no Impostors alive.","ジャッカルはすべてのプレイヤーを殺すことができる。\nインポスターが残っておらず、生き残っているジャッカルの人数がクルーと同じかそれ以上でジャッカルが勝利する。","豺狼需要击杀所有人。\n存活的玩家只剩豺狼和一名其他船员时，豺狼获得胜利。","豺狼需要殺死所有人來獲得勝利,\n如果場上存活的玩家只剩下豺狼和另一名不帶刀職業時,豺狼將獲勝。","Шакал может убить всех Членов Экипажа, Нейтралов и Предателей тоже. \nШакал может победить, когда в живых остался только 1 Шакал и 1 Член Экипажа.","Você pode matar todos os jogadores. \nGanhe quando não existirem mais Impostores, e o número de Guarás for maior que o de Tripulantes.",""
 "PlagueDoctorInfoLong","(Neutral):\nThe Plague Doctor's goal is to infect every living player.\nThey start by choosing one player to infect, after which anyone who spends a set\namount of time in range of the infected player becomes infected themselves.\nInfection progress is cumulative, and does not reset with distance or after meetings.","ペスト医師ははすべてのプレイヤーに感染を広げることが目的。\nキルで最初の感染者を選ぶ。接触感染していきすべてのプレイヤーに感染させたら勝利。会議では感染はリセットされない","","","Цель Чумного Доктора - заразить всех живых игроков.\nОн выбирает одного игрока для заражения с помощью кнопки 'Убить', после чего игрок который будет в радиусе зараженного игрока в течении X времени, станет зараженным.\nПрогресс заражения не сбрасывается после встреч и т.д.","O objetivo do Médico da Peste é infectar todos os jogadores vivos.\nEles começam escolhendo um jogador para infectar e, depois disso, qualquer pessoa que passar um período de tempo definido próxima do jogador infectado será infectada também.\nO progresso da infecção é cumulativo e não é reiniciado com a distância ou após reuniões.",""
 "Agent47InfoLong","(Neutral):\nAs Agent 47, your job is to mark players to die in the meeting. Once a meeting is called, the marked players will die. If Agent 47 dies, the players will survive."
+"TrollInfoLong","(Neutral):\nThe only job for the Troll is to make the crew teleport around a bit. Troll them if you will. Venting will teleport everyone to a random vent. Shifting into someone will teleport them to a random vent."
 
 "# HideAndSeek"
 "HASFoxInfoLong","(HideAndSeek):\nThey win the game with other Roles (except Troll) only if they are alive at the game end.","(かくれんぼ):\nトロールを除くいずれかの陣営が勝利したときに生き残っていれば、勝利した陣営に追加で勝利することができる。","（躲猫猫）:\n狐狸活到最后便与获胜阵营一同获胜。","(躲貓貓):\n除了其他的中立陣營以外,只要狐妖活下來即可獲勝\n他們將跟著遊戲結束的獲勝陣營一起獲勝。","(Прятки):\nЕсли какая-либо роль, кроме Тролля побеждает и выживает, то победившая роль может одержать дополнительную победу.","(Esconde-Esconde): \nEles ganham adicionalmente com qualquer classe (exceto Troll), se estiverem vivos no final.",""
@@ -534,6 +537,9 @@
 "47MarkCooldown","Mark Cooldown"
 "VisionaryCooldown","Vision Cooldown"
 "VisionaryChance","Vision Chance"
+"TrollShiftCooldown","Shift Cooldown"
+"TrollShiftDuration","Shift Duration"
+"TrollVentCooldown","Vent Cooldown"
 
 "## Notify Messages"
 "Grappling": "You are being grappled!",

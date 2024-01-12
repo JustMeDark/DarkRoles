@@ -381,6 +381,7 @@ public enum CustomRoles
     Karen,
     Batman,
     Mare,
+    Troll,
     Penguin,
     Puppeteer,
     TimeThief,
