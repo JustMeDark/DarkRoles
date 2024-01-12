@@ -26,7 +26,8 @@ namespace DarkRoles
                 sb.Clear();
                 sb.Append(Main.credentialsText);
                 var ping = AmongUsClient.Instance.Ping;
-                sb.Append($"\r\n").Append($"<color={Main.ModColor}>Ping:</color> {ping}ms");
+                var grad = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), "Ping:");
+                sb.Append($"\r\n").Append($"{grad} {ping}ms");
 
                 if (Options.NoGameEnd.GetBool()) sb.Append($"\r\n").Append(Utils.ColorString(Color.red, GetString("NoGameEnd")));
                 if (Options.IsStandardHAS) sb.Append($"\r\n").Append(Utils.ColorString(Color.yellow, GetString("StandardHAS")));
@@ -55,7 +56,11 @@ namespace DarkRoles
             static void Postfix(VersionShower __instance)
             {
                 TMPTemplate.SetBase(__instance.text);
-                Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
+                //Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
+                var text = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
+                var grad1 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName}");
+                var grad2 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), "Made by");
+                Main.credentialsText = $"{grad1} v{Main.version}\n{grad2} sleepyfor";
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif

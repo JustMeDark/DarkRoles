@@ -1,14 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AmongUs.GameOptions;
-using DarkRoles.Modules;
 using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Crewmate;
-using UnityEngine.XR;
 
 namespace DarkRoles.Roles.Impostor
 {
