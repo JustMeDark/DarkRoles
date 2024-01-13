@@ -164,6 +164,35 @@ namespace DarkRoles
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
+         // Credit TOHE
+       /* public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0, bool forObserver = false)
+        {
+            if (target == null) target = killer;
+
+            // Host
+            if (killer.AmOwner)
+            {
+                killer.ProtectPlayer(target, colorId);
+                killer.MurderPlayer(target, ResultFlags);
+            }
+            // Other Clients
+            if (killer.PlayerId != 0)
+            {
+                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
+                sender.StartMessage(killer.GetClientId());
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
+                    .WriteNetObject(target)
+                    .Write(colorId)
+                    .EndRpc();
+                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
+                    .WriteNetObject(target)
+                    .Write((byte)MurderResultFlags.DecisionByHost)
+                    .EndRpc();
+                sender.EndMessage();
+                sender.SendMessage();
+            }
+        }*/
+
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
             if (player == null) return;
@@ -488,7 +517,8 @@ namespace DarkRoles
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
                 CustomRoles.Jackal or
-                CustomRoles.Agent47;
+                CustomRoles.Agent47 or
+                CustomRoles.Accelerator;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {

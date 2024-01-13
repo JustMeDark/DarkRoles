@@ -136,5 +136,6 @@ namespace DarkRoles
         Impostor,
         Jackal,
         Agent47,
+        Accelerator
     }
 }

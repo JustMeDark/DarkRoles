@@ -186,6 +186,8 @@ public abstract class RoleBase : IDisposable
     /// <returns>falseを返すとベントから追い出され、他人からアニメーションも見られません</returns>
     public virtual bool OnEnterVent(PlayerPhysics physics, int ventId) => true;
 
+    public virtual void IsInVent() { }
+
     /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
     /// </summary>

@@ -14,6 +14,7 @@ using DarkRoles.Roles.Core.Interfaces;
 using DarkRoles.Roles.AddOns.Crewmate;
 using DarkRoles.Roles.Crewmate;
 using DarkRoles.Roles.AddOns.Common;
+using DarkRoles.Roles.Neutral;
 
 namespace DarkRoles
 {
@@ -375,6 +376,9 @@ namespace DarkRoles
                         Magician.HasVented[player.PlayerId] = false;
                     }
 
+                if (player.Is(CustomRoles.Accelerator) && !player.inVent && Accelerator.HasVented)
+                    Accelerator.OnExitVent(player);
+
                 DoubleTrigger.OnFixedUpdate(player);
 
                 //ターゲットのリセット
@@ -575,6 +579,8 @@ namespace DarkRoles
     {
         public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
         {
+
+            pc.GetRoleClass()?.IsInVent();
             switch (pc.GetCustomRole())
             {
                 case CustomRoles.Magician:

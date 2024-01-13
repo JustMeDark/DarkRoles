@@ -419,6 +419,7 @@ public enum CustomRoles
     Egoist,
     Jester,
     Agent47,
+    Accelerator,
     Opportunist,
     PlagueDoctor,
     SchrodingerCat,
