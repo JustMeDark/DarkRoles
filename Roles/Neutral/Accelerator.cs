@@ -67,13 +67,6 @@ namespace DarkRoles.Roles.Neutral
             return;
         }
 
-        /* public override bool OnEnterVent(PlayerPhysics physics, int ventId)
-         {
-             if (!HasVented)
-                 HasVented = true;
-             return true;
-         }*/
-
         public override void IsInVent()
         {
             if (!HasVented)

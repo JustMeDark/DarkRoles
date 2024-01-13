@@ -123,6 +123,7 @@ namespace DarkRoles
                         CustomRoles.Egoist => GetString("TeamEgoist"),
                         CustomRoles.Jackal => GetString("TeamJackal"),
                         CustomRoles.Agent47 => GetString("47"),
+                        CustomRoles.Accelerator => GetString("TeamAccelerator"),
                         _ => GetString("NeutralInfo"),
                     };
                     __instance.BackgroundBar.material.color = Utils.GetRoleColor(role);
