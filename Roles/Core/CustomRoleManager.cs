@@ -437,6 +437,7 @@ public enum CustomRoles
     Watcher,
     Flash,
     Torch,
+    Wise,
     Sloth,
     Workhorse,
 }

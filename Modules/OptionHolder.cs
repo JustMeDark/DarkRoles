@@ -427,6 +427,7 @@ namespace DarkRoles
             Sloth.SetupCustomOption();
             Flash.SetupCustomOption();
             Torch.SetupCustomOption();
+            Wise.SetupCustomOption();
             Workhorse.SetupCustomOption();
             #endregion
 

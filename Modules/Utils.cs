@@ -524,6 +524,9 @@ namespace DarkRoles
                         case CustomRoles.Torch:
                             sb.Append(ColorString(GetRoleColor(CustomRoles.Torch), "(Torch)"));
                             break;
+                        case CustomRoles.Wise:
+                            sb.Append(ColorString(GetRoleColor(CustomRoles.Wise), Wise.Mark));
+                            break;
                     }
                 }
             }

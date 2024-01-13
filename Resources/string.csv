@@ -95,6 +95,7 @@
 "Flash","Flash"
 "Sloth","Sloth"
 "Torch","Torch"
+"Wise","Wise"
 
 "# その他"
 "Team","Team","陣営","","","","",""
@@ -192,6 +193,7 @@
 "FlashInfo","Vrooooom"
 "SlothInfo","Slow boi"
 "TorchInfo","See in the dark"
+"WiseInfo","Roles are your clue"
 
 "## 役職説明ロング"
 
@@ -268,6 +270,7 @@
 "FlashInfoLong","(Add-ons):\nYoure super fast"
 "SlothInfoLong","(Add-ons):\nYoure slower than the other crewmates because youre a sloth."
 "TorchInfoLong","(Add-ons):\nYou have impostor vision to see in the dark."
+"WiseInfoLong","(Add-ons):\nThe Wise will find one random persons role each meeting, but wont know whose role they just concovered."
 
 "# ヘルプ"
 "Basis","Basis","判定","","","","",""

@@ -12,6 +12,7 @@ using UnityEngine;
 
 using DarkRoles.Attributes;
 using DarkRoles.Roles.Core;
+using DarkRoles.Roles.AddOns.Common;
 
 [assembly: AssemblyFileVersionAttribute(DarkRoles.Main.PluginVersion)]
 [assembly: AssemblyInformationalVersionAttribute(DarkRoles.Main.PluginVersion)]
@@ -189,6 +190,7 @@ namespace DarkRoles
                     {CustomRoles.Flash, "#fabf78"},
                     {CustomRoles.Sloth, "#658a94"},
                     {CustomRoles.Torch, "#f2f7a3"},
+                    {CustomRoles.Wise, Wise.Colour},
                     {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}

@@ -13,6 +13,7 @@ using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Core.Interfaces;
 using DarkRoles.Roles.AddOns.Crewmate;
 using DarkRoles.Roles.Crewmate;
+using DarkRoles.Roles.AddOns.Common;
 
 namespace DarkRoles
 {

@@ -11,6 +11,7 @@ using DarkRoles.Roles.Core;
 using DarkRoles.Roles.Neutral;
 using DarkRoles.Roles.Core.Interfaces;
 using static DarkRoles.Translator;
+using DarkRoles.Roles.AddOns.Common;
 
 namespace DarkRoles;
 
@@ -88,8 +89,11 @@ public static class MeetingHudPatch
                     roleTextMeeting.text = suffixBuilder.ToString();
                     roleTextMeeting.enabled = true;
                 }
+                if(pc.Is(CustomRoles.Wise))
+                Wise.OnFirstMeeting(pc);
             }
             CustomRoleManager.AllActiveRoles.Values.Do(role => role.OnStartMeeting());
+
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
