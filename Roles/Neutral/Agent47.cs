@@ -12,9 +12,9 @@ namespace DarkRoles.Roles.Neutral
 {
     public sealed class Agent47 : RoleBase, IKiller
     {
-        private static List<PlayerControl> MarkedPlayers = [];
+        private static Dictionary<byte, bool> MarkedPlayers = [];
         private static OptionItem OptionMarkCooldown;
-        private static int Marked = 0; //we dont need a dictionary because theres only 1 47 (yes moe i know youd comment on that)
+        private static int Marked;
 
         public static readonly SimpleRoleInfo RoleInfo =
             SimpleRoleInfo.Create(
@@ -33,7 +33,12 @@ namespace DarkRoles.Roles.Neutral
 
         public Agent47(PlayerControl player) : base(RoleInfo, player, () => HasTask.False) => MarkedPlayers.Clear();
 
-        public override void Add() => Marked = MarkedPlayers.Count;
+        public override void Add()
+        {
+            foreach (var ar in Main.AllPlayerControls)
+                MarkedPlayers.Add(ar.PlayerId, false);
+            Marked = 0;
+        }
         private static void SetupOptionItem() => OptionMarkCooldown = FloatOptionItem.Create(RoleInfo, 10, "47MarkCooldown", new(2.5f, 180f, 2.5f), 25f, false).SetValueFormat(OptionFormat.Seconds);
         public float CalculateKillCooldown() => OptionMarkCooldown.GetFloat();
         public bool CanUseSabotageButton() => false;
@@ -56,9 +61,9 @@ namespace DarkRoles.Roles.Neutral
         {
             var (killer, target) = info.AttemptTuple;
             killer.SetKillCooldown(OptionMarkCooldown.GetFloat());
-            if (!MarkedPlayers.Contains(target) && target != null)
+            if (MarkedPlayers[target.PlayerId] == false && target is not null)
             {
-                MarkedPlayers.Add(target);
+                MarkedPlayers[target.PlayerId] = true;
                 Marked++;
                 SendRPC();
             }
@@ -68,18 +73,19 @@ namespace DarkRoles.Roles.Neutral
 
         public override void OnStartMeeting()
         {
-            foreach (var pc in MarkedPlayers)
-                if (pc != null && pc.PlayerId != Player.PlayerId)
-                {
-                    pc.SetRealKiller(Player);
-                    pc.RpcMurderPlayer(pc);
-                    var state = PlayerState.GetByPlayerId(pc.PlayerId);
-                    state.DeathReason = CustomDeathReason.Hit;
-                    state.SetDead();
-                    MarkedPlayers.Clear();
-                    Marked = 0;
-                    SendRPC();
-                }
+            foreach (var pc in Main.AllAlivePlayerControls)
+                if (pc.PlayerId != Player.PlayerId)
+                    if (MarkedPlayers.TryGetValue(pc.PlayerId, out var isMarked) && isMarked)
+                    {
+                        pc.SetRealKiller(Player);
+                        pc.RpcMurderPlayer(pc);
+                        var state = PlayerState.GetByPlayerId(pc.PlayerId);
+                        state.DeathReason = CustomDeathReason.Hit;
+                        state.SetDead();
+                        MarkedPlayers.Clear();
+                        Marked = MarkedPlayers.Count;
+                        SendRPC();
+                    }
             return;
         }
 

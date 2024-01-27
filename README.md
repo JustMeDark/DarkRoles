@@ -37,6 +37,7 @@ Innersloth LLC. © Innersloth LLC.
  - /r command
  - Gradients
  - /colour command
+ - /xf command
 </pre>
 
 

@@ -68,7 +68,6 @@ namespace DarkRoles
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
-            if (Main.ForceJapanese.Value) langId = SupportedLangs.Japanese;
             string str = GetString(s, langId);
             if (replacementDic != null)
                 foreach (var rd in replacementDic)
@@ -113,9 +112,7 @@ namespace DarkRoles
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
             var lang = CurrentLanguage;
-            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
-                lang = SupportedLangs.Japanese;
-            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
+            if (CurrentLanguage == SupportedLangs.Japanese)
                 lang = SupportedLangs.English;
 
             return GetString(str, lang);

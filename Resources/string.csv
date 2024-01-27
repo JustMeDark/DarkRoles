@@ -552,6 +552,8 @@
 "## Notify Messages"
 "Grappling": "You are being grappled!",
 "GrapplingFailed": "Couldnt grapple player!",
+"XFCantUseInLobby","Cant use this command in lobby!"
+"XFTryFixName","An attempt has been made to fix the chat!"
 
 "## ランダムスポーンポイント"
 "Junction","Junction","三叉路","","","","",""
@@ -617,6 +619,7 @@
 "Cancel","Cancel","キャンセル","取消","","Отменить","Cancelar",""
 "Unload","DISABLE","無効化","确认","","ОТКЛЮЧИТЬ","DESATIVAR",""
 "DumpLog","Output Log","ログを出力","输出日志","","Вывести Журнал","Log de Saída",""
+"SpotifyIntegration","Spotify Integration \n(Beta)"
 
 "## ヘルプテキスト"
 "CommandList","Command List:","コマンド一覧:","指令列表:","指令列表:","Список команд:","Lista de Comandos:",""

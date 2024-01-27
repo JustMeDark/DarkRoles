@@ -99,6 +99,22 @@ namespace DarkRoles
                         canceled = true;
                         Utils.ShowKillLog();
                         break;
+                    case "/xf": //Credit TOHE
+                        canceled = true;
+                        if (GameStates.IsLobby)
+                        {
+                            Utils.SendMessage(GetString("XFCantUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
+                            break;
+                        }
+                        foreach (var pc in Main.AllPlayerControls)
+                        {
+                            if (pc.IsAlive()) continue;
+
+                            pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                        }
+                        ChatUpdatePatch.DoBlockChat = false;
+                        Utils.SendMessage(GetString("XFTryFixName"), PlayerControl.LocalPlayer.PlayerId);
+                        break;
                     case "/r":
                     case "/role":
                         canceled = true;
@@ -485,7 +501,20 @@ namespace DarkRoles
                         }
                     }
                     break;
-
+                case "/xf": //CREDIT TOHE
+                    if (GameStates.IsLobby)
+                    {
+                        Utils.SendMessage(GetString("XFCantUseInLobby"), player.PlayerId);
+                        break;
+                    }
+                    foreach (var pc in Main.AllPlayerControls)
+                    {
+                        if (pc.IsAlive()) continue;
+                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
+                    }
+                    ChatUpdatePatch.DoBlockChat = false;
+                    Utils.SendMessage(GetString("XFTryFixName"), player.PlayerId);
+                    break;
                 case "/t":
                 case "/template":
                     if (args.Length > 1) TemplateManager.SendTemplate(args[1], player.PlayerId);
