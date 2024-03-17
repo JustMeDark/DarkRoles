@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -17,7 +17,7 @@
   </ItemGroup>
     
   <ItemGroup>
-    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2023.11.28" />
+    <PackageReference Include="AmongUs.GameLibs.Steam" Version="2024.3.5" />
     <PackageReference Include="BepInEx.IL2CPP.MSBuild" Version="2.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

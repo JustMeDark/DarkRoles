@@ -210,7 +210,7 @@ namespace DarkRoles
                 Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
                 AURoleOptions.ShapeshifterCooldown = 0f;
 
-                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt));
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt, false));
 
                 __instance.ReallyBegin(false);
                 return false;
@@ -249,7 +249,7 @@ namespace DarkRoles
                 if (GameStates.IsCountDown)
                 {
                     Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions));
+                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions, false));
                 }
             }
         }

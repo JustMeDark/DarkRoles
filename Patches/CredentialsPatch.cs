@@ -57,10 +57,10 @@ namespace DarkRoles
             {
                 TMPTemplate.SetBase(__instance.text);
                 //Main.credentialsText = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
-                var text = $"<color={Main.ModColor}>{Main.ModName}</color> v{Main.PluginVersion}\n<color={Main.ModColor}>By</color> sleepyfor";
+                var text = $"<color={Main.ModColor}>{Main.ModName}</color> Public Beta\n<color={Main.ModColor}>By</color> sleepyfor";
                 var grad1 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName}");
                 var grad2 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), "Made by");
-                Main.credentialsText = $"{grad1} v{Main.version}\n{grad2} sleepyfor";
+                Main.credentialsText = $"{grad1} v{Main.PluginVersion}\n{grad2} sleepyfor";
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif

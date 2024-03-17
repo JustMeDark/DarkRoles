@@ -25,7 +25,7 @@ namespace DarkRoles
     {
         // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string ModName = "Dark Roles Reloaded";
+        public static readonly string ModName = "Dark Roles";
         // modの色 / Mod Color (Default: #00bfff)
         public static readonly string ModColor = "#C092C0";
         // 公開ルームを許可する / Allow Public Room (Default: true)
@@ -53,7 +53,7 @@ namespace DarkRoles
         public const string PluginGuid = "com.emptybottle.townofhost";
         public const string PluginVersion = "1.0.0";
         // サポートされている最低のAmongUsバージョン
-        public static readonly string LowestSupportedVersion = "2023.10.24";
+        public static readonly string LowestSupportedVersion = "2024.3.5";
         // このバージョンのみで公開ルームを無効にする場合
         public static readonly bool IsPublicAvailableOnThisVersion = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
