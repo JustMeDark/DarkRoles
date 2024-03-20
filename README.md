@@ -5,9 +5,11 @@
 <p align="right">
   <pre>
 
- ## This branch is for 
- cleaning up the mod 
- before its may/june release
+ ## notice 
+ This branch is for cleaning
+ up the mod before its 
+ may/june release
+ 
  ## Regarding this mod
 
 This mod is not affiliated with Among Us or Innersloth LLC, 
