@@ -27,7 +27,7 @@ namespace DarkRoles
         // modの名前 / Mod Name (Default: Town Of Host)
         public static readonly string ModName = "Dark Roles";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#C092C0";
+        public static readonly string ModColor = "#c5a0ef";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
