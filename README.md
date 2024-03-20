@@ -1,10 +1,11 @@
-<h1 align="center">$\mathbb{\color{#C092C0}{Dark \ Roles } \ {Reloaded }}$</h1>
+<h1 align="center">$\mathbb{\color{#C092C0}{Dark \ Roles } \ {}}$</h1>
 
 <img align="left" alt="Cover" src="Resources/TempImage.png" width="470" height="470" /> 
   
 <p align="right">
   <pre>
-    
+
+ ## This branch is for cleaning up the mod before its may/june release
  ## Regarding this mod
 
 This mod is not affiliated with Among Us or Innersloth LLC, 
