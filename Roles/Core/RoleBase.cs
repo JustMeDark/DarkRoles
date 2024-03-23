@@ -203,6 +203,8 @@ public abstract class RoleBase : IDisposable
     /// <returns>falseを返すと投票自体がなかったことになり，投票者自身以外には投票したことがバレません</returns>
     public virtual bool CheckVoteAsVoter(PlayerControl votedFor) => true;
 
+    public virtual void CheckVoteAsVoter(PlayerControl votedFor, PlayerControl voter) { }
+
     /// <summary>
     /// 誰かが投票した瞬間に呼ばれ，票を書き換えることができる<br/>
     /// 投票行動自体をなかったことにしたい場合は<see cref="CheckVoteAsVoter"/>を使用する
