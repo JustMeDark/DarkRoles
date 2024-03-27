@@ -941,7 +941,7 @@ namespace DarkRoles
                 + $"\n/winner - {GetString("Command.winner")}"
                 + $"\n/lastresult - {GetString("Command.lastresult")}"
                 + $"\n/rename - {GetString("Command.rename")}"
-                + $"\n/now - {GetString("Command.now")}"
+                + $"\n/perc - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
                 + $"\n/h roles {GetString("Command.h_roles")}"
                 + $"\n/h addons {GetString("Command.h_addons")}"

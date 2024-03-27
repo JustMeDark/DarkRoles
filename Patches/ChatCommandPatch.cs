@@ -125,6 +125,10 @@ namespace DarkRoles
                         canceled = true;
                         Utils.ShowActiveRoles();
                         break;
+                    case "/pool":
+                        canceled = true;
+                        Utils.SendMessage("An Indoor Pool, brought to you by Glitzy!");
+                        break;
                     case "/settings":
                         canceled = true;
                         Utils.ShowActiveSettings();
@@ -451,6 +455,9 @@ namespace DarkRoles
                     break;
                 case "/perc":
                     Utils.ShowActiveRoles();
+                    break;
+                case "/pool":
+                    Utils.SendMessage("An Indoor Pool, brought to you by Glitzy!", player.PlayerId);
                     break;
                 case "/settings":
                     Utils.ShowActiveSettings(player.PlayerId);

@@ -360,14 +360,14 @@ namespace DarkRoles
             {
                 if (!pc.AmOwner)
                 {
-                    var temp = DataManager.player.Customization.Name;
-                    string uname = DataManager.player.Customization.Name;
+                    var temp = pc.name;
+                    string uname = pc.name;
                     var customtag = "";
                     CustomTags.ReadTags(pc.FriendCode);
                     var tag = $"{CustomTags.Tag[pc.FriendCode]}";
                     var color1 = CustomTags.color1[pc.FriendCode];
                     var color2 = CustomTags.color2[pc.FriendCode];
-                    customtag = $"{Utils.GradientColorText(color1, color2, tag)}\n{temp}";
+                    customtag = $"{Utils.GradientColorText(color1, color2, tag)}\n{temp}\n";
                     uname = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? uname : $"{customtag}";
                     pc.RpcSetName(uname);
                 }
