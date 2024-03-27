@@ -22,6 +22,7 @@ using DarkRoles.Roles.AddOns.Impostor;
 using DarkRoles.Roles.AddOns.Crewmate;
 using static DarkRoles.Translator;
 using Hazel;
+using DarkRoles.Modules.Customs;
 
 namespace DarkRoles
 {
@@ -955,15 +956,38 @@ namespace DarkRoles
             Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
 
-        public static void ApplySuffix()
+        public static void ApplySuffix(PlayerControl player)
         {
-            if (!AmongUsClient.Instance.AmHost) return;
             var temp = DataManager.player.Customization.Name;
-            var name = DataManager.player.Customization.Name;
-            if (Main.nickName != "") temp = Main.nickName;
-            var host = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
-            name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : $"{host}\n{GetSuffix()}";
-            if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+            string name = DataManager.player.Customization.Name;
+            var customtag = "";
+
+            if (AmongUsClient.Instance.AmHost)
+            {
+                if (Main.nickName != "") temp = Main.nickName;
+                customtag = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
+                name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : $"{customtag}\n{GetSuffix()}";
+                if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+            }else {
+
+               
+            }
+
+           /* switch (AmongUsClient.Instance.AmHost)
+            {
+                case true:
+                  
+                    break;
+                case false:
+                    CustomTags.ReadTags(player.FriendCode);
+                    var tag = CustomTags.ReadTags(player.FriendCode) ? $"{CustomTags.Tag[player.FriendCode]}\n" : "";
+                    //var custom = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
+                    customtag = $"{tag}fsdfsdf{temp}";
+                    name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? name : $"{customtag}";
+                    player.RpcSetName(name);
+                    break;
+            }*/
+            
         }
 
         public static string GetSuffix()
@@ -1050,7 +1074,7 @@ namespace DarkRoles
 
         private static Color HexToColor(string hex)
         {
-            Color color = new Color();
+            Color color = new();
             ColorUtility.TryParseHtmlString("#" + hex, out color);
             return color;
         }

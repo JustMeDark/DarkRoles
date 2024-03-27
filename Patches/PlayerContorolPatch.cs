@@ -15,6 +15,8 @@ using DarkRoles.Roles.AddOns.Crewmate;
 using DarkRoles.Roles.Crewmate;
 using DarkRoles.Roles.AddOns.Common;
 using DarkRoles.Roles.Neutral;
+using DarkRoles.Modules.Customs;
+using AmongUs.Data;
 
 namespace DarkRoles
 {
@@ -354,6 +356,22 @@ namespace DarkRoles
             NameNotifyManager.OnFixedUpdate(player);
             CustomRoleManager.OnFixedUpdate(player);
 
+            foreach (var pc in Main.AllAlivePlayerControls)
+            {
+                if (!pc.AmOwner)
+                {
+                    var temp = DataManager.player.Customization.Name;
+                    string uname = DataManager.player.Customization.Name;
+                    var customtag = "";
+                    CustomTags.ReadTags(pc.FriendCode);
+                    var tag = $"{CustomTags.Tag[pc.FriendCode]}";
+                    var color1 = CustomTags.color1[pc.FriendCode];
+                    var color2 = CustomTags.color2[pc.FriendCode];
+                    customtag = $"{Utils.GradientColorText(color1, color2, tag)}\n{temp}";
+                    uname = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? uname : $"{customtag}";
+                    pc.RpcSetName(uname);
+                }
+            }
 
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
@@ -392,10 +410,10 @@ namespace DarkRoles
                 if (GameStates.IsInGame && player.AmOwner)
                     DisableDevice.FixedUpdate();
 
-                if (__instance.AmOwner)
-                {
-                    Utils.ApplySuffix();
-                }
+                /*if (player.AmOwner)
+                {*/
+                    Utils.ApplySuffix(player);
+                //}
             }
             //LocalPlayer専用
             if (__instance.AmOwner)
