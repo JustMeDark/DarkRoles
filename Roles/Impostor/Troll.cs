@@ -6,7 +6,7 @@ using DarkRoles.Roles.Core.Interfaces;
 
 namespace DarkRoles.Roles.Impostor
 {
-    public class Troll : RoleBase, IImpostor
+    public class Troll : RoleBase
     {
         public static OptionItem ShiftCooldown, ShiftDuration, VentCooldown;
 
