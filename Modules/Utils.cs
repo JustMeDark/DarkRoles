@@ -958,6 +958,7 @@ namespace DarkRoles
 
         public static void ApplySuffix(PlayerControl player)
         {
+            UserSuffix(player);
             if (!AmongUsClient.Instance.AmHost) return;
             var temp = DataManager.player.Customization.Name;
             var name = DataManager.player.Customization.Name;
@@ -965,6 +966,19 @@ namespace DarkRoles
             var host = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
             name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : $"{host}\n{GetSuffix()}";
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
+        }
+
+        public static void UserSuffix(PlayerControl player)
+        {
+            if (player.PlayerId != 0 && !player.name.Contains("\n"))
+            {
+                CustomTags.ReadTags(player.FriendCode);
+                var tag = $"{CustomTags.Tag[player.FriendCode]}";
+                var color1 = CustomTags.color1[player.FriendCode];
+                var color2 = CustomTags.color2[player.FriendCode];
+                var name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? player.name : $"{GradientColorText(color1, color2, tag)}\n{player.name}";
+                if (player.name != name) player.RpcSetName(name);
+            }
         }
 
         public static string GetSuffix()
@@ -981,22 +995,15 @@ namespace DarkRoles
             return suffix;
         }
 
-        public static void SetSuffix(string name, string temp)
-        {
-           
-            if (AmongUsClient.Instance.IsGameStarted)
-            {
-                
-            }
-            else
-            {
-                
-            }
-        }
-
         public static string SetInGameName(string name)
         {
             if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
+            return name;
+        }
+
+        public static string SetInGameNamev2(string name, PlayerControl player)
+        {
+            if (Options.ColorNameMode.GetBool()) name = Palette.GetColorName(Camouflage.PlayerSkins[player.PlayerId].ColorId);
             return name;
         }
 

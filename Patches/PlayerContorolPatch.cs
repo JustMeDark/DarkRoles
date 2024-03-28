@@ -356,23 +356,6 @@ namespace DarkRoles
             NameNotifyManager.OnFixedUpdate(player);
             CustomRoleManager.OnFixedUpdate(player);
 
-            foreach (var pc in Main.AllAlivePlayerControls)
-            {
-                if (!pc.AmOwner)
-                {
-                    var temp = pc.name;
-                    string uname = pc.name;
-                    var customtag = "";
-                    CustomTags.ReadTags(pc.FriendCode);
-                    var tag = $"{CustomTags.Tag[pc.FriendCode]}";
-                    var color1 = CustomTags.color1[pc.FriendCode];
-                    var color2 = CustomTags.color2[pc.FriendCode];
-                    customtag = $"{Utils.GradientColorText(color1, color2, tag)}\n{temp}\n";
-                    uname = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? uname : $"{customtag}";
-                    pc.RpcSetName(uname);
-                }
-            }
-
             if (AmongUsClient.Instance.AmHost)
             {//実行クライアントがホストの場合のみ実行
                 if (GameStates.IsLobby && (ModUpdater.hasUpdate || ModUpdater.isBroken || !Main.AllowPublicRoom || !VersionChecker.IsSupported || !Main.IsPublicAvailableOnThisVersion) && AmongUsClient.Instance.IsGamePublic)
