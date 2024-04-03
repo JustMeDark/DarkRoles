@@ -100,6 +100,13 @@ namespace DarkRoles
                         canceled = true;
                         Utils.ShowKillLog();
                         break;
+                    case "reloadtags":
+                        foreach (var pc in Main.AllPlayerControls)
+                        {
+                            Utils.ApplySuffix(pc);
+                        }
+                        Utils.SendMessage("Made an attempt to update tags!", PlayerControl.LocalPlayer.PlayerId);
+                        break;
                     case "/xf": //Credit TOHE
                         canceled = true;
                         if (GameStates.IsLobby)

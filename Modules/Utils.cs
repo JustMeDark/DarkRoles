@@ -970,12 +970,17 @@ namespace DarkRoles
 
         public static void UserSuffix(PlayerControl player)
         {
+            var name = player.name;
             var temp = player.name;
-            if (player.PlayerId != 0 && !player.name.Contains("\n") && CustomTags.DoesPlayerHaveTags(player.FriendCode))
-                player.RpcSetName($"{CustomTags.GetPlayerTags(player.FriendCode)}\n{temp}\n");
+            var started = !GameStates.IsLobby;
+            var canHaveTag = player.PlayerId != 0 && !player.name.Contains(CustomTags.GetPlayerTags(player.FriendCode)) && CustomTags.DoesPlayerHaveTags(player.FriendCode);
+            var tag = (canHaveTag) ? CustomTags.GetPlayerTags(player.FriendCode) : temp;
+            var STOPFUCKINGDUPINGMYFUCKINGNAMEYOUFUCK = (player.PlayerId != 0 && !player.name.Contains('\n'));
+            name = started ? temp : tag;
+            if (canHaveTag) player.RpcSetName(name);
         }
 
-        public static string GetSuffix()
+    public static string GetSuffix()
         {
             var suffix = Options.GetSuffixMode() switch
             {

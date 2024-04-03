@@ -53,8 +53,6 @@ namespace DarkRoles
             {
                 Logger.Info("Reload Custom Translation File", "KeyCommand");
                 Translator.LoadLangs();
-                foreach (var pc in Main.AllAlivePlayerControls)
-                    CustomTags.DoesPlayerHaveTags(pc.FriendCode);
                 Logger.SendInGame("Reloaded Custom Translation File");
             }
             if (GetKeysDown(KeyCode.F5, KeyCode.X))

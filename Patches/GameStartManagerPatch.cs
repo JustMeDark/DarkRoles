@@ -188,7 +188,7 @@ namespace DarkRoles
             public static bool Prefix(GameStartManager __instance)
             {
                 SelectRandomMap();
-
+                Main.GameIsStarted = true;
                 var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
                 if (invalidColor.Any())
                 {

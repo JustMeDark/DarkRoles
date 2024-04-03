@@ -21,6 +21,7 @@ namespace DarkRoles
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            Main.GameIsStarted = false;
             GameStates.InGame = false;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");

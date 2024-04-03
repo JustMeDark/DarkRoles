@@ -4,6 +4,7 @@ using DarkRoles.Modules.Customs.Json;
 namespace DarkRoles.Modules.Customs;
 public static class CustomTags
 {
+    public static string tagReload;
     public static void CreateDirectory(string path) => Directory.CreateDirectory(path);
 
     public static bool DoesPlayerHaveTags(string name)
@@ -17,5 +18,11 @@ public static class CustomTags
     {
         var path = @"./Dark Roles Data/Custom Tags/Tags.json";
         return Utils.GradientColorText(JsonReader.ReadExternalMultiLineJson(path, name, "color1"), JsonReader.ReadExternalMultiLineJson(path, name, "color2"), JsonReader.ReadExternalMultiLineJson(path, name, "tag"));
+    }
+
+    public static void SetPlayerTag(string name)
+    {
+        var path = @"./Dark Roles Data/Custom Tags/Tags.json";
+        tagReload = Utils.GradientColorText(JsonReader.ReadExternalMultiLineJson(path, name, "color1"), JsonReader.ReadExternalMultiLineJson(path, name, "color2"), JsonReader.ReadExternalMultiLineJson(path, name, "tag"));
     }
 }

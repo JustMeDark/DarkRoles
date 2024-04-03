@@ -115,6 +115,7 @@ namespace DarkRoles
         public static float DefaultCrewmateVision;
         public static bool IsLavaScreen = false;
         public static bool CancelChat = false;
+        public static bool GameIsStarted = false;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
         public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
