@@ -48,13 +48,13 @@ namespace DarkRoles
             }
 
             bool DecidedWinner = false;
-            if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
+            if (!AmongUsClient.Instance.AmHost) return; //No further processing will be performed except for the host (Translation by DeepL)
             AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
-                //霊界用暗転バグ対処
+                //Deal with the darkening bug for the spirit world (Translation by DeepL)
                 if (!AntiBlackout.OverrideExiledPlayer && info?.IsDesyncImpostor == true)
                     exiled.Object?.ResetPlayerCam(1f);
 

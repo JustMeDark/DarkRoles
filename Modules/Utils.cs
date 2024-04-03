@@ -970,15 +970,9 @@ namespace DarkRoles
 
         public static void UserSuffix(PlayerControl player)
         {
-            if (player.PlayerId != 0 && !player.name.Contains("\n"))
-            {
-                CustomTags.ReadTags(player.FriendCode);
-                var tag = $"{CustomTags.Tag[player.FriendCode]}";
-                var color1 = CustomTags.color1[player.FriendCode];
-                var color2 = CustomTags.color2[player.FriendCode];
-                var name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? player.name : $"{GradientColorText(color1, color2, tag)}\n{player.name}";
-                if (player.name != name) player.RpcSetName(name);
-            }
+            var temp = player.name;
+            if (player.PlayerId != 0 && !player.name.Contains("\n") && CustomTags.DoesPlayerHaveTags(player.FriendCode))
+                player.RpcSetName($"{CustomTags.GetPlayerTags(player.FriendCode)}\n{temp}\n");
         }
 
         public static string GetSuffix()

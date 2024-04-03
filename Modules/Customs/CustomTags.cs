@@ -1,46 +1,21 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DarkRoles.Modules.Customs.Json;
 
 namespace DarkRoles.Modules.Customs;
 public static class CustomTags
 {
-    public static string Dir = @"./Dark Roles Data/Custom Tags";
-    public static string Tags = @"./Dark Roles Data/Custom Tags/Tags.txt";
-    public static Dictionary<string, string> Tag = [];
-    public static Dictionary<string, string> color1 = [], color2 = [];
     public static void CreateDirectory(string path) => Directory.CreateDirectory(path);
-    public static void FileCheck(string path)
+
+    public static bool DoesPlayerHaveTags(string name)
     {
-        switch (Directory.Exists(path))
-        {
-            case true:
-                if (!File.Exists(path))
-                    File.Create(path);
-                break;
-            case false:
-                CreateDirectory(Dir);
-                break;
-        }
+        var hasTags = false;
+        hasTags = JsonReader.ReadExternalJson(@"./Dark Roles Data/Custom Tags/Tags.json", name) is not null;
+        return hasTags;
     }
 
-    public static bool ReadTags(string name)
+    public static string GetPlayerTags(string name)
     {
-        if (name is "") return false;
-        FileCheck(Tags);
-        var players = File.ReadAllLines(Tags);
-        if (players.Any(tag => tag.Contains(name)))
-        {
-            using StreamReader reader = new(Tags);
-            string[] split = reader.ReadToEnd().Split(":");
-            Tag[split[0]] = split[1];
-            color1[split[0]] = split[2];
-            color2[split[0]] = split[3];
-            return true;
-        }
-        return false;
+        var path = @"./Dark Roles Data/Custom Tags/Tags.json";
+        return Utils.GradientColorText(JsonReader.ReadExternalMultiLineJson(path, name, "color1"), JsonReader.ReadExternalMultiLineJson(path, name, "color2"), JsonReader.ReadExternalMultiLineJson(path, name, "tag"));
     }
 }

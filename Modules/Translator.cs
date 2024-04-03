@@ -7,6 +7,9 @@ using Csv;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using DarkRoles.Attributes;
+using System.Reflection;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace DarkRoles
 {
@@ -106,6 +109,23 @@ namespace DarkRoles
             }
             return res;
         }
+
+        public static string TestGetString(string str)
+        {
+            /*var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var stream = assembly.GetManifestResourceStream("DarkRoles.Resources.strings.json");
+            while */
+            /* using (Stream stream = assembly.GetManifestResourceStream("DarkRoles.Resources.strings.json"))
+             using (StreamReader reader = new StreamReader(stream)) ;*/
+            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DarkRoles.Resources.strings.json");
+            using System.IO.StreamReader reader = new(stream) ;
+            var strings = reader.ReadToEnd();
+            var obj = JObject.Parse(strings);
+            var data = (JObject)JsonConvert.DeserializeObject<string>(strings);
+
+            return (string)obj[str];
+        }
+
         public static string GetString(StringNames stringName)
             => DestroyableSingleton<TranslationController>.Instance.GetString(stringName, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
         public static string GetRoleString(string str)
