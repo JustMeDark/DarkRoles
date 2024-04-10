@@ -127,7 +127,7 @@ namespace DarkRoles
                     case "/role":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
-                        SendRolesInfo(subArgs, 255);
+                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, SendRolesInfoV2(subArgs, 255));
                         break;
                     case "/perc":
                         canceled = true;
@@ -430,6 +430,54 @@ namespace DarkRoles
             return;
         }
 
+        public static string SendRolesInfoV2(string role, byte playerId)
+        {
+            role = role.Trim().ToLower();
+            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
+            if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
+            if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
+
+            if (role == "" || role == string.Empty)
+            {
+                Utils.ShowActiveRoles(playerId);
+            }
+
+            role = role.ToLower().Trim().Replace(" ", string.Empty);
+
+            foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
+            {
+                if (rl.IsVanilla()) continue;
+                var roleName = GetString(rl.ToString());
+                if (role == roleName.ToLower().Trim().TrimStart('*').Replace(" ", string.Empty))
+                {
+                    var hasTag = Options.GetSuffixMode() != SuffixModes.None;
+                    var sb = new StringBuilder(256);
+                    if (hasTag && playerId == 0)
+                        sb.AppendFormat("<size={0}>\n\n", "50%");
+                    sb.AppendFormat("<size={0}><color={1}>{2}</color></size>\n", "130%", Utils.GetRoleColorCode(rl), GetString($"{rl}"));
+                    sb.AppendFormat("<size={0}>\n", "20%");
+                    sb.AppendFormat("<size={0}>{1}\n", "65%", GetString($"{rl}InfoLong"));
+                    sb.AppendFormat("<size={0}>\n", "30%");
+                    sb.AppendFormat("<size={0}>{1}\n", "90%", "Team");
+                    sb.AppendFormat("<size={0}>{1}\n", "65%", rl.GetRoleInfo().CountType);
+                    sb.AppendFormat("<size={0}>\n", "30%");
+                    sb.AppendFormat("<size={0}>{1}\n", "90%", "Base");
+                    sb.AppendFormat("<size={0}>{1}\n", "65%", rl.GetRoleInfo().BaseRoleType.Invoke());
+                    if (!hasTag && playerId == 0)
+                    {
+                        sb.AppendFormat("<size={0}>\n", "20%");
+                        sb.AppendFormat("<size={0}>\n\n", "80%");
+                    }
+                    if (Options.CustomRoleSpawnChances.ContainsKey(rl))
+                    {
+                        var txt = sb.ToString();
+                    }
+                    return sb.ToString();
+                }
+            }
+            return "Error: An unknown error has occured!";
+        }
+
         private static void ConcatCommands(CustomRoleTypes roleType)
         {
             var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
@@ -463,7 +511,7 @@ namespace DarkRoles
                 case "/r":
                 case "/role":
                     subArgs = args.Length < 2 ? "" : args[1];
-                    SendRolesInfo(subArgs, player.PlayerId);
+                    Utils.SendMessage(SendRolesInfoV2(subArgs, player.PlayerId), player.PlayerId, removeTags: false);
                     break;
                 case "/perc":
                     Utils.ShowActiveRoles();

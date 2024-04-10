@@ -68,8 +68,6 @@ namespace DarkRoles
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
-        public static ConfigEntry<bool> ForceJapanese { get; private set; }
-        public static ConfigEntry<bool> SpotifyIntegration { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
         public static ConfigEntry<bool> ShowResults { get; private set; }
@@ -133,9 +131,6 @@ namespace DarkRoles
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
-            //ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
-            SpotifyIntegration = Config.Bind("Client Options", "Spotify Integration", false);
-            //JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
             ShowResults = Config.Bind("Result", "Show Results", true);
 

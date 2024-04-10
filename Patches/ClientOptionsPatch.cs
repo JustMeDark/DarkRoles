@@ -7,9 +7,6 @@ namespace DarkRoles
     [HarmonyPatch(typeof(OptionsMenuBehaviour), nameof(OptionsMenuBehaviour.Start))]
     public static class OptionsMenuBehaviourStartPatch
     {
-        //private static ClientActionItem ForceJapanese;
-        //private static ClientActionItem JapaneseRoleName;
-        private static ClientActionItem SpotifyIntegration;
         private static ClientActionItem UnloadMod;
         private static ClientActionItem DumpLog;
 
@@ -19,18 +16,6 @@ namespace DarkRoles
             {
                 return;
             }
-            if (SpotifyIntegration == null || SpotifyIntegration.ToggleButton == null)
-            {
-                SpotifyIntegration = ClientOptionItem.Create("SpotifyIntegration", Main.SpotifyIntegration, __instance);
-            }
-            /*if (ForceJapanese == null || ForceJapanese.ToggleButton == null)
-            {
-                ForceJapanese = ClientOptionItem.Create("ForceJapanese", Main.ForceJapanese, __instance);
-            }
-            if (JapaneseRoleName == null || JapaneseRoleName.ToggleButton == null)
-            {
-                JapaneseRoleName = ClientOptionItem.Create("JapaneseRoleName", Main.JapaneseRoleName, __instance);
-            }*/
             if (UnloadMod == null || UnloadMod.ToggleButton == null)
             {
                 UnloadMod = ClientActionItem.Create("UnloadMod", ModUnloaderScreen.Show, __instance);

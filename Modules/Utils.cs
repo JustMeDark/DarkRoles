@@ -956,6 +956,13 @@ namespace DarkRoles
             Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
 
+        public static void SendMessageV2(string title, string text, byte sendTo = byte.MaxValue, bool removeTags = true)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (title == "") title = $"<color={Main.ModColor}>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
+        }
+
         public static void ApplySuffix(PlayerControl player)
         {
             UserSuffix(player);
@@ -964,7 +971,8 @@ namespace DarkRoles
             var name = DataManager.player.Customization.Name;
             if (Main.nickName != "") temp = Main.nickName;
             var host = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
-            name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : $"{host}\n{GetSuffix()}";
+            var hasTag = Options.GetSuffixMode() != SuffixModes.None;
+            name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : hasTag ? $"{GetSuffix()}\n{host}" : $"{host}";
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
 
@@ -974,8 +982,7 @@ namespace DarkRoles
             var temp = player.name;
             var started = !GameStates.IsLobby;
             var canHaveTag = player.PlayerId != 0 && !player.name.Contains(CustomTags.GetPlayerTags(player.FriendCode)) && CustomTags.DoesPlayerHaveTags(player.FriendCode);
-            var tag = (canHaveTag) ? CustomTags.GetPlayerTags(player.FriendCode) : temp;
-            var STOPFUCKINGDUPINGMYFUCKINGNAMEYOUFUCK = (player.PlayerId != 0 && !player.name.Contains('\n'));
+            var tag = canHaveTag ? CustomTags.GetPlayerTags(player.FriendCode) : temp;
             name = started ? temp : tag;
             if (canHaveTag) player.RpcSetName(name);
         }

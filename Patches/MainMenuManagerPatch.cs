@@ -17,7 +17,7 @@ namespace DarkRoles
         private static PassiveButton template;
         private static PassiveButton gitHubButton;
         private static PassiveButton discordButton;
-        private static PassiveButton websiteButton;
+       // private static PassiveButton websiteButton;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.LateUpdate)), HarmonyPostfix]
         public static void Postfix(MainMenuManager __instance)

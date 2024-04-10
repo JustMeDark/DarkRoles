@@ -270,7 +270,7 @@ namespace DarkRoles
 
     public enum TabGroup
     {
-        MainSettings,
+        DRSettings,
         ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,

@@ -38,12 +38,19 @@ namespace DarkRoles.Roles.Impostor
 
         public override bool OnEnterVent(PlayerPhysics physics, int ventId)
         {
-            foreach (var pc in Main.AllAlivePlayerControls)
-                if (pc.PlayerId != Player.PlayerId)
-                {
-                    pc.RpcRandomVentTeleport();
-                    return true;
-                }
+            /* foreach (var pc in Main.AllAlivePlayerControls)
+                 if (pc.PlayerId != physics.myPlayer.PlayerId)
+                 {
+                     pc.RpcRandomVentTeleport();
+                     return true;
+                 }*/
+            var random = IRandom.Instance;
+            List<PlayerControl> targetPlayers = [.. Main.AllAlivePlayerControls.ToArray()];
+            if (targetPlayers.Count >= 1)
+            {
+                targetPlayers[random.Next(0, targetPlayers.Count)].RpcRandomVentTeleport();
+                return true;
+            }
             return false;
         }
 
