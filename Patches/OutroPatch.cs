@@ -23,6 +23,7 @@ namespace DarkRoles
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             Main.GameIsStarted = false;
             GameStates.InGame = false;
+            Main.SelectRole = CustomRoles.Crewmate;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             if (!GameStates.IsModHost) return;
