@@ -51,7 +51,7 @@ namespace DarkRoles
         // ==========
         //Sorry for many Japanese comments.
         public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.5";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2024.3.5";
         // このバージョンのみで公開ルームを無効にする場合
@@ -114,10 +114,11 @@ namespace DarkRoles
         public static bool IsLavaScreen = false;
         public static bool CancelChat = false;
         public static bool GameIsStarted = false;
+        public static CustomRoles SelectRole = CustomRoles.Crewmate;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
-        public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
-        public const float RoleTextSize = 2f;
+        public static bool IsInitialRelease = DateTime.Now.Month == 4 && DateTime.Now.Day is 9;
+        public const float RoleTextSize = 1.8f;
 
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
         public static IEnumerable<PlayerControl> AllAlivePlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null && p.IsAlive());

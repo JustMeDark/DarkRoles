@@ -65,7 +65,7 @@ namespace DarkRoles
         public void SetMainRole(CustomRoles role)
         {
             MainRole = role;
-
+            
             CountType = CustomRoleManager.GetRoleInfo(role) is SimpleRoleInfo roleInfo ?
                 roleInfo.CountType :
                 role switch

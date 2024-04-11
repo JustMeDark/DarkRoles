@@ -337,8 +337,10 @@ namespace DarkRoles
                 if (AllPlayers.Count <= 0) break;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
-                PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
-
+                if (Main.SelectRole != CustomRoles.Crewmate && player.PlayerId is 0)
+                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(Main.SelectRole);
+                else
+                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
                 var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
 
@@ -399,7 +401,10 @@ namespace DarkRoles
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
+                if (Main.SelectRole != CustomRoles.Crewmate && player.PlayerId is 0)
+                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(Main.SelectRole);
+                else
+                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)

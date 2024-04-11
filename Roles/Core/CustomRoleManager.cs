@@ -392,6 +392,7 @@ public enum CustomRoles
     Insider,
     //Madmate
     MadGuardian,
+    MadJester,
     Madmate,
     MadSnitch,
     SKMadmate,

@@ -452,10 +452,14 @@ namespace DarkRoles
         public static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
-            //デフォルト値
+            //default value
             bool enabled = seer == seen
                         || seen.Is(CustomRoles.GM)
-                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool());
+                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool())
+                        || (seer.Is(CustomRoleTypes.Madmate) && seen.Is(CustomRoleTypes.Impostor))
+                        || (seer.Is(CustomRoleTypes.Impostor) && seen.Is(CustomRoleTypes.Madmate))
+                        || (seer.Is(CustomRoleTypes.Madmate) && seen.Is(CustomRoleTypes.Madmate))
+                        || (seer.Is(CustomRoleTypes.Impostor) && seen.Is(CustomRoleTypes.Impostor));
             var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
 
             //seen側による変更
@@ -1224,7 +1228,12 @@ namespace DarkRoles
 
                             //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                             var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
-                            var TargetRoleText = targetRoleData.enabled ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
+                            var TargetRoleText = targetRoleData.enabled
+                                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Impostor))
+                                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
+                                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Madmate))
+                                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
+                                ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
 
                             TargetSuffix.Clear();
                             //seerに関わらず発動するLowerText

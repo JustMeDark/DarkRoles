@@ -8,6 +8,7 @@ using DarkRoles.Modules;
 using DarkRoles.Roles.Core;
 using DarkRoles.Templates;
 using static DarkRoles.Translator;
+using System;
 
 namespace DarkRoles
 {
@@ -60,12 +61,12 @@ namespace DarkRoles
                 var text = $"<color={Main.ModColor}>{Main.ModName}</color> Public Beta\n<color={Main.ModColor}>By</color> sleepy";
                 var grad1 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName}");
                 var grad2 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), "Made by");
-                // (release) Main.credentialsText = $"{grad1} v{Main.PluginVersion}\n{grad2} sleepy";
-                Main.credentialsText = $"{grad1} v{Main.PluginVersion} (Prerelease Beta)\n{grad2} sleepy"; //beta
+               // Main.credentialsText = $"{grad1} v{Main.PluginVersion}\n{grad2} sleepy";
+                Main.credentialsText = $"{grad1} v{Main.PluginVersion} (Beta)\n{grad2} sleepy"; //beta
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
-                var credentials = Object.Instantiate(__instance.text);
+                var credentials = UnityEngine.Object.Instantiate(__instance.text);
                 credentials.text = Main.credentialsText;
                 credentials.alignment = TextAlignmentOptions.Right;
                 credentials.transform.position = new Vector3(1f, 2.68f, -2f);
@@ -96,7 +97,7 @@ namespace DarkRoles
                     SpecialEventText.enabled = TitleLogoPatch.amongUsLogo != null;
                     SpecialEventText.gameObject.SetActive(true);
                 }
-                if (Main.IsInitialRelease)
+                if (Main.IsInitialRelease && DateTime.Now.Year != 2024)
                 {
                     SpecialEventText.text = $"Happy Birthday to {Main.ModName}!";
                     if (ColorUtility.TryParseHtmlString(Main.ModColor, out var col))

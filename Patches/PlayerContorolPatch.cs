@@ -67,64 +67,67 @@ namespace DarkRoles
             return false;
         }
 
-        // 不正キル防止チェック
+        // Unauthorized Kill Prevention Check
         public static bool CheckForInvalidMurdering(MurderInfo info)
         {
             (var killer, var target) = info.AttemptTuple;
 
-            // Killerが既に死んでいないかどうか
+            // Whether the Killer is already dead
             if (!killer.IsAlive())
             {
-                Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
+                Logger.Info($"{killer.GetNameWithRole()}was cancelled because it is dead.", "CheckMurder");
                 return false;
             }
-            // targetがキル可能な状態か
+            // Is the target in a killable state?
             if (
-                // PlayerDataがnullじゃないか確認
+                // Check if PlayerData is not null
                 target.Data == null ||
-                // targetの状態をチェック
+                // Check target status
                 target.inVent ||
                 target.MyPhysics.Animations.IsPlayingEnterVentAnimation() ||
                 target.MyPhysics.Animations.IsPlayingAnyLadderAnimation() ||
                 target.inMovingPlat)
             {
-                Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
+                Logger.Info("target is currently unkillable。", "CheckMurder");
                 return false;
             }
-            // targetが既に死んでいないか
+            // Is target already dead?
             if (!target.IsAlive())
             {
-                Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
+                Logger.Info("Because target was already dead, the kill was canceled.", "CheckMurder");
                 return false;
             }
-            // 会議中のキルでないか
+            // Isn't it a kill in the meeting?
             if (MeetingHud.Instance != null)
             {
-                Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
+                Logger.Info("The meeting started and the kill was cancelled.", "CheckMurder");
                 return false;
             }
 
-            // 連打キルでないか
-            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
-            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
-            //↓許可されない場合
+            if (killer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
+                return false;
+
+            // Are you sure it's not a series of kills?
+            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //Ping value is milliseconds (ms), so ÷1000
+            //No value is stored in TimeSinceLastKill || Stored time is greater than or equal to minTime => Allow kill
+            //↓If not permitted
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
-                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
+                Logger.Info("Blocked the kill because the time since the last kill was too fast.。", "CheckMurder");
                 return false;
             }
             TimeSinceLastKill[killer.PlayerId] = 0f;
 
-            // HideAndSeek_キルボタンが使用可能か
+            // HideAndSeek Kill button available?
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
-                Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
+                Logger.Info("The kill was canceled because HideAndSeek was on standby.", "CheckMurder");
                 return false;
             }
-            // キルが可能なプレイヤーか(遠隔は除く)
+            // Is the player capable of killing (excluding remotes)?
             if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
-                Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
+                Logger.Info(killer.GetNameWithRole() + "is not Killable, so the kill was cancelled.", "CheckMurder");
                 return false;
             }
             return true;
@@ -472,6 +475,16 @@ namespace DarkRoles
                     {
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
+
+                    // Madmates and imps
+                    if (__instance.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
+                        RoleText.enabled = true;
+                    if (__instance.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
+                        RoleText.enabled = true;
+                    if (__instance.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
+                        RoleText.enabled = true;
+                    if (__instance.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
+                        RoleText.enabled = true;
 
                     //seerに関わらず発動するLowerText
                     Suffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target));

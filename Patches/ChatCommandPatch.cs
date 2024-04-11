@@ -70,7 +70,28 @@ namespace DarkRoles
                         canceled = true;
                         Utils.SendMessage("Winner: " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
                         break;
-
+                    case "/select":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        if (!GameStates.InGame && GameStates.IsLobby)
+                        {
+                            if (subArgs.ToLower() != Main.SelectRole.ToString().ToLower())
+                            {
+                                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
+                                {
+                                    if (role.ToString().ToLower() == subArgs.ToLower())
+                                    {
+                                        Main.SelectRole = role;
+                                        Utils.SendMessage($"You will be {role} next round.", 0);
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                                Utils.SendMessage($"Error: A smartass tried to select the same role twice.", 0);
+                        }else
+                            Utils.SendMessage($"Error: ID10T.", 0);
+                        break;
                     case "/l":
                     case "/lastresult":
                         canceled = true;
