@@ -6,9 +6,7 @@
   <pre>
 
  ## notice 
- This branch is for cleaning
- up the mod before its 
- may/june release
+ This branch is to rebase the mod. idk if this will actually release.
  
  ## Regarding this mod
 
@@ -20,8 +18,8 @@ Innersloth LLC. © Innersloth LLC.
 
   ## Regarding this mod
 
-  Town Of Host Extreme mod has support for among us 
-  versions 2023.10.* and 2023.11.* 
+  The Dark Roles mod has support for among us 
+  versions 2024.3.5
 
   <a href="https://discord.gg/9YdSgkF7yC" target="_blank"><img src="https://img.shields.io/badge/Discord%20-%231DA1F2.svg?&style=for-the-badge&logo=discord&logoColor=white&color=5662f6"/></a><a href="https://github.com/sleepyfor/DarkRoles/releases/latest" target="_blank"><img src="https://img.shields.io/badge/Latest Version%20-%231DA1F2.svg?&style=for-the-badge&logo=github&logoColor=white&color=181717"/></a>
   </pre>
