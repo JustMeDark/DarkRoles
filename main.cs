@@ -27,7 +27,7 @@ namespace TheDarkRoles
         // modの名前 / Mod Name (Default: Town Of Host)
         public static readonly string ModName = "The Dark Roles";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#00bfff";
+        public static readonly string ModColor = "#c5a0ef";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
@@ -55,7 +55,7 @@ namespace TheDarkRoles
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2024.3.5";
         // このバージョンのみで公開ルームを無効にする場合
-        public static readonly bool IsPublicAvailableOnThisVersion = false;
+        public static readonly bool IsPublicAvailableOnThisVersion = true;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -127,14 +127,14 @@ namespace TheDarkRoles
             Instance = this;
 
             //Client Options
-            HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
+            HideName = Config.Bind("Client Options", "Hide Game Code Name", "The Dark Roles");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
             ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
             JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
             ShowResults = Config.Bind("Result", "Show Results", true);
 
-            Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
+            Logger = BepInEx.Logging.Logger.CreateLogSource("TheDarkRoles");
             TheDarkRoles.Logger.Enable();
             TheDarkRoles.Logger.Disable("NotifyRoles");
             TheDarkRoles.Logger.Disable("SendRPC");

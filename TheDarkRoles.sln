@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDarkRoles", "TheDarkRoles.csproj", "{00C1F4C1-486A-48DC-A262-3A34E3FDD6F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheDarkRoles", "TheDarkRoles.csproj", "{FED3E259-2627-43D2-A844-D5B188C7E29A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{00C1F4C1-486A-48DC-A262-3A34E3FDD6F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00C1F4C1-486A-48DC-A262-3A34E3FDD6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00C1F4C1-486A-48DC-A262-3A34E3FDD6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00C1F4C1-486A-48DC-A262-3A34E3FDD6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED3E259-2627-43D2-A844-D5B188C7E29A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED3E259-2627-43D2-A844-D5B188C7E29A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED3E259-2627-43D2-A844-D5B188C7E29A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED3E259-2627-43D2-A844-D5B188C7E29A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {3374061E-19E6-49D4-BE9E-D63A03C8B7AC}
+		SolutionGuid = {AFB7D89F-DADE-4CE9-B00F-D1C4D611D452}
 	EndGlobalSection
 EndGlobal

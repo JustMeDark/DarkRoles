@@ -24,7 +24,7 @@ namespace TheDarkRoles
         }
         public static void SetupCustomOption()
         {
-            EnableDebugMode = BooleanOptionItem.Create(2, "EnableDebugMode", false, TabGroup.MainSettings, true)
+            EnableDebugMode = BooleanOptionItem.Create(2, "EnableDebugMode", false, TabGroup.DRSettings, true)
                 .SetColor(Color.green)
                 .SetHidden(!AmDebugger)
                 .RegisterUpdateValueEvent((obj, args) =>

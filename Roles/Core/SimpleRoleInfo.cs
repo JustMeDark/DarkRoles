@@ -76,7 +76,7 @@ public class SimpleRoleInfo
 
         _ = ColorUtility.TryParseHtmlString(colorCode, out RoleColor);
 
-        if (tab == TabGroup.MainSettings)
+        if (tab == TabGroup.DRSettings)
             tab = CustomRoleType switch
             {
                 CustomRoleTypes.Impostor => TabGroup.ImpostorRoles,
@@ -100,7 +100,7 @@ public class SimpleRoleInfo
         string chatCommand,
         string colorCode = "",
         bool isDesyncImpostor = false,
-        TabGroup tab = TabGroup.MainSettings,
+        TabGroup tab = TabGroup.DRSettings,
         Func<AudioClip> introSound = null,
         Func<bool> canMakeMadmate = null,
         CountTypes? countType = null,
@@ -185,7 +185,7 @@ public class SimpleRoleInfo
             null,
             colorCode,
             false,
-            TabGroup.MainSettings,
+            TabGroup.DRSettings,
             null,
             () => canMakeMadmate,
             assignInfo ?? new(roleName, customRoleType));

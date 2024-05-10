@@ -285,7 +285,7 @@
 
 "#モードオプション"
 "HideAndSeek","Hide and Seek","かくれんぼ","躲猫猫","躲貓貓","Прятки","Esconde-Esconde",""
-"NoGameEnd","No Game End","ゲームを終了しない","测试模式","遊戲不會結束模式","Игра Не Закончится","Jogo Sem Fim",""
+"NoGameEnd","<color=#ff0000>No Game End</color>","ゲームを終了しない","测试模式","遊戲不會結束模式","Игра Не Закончится","Jogo Sem Fim",""
 "SyncButtonMode","Sync Button Mode","ボタン回数同期モード","所有船员共享会议次数","全場拍桌數同步模式","Общая кнопка встречи","Modo de Botão Sincronizado",""
 "RandomMapsMode","Random Maps Mode","ランダムマップモード","随机地图模式","隨機地圖模式","Случайная карта","Modo de Mapas Aleatórios",""
 "SyncedButtonCount","Max Number of Buttons Allowed","合計ボタン使用可能回数","紧急会议可用次数","全場最大拍桌數量","Максимальное количество нажатий на Кнопку","Número Máximo de Usos do Botão",""
@@ -688,7 +688,7 @@
 "ERR-000-910-1","Test Error Lv.1","テストエラーLv1","测试错误Lv1","測試錯誤Lv1","Ошибка теста - Lv1","Erro de Teste Nvl.1",""
 "ERR-000-920-2","Test Error Lv.2","テストエラーLv2","测试错误Lv2","測試錯誤Lv2","Ошибка теста - Lv2","Erro de Teste Nvl.2",""
 "ERR-000-930-3","Test Error Lv.3","テストエラーLv3","测试错误Lv3","測試錯誤Lv3","Ошибка теста - Lv3","Erro de Teste Nvl.3",""
-"ERR-000-804-1","TownOfHost does not support the Vanilla HnS, so unloaded.","現在バニラのHide And Seekはサポートされていません。modを無効化しました。","TOH不支持原版躲猫猫, mod因此失效","Town Of Host模組尚未支援原版的Hide And Seek模式，所以模組將暫時卸載。","Мод не поддерживает обычные Прятки. Мод был отключён","TownOfHost não suporta o Esconde-Esconde padrão, então foi descarregado.",""
+"ERR-000-804-1","TheDarkRoles does not support the Vanilla HnS, so unloaded.","現在バニラのHide And Seekはサポートされていません。modを無効化しました。","TOH不支持原版躲猫猫, mod因此失效","Town Of Host模組尚未支援原版的Hide And Seek模式，所以模組將暫時卸載。","Мод не поддерживает обычные Прятки. Мод был отключён","TownOfHost não suporta o Esconde-Esconde padrão, então foi descarregado.",""
 "#### 001 Main"
 "ERR-001-000-3","Main dictionary has duplicated keys.","MainのDictonaryでKeyの重複が発生しています。","在主目录出现重复密钥","在主目錄出現重複密鑰","Дублирование ключей происходит в основном словаре.","Dicionário principal tem chaves duplicadas.",""
 "#### 002 Support"

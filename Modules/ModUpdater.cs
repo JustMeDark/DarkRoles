@@ -14,7 +14,7 @@ namespace TheDarkRoles
     [HarmonyPatch]
     public class ModUpdater
     {
-        private static readonly string URL = "https://github.com/sleepyfor/DarkRoles";
+        private static readonly string URL = "https://api.github.com/repos/tukasa0001/TheDarkRoles";
         public static bool hasUpdate = false;
         public static bool isBroken = false;
         public static bool isChecked = false;
@@ -34,8 +34,8 @@ namespace TheDarkRoles
             {
                 CheckRelease(Main.BetaBuildURL.Value != "").GetAwaiter().GetResult();
             }
-           /* MainMenuManagerPatch.UpdateButton.Button.gameObject.SetActive(hasUpdate);
-            MainMenuManagerPatch.UpdateButton.Button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");*/
+            MainMenuManagerPatch.UpdateButton.Button.gameObject.SetActive(hasUpdate);
+            MainMenuManagerPatch.UpdateButton.Button.transform.Find("FontPlacer/Text_TMP").GetComponent<TMPro.TMP_Text>().SetText($"{GetString("updateButton")}\n{latestTitle}");
         }
         public static async Task<bool> CheckRelease(bool beta = false)
         {
@@ -45,7 +45,7 @@ namespace TheDarkRoles
                 string result;
                 using (HttpClient client = new())
                 {
-                    client.DefaultRequestHeaders.Add("User-Agent", "TownOfHost Updater");
+                    client.DefaultRequestHeaders.Add("User-Agent", "TheDarkRoles Updater");
                     using var response = await client.GetAsync(new Uri(url), HttpCompletionOption.ResponseContentRead);
                     if (!response.IsSuccessStatusCode || response.Content == null)
                     {
@@ -78,7 +78,7 @@ namespace TheDarkRoles
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                             break;
                         }
-                        if (assets[i]["name"].ToString() == "TownOfHost.dll")
+                        if (assets[i]["name"].ToString() == "TheDarkRoles.dll")
                             downloadUrl = assets[i]["browser_download_url"].ToString();
                     }
                     hasUpdate = latestVersion.CompareTo(Main.version) > 0;
@@ -149,7 +149,7 @@ namespace TheDarkRoles
                 {
                     using var content = response.Content;
                     using var stream = content.ReadAsStream();
-                    using var file = new FileStream("BepInEx/plugins/TownOfHost.dll", FileMode.Create, FileAccess.Write);
+                    using var file = new FileStream("BepInEx/plugins/TheDarkRoles.dll", FileMode.Create, FileAccess.Write);
                     stream.CopyTo(file);
                     ShowPopup(GetString("updateRestart"), true);
                     return true;
@@ -179,7 +179,7 @@ namespace TheDarkRoles
                     button.GetComponent<PassiveButton>().OnClick = new();
                     button.GetComponent<PassiveButton>().OnClick.AddListener((Action)(() =>
                     {
-                        Application.OpenURL("https://github.com/tukasa0001/TownOfHost/releases/latest");
+                        Application.OpenURL("https://github.com/tukasa0001/TheDarkRoles/releases/latest");
                         Application.Quit();
                     }));
                 }

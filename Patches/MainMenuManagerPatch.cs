@@ -13,6 +13,7 @@ namespace TheDarkRoles
     [HarmonyPatch(typeof(MainMenuManager))]
     public static class MainMenuManagerPatch
     {
+        public static SimpleButton UpdateButton { get; private set; }
         private static PassiveButton template;
         private static PassiveButton gitHubButton;
         private static PassiveButton discordButton;

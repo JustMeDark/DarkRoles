@@ -139,7 +139,7 @@ namespace TheDarkRoles
                 };
                 splashArt.transform.position = new Vector3(0, 0f, 600f); //= new Vector3(0, 0.40f, 600f);
                 var spriteRenderer = splashArt.AddComponent<SpriteRenderer>();
-                spriteRenderer.sprite = Utils.LoadSprite("DarkRoles.Resources.MainMenu.png", 180f);
+                spriteRenderer.sprite = Utils.LoadSprite("TheDarkRoles.Resources.MainMenu.png", 180f);
             }
         }
         [HarmonyPatch(typeof(ModManager), nameof(ModManager.LateUpdate))]
