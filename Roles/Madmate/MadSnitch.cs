@@ -2,10 +2,10 @@ using System.Linq;
 
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Madmate;
+namespace TheDarkRoles.Roles.Madmate;
 
 public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
@@ -16,7 +16,7 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
             CustomRoles.MadSnitch,
             () => OptionCanVent.GetBool() ? RoleTypes.Engineer : RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
-            30200,
+            10200,
             SetupOptionItem,
             "msn",
             introSound: () => GetIntroSound(RoleTypes.Impostor)
@@ -57,10 +57,10 @@ public sealed class MadSnitch : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 
     public static void SetupOptionItem()
     {
-        OptionCanVent = BooleanOptionItem.Create(RoleInfo, 30201, OptionName.CanVent, false, false);
-        OptionCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(RoleInfo, 30202, OptionName.MadSnitchCanAlsoBeExposedToImpostor, false, false);
-        OptionTaskTrigger = IntegerOptionItem.Create(RoleInfo, 30203, OptionName.MadSnitchTaskTrigger, new(0, 99, 1), 1, false).SetValueFormat(OptionFormat.Pieces);
-        Tasks = Options.OverrideTasksData.Create(RoleInfo, 30204);
+        OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10, OptionName.CanVent, false, false);
+        OptionCanAlsoBeExposedToImpostor = BooleanOptionItem.Create(RoleInfo, 11, OptionName.MadSnitchCanAlsoBeExposedToImpostor, false, false);
+        OptionTaskTrigger = IntegerOptionItem.Create(RoleInfo, 12, OptionName.MadSnitchTaskTrigger, new(0, 99, 1), 1, false).SetValueFormat(OptionFormat.Pieces);
+        Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
     private bool KnowsImpostor()

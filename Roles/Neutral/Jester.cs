@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 public sealed class Jester : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -12,7 +12,7 @@ public sealed class Jester : RoleBase
             CustomRoles.Jester,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            10400,
+            50000,
             null,
             "je",
             "#ec62a5"

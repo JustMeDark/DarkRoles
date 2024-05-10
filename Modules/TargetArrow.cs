@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DarkRoles.Attributes;
+using TheDarkRoles.Attributes;
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     static class TargetArrow
     {

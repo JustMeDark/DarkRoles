@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Crewmate
+namespace TheDarkRoles.Roles.Crewmate
 {
     public sealed class TimeManager : RoleBase, IMeetingTimeAlterable
     {
@@ -14,7 +14,7 @@ namespace DarkRoles.Roles.Crewmate
                 CustomRoles.TimeManager,
                 () => RoleTypes.Crewmate,
                 CustomRoleTypes.Crewmate,
-                2100,
+                21500,
                 SetupOptionItem,
                 "tm",
                 "#6495ed"
@@ -42,9 +42,9 @@ namespace DarkRoles.Roles.Crewmate
 
         private static void SetupOptionItem()
         {
-            OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 2101, OptionName.TimeManagerIncreaseMeetingTime, new(5, 30, 1), 15, false)
+            OptionIncreaseMeetingTime = IntegerOptionItem.Create(RoleInfo, 10, OptionName.TimeManagerIncreaseMeetingTime, new(5, 30, 1), 15, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionMeetingTimeLimit = IntegerOptionItem.Create(RoleInfo, 2102, OptionName.TimeManagerLimitMeetingTime, new(200, 900, 10), 300, false)
+            OptionMeetingTimeLimit = IntegerOptionItem.Create(RoleInfo, 11, OptionName.TimeManagerLimitMeetingTime, new(200, 900, 10), 300, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
 

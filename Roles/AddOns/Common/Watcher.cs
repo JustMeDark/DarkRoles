@@ -1,19 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
-using DarkRoles.Attributes;
-using DarkRoles.Roles.Core;
-using static DarkRoles.Options;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Options;
 
-namespace DarkRoles.Roles.AddOns.Common
+namespace TheDarkRoles.Roles.AddOns.Common
 {
-    public class Watcher
+    public static class Watcher
     {
-        private static List<byte> playerIdList = [];
+        private static readonly int Id = 80200;
+        private static Color RoleColor = Utils.GetRoleColor(CustomRoles.Watcher);
+        public static string SubRoleMark = Utils.ColorString(RoleColor, "Ｗ");
+        private static List<byte> playerIdList = new();
 
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(100100, TabGroup.Addons, CustomRoles.Watcher);
-            AddOnsAssignData.Create(100101, CustomRoles.Watcher, true, true, true);
+            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.Watcher);
+            AddOnsAssignData.Create(Id + 10, CustomRoles.Watcher, true, true, true);
         }
         [GameModuleInitializer]
         public static void Init()

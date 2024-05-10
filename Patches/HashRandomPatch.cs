@@ -1,7 +1,7 @@
 using System;
 using HarmonyLib;
 
-namespace DarkRoles.Patches;
+namespace TheDarkRoles.Patches;
 
 [HarmonyPatch(typeof(HashRandom))]
 class HashRandomPatch

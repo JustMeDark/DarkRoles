@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Hazel;
 
-namespace DarkRoles.Patches.ISystemType;
+namespace TheDarkRoles.Patches.ISystemType;
 
 [HarmonyPatch(typeof(SecurityCameraSystemType), nameof(SecurityCameraSystemType.UpdateSystem))]
 public static class SecurityCameraSystemTypeUpdateSystemPatch

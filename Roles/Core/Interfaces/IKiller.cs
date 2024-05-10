@@ -1,4 +1,4 @@
-namespace DarkRoles.Roles.Core.Interfaces;
+namespace TheDarkRoles.Roles.Core.Interfaces;
 
 /// <summary>
 /// キルボタン持ち役職の必須要素

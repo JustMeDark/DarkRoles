@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
 {
@@ -14,7 +14,7 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
             CustomRoles.NekoKabocha,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            20700,
+            3300,
             SetupOptionItems,
             "nk",
             introSound: () => PlayerControl.LocalPlayer.KillSfx
@@ -38,9 +38,9 @@ public sealed class NekoKabocha : RoleBase, IImpostor, INekomata
     private static BooleanOptionItem optionRevengeOnExile;
     private static void SetupOptionItems()
     {
-        optionImpostorsGetRevenged = BooleanOptionItem.Create(RoleInfo, 20701, OptionName.NekoKabochaImpostorsGetRevenged, false, false);
-        optionMadmatesGetRevenged = BooleanOptionItem.Create(RoleInfo, 20702, OptionName.NekoKabochaMadmatesGetRevenged, false, false);
-        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 20703, OptionName.NekoKabochaRevengeOnExile, false, false);
+        optionImpostorsGetRevenged = BooleanOptionItem.Create(RoleInfo, 10, OptionName.NekoKabochaImpostorsGetRevenged, false, false);
+        optionMadmatesGetRevenged = BooleanOptionItem.Create(RoleInfo, 20, OptionName.NekoKabochaMadmatesGetRevenged, false, false);
+        optionRevengeOnExile = BooleanOptionItem.Create(RoleInfo, 30, OptionName.NekoKabochaRevengeOnExile, false, false);
     }
     private enum OptionName { NekoKabochaImpostorsGetRevenged, NekoKabochaMadmatesGetRevenged, NekoKabochaRevengeOnExile, }
     #endregion

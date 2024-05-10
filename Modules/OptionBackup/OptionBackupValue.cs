@@ -1,7 +1,7 @@
 using System;
 using AmongUs.GameOptions;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public abstract class OptionBackupValue
     {

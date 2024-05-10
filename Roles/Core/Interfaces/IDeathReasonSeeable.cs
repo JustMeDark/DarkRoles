@@ -1,4 +1,4 @@
-namespace DarkRoles.Roles.Core.Interfaces;
+namespace TheDarkRoles.Roles.Core.Interfaces;
 
 public interface IDeathReasonSeeable
 {

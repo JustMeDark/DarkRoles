@@ -3,9 +3,9 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(TaskAdderGame), nameof(TaskAdderGame.ShowFolder))]
     class ShowFolderPatch

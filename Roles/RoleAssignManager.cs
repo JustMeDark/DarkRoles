@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles
+namespace TheDarkRoles.Roles
 {
     public static class RoleAssignManager
     {
-        private static readonly int idStart = 110000;
+        private static readonly int idStart = 500;
         class RandomAssignOptions
         {
             public int Min => min();
@@ -23,10 +23,10 @@ namespace DarkRoles.Roles
                 var replacementDictionary = new Dictionary<string, string>()
                 { { "%roleType%", GetString( $"CustomRoleTypes.{roleTypes}") } };
 
-                var minOption = IntegerOptionItem.Create(idStart + id + 1, "RoleTypeMin", new(0, maxCount, 1), 0, TabGroup.DRSettings, false)
+                var minOption = IntegerOptionItem.Create(idStart + id + 1, "RoleTypeMin", new(0, maxCount, 1), 0, TabGroup.MainSettings, false)
                     .SetParent(parent)
                     .SetValueFormat(OptionFormat.Players);
-                var maxOption = IntegerOptionItem.Create(idStart + id + 2, "RoleTypeMax", new(0, maxCount, 1), 0, TabGroup.DRSettings, false)
+                var maxOption = IntegerOptionItem.Create(idStart + id + 2, "RoleTypeMax", new(0, maxCount, 1), 0, TabGroup.MainSettings, false)
                     .SetParent(parent)
                     .SetValueFormat(OptionFormat.Players);
 
@@ -60,7 +60,7 @@ namespace DarkRoles.Roles
         private static List<CustomRoles> AssignRoleList = new(CustomRolesHelper.AllRoles.Length);
         public static void SetupOptionItem()
         {
-            OptionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.DRSettings, false)
+            OptionAssignMode = StringOptionItem.Create(idStart, "AssignMode", AssignModeSelections, 0, TabGroup.MainSettings, false)
                 .SetHeader(true);
 
             assignMode = () => (AssignAlgorithm)OptionAssignMode.GetInt();
@@ -154,7 +154,7 @@ namespace DarkRoles.Roles
 
             foreach (var roleType in CustomRolesHelper.AllRoleTypes)
             {
-                var count = AssignRoleList.Count(role => role.GetCustomRoleTypes() == roleType);
+                var count = AssignRoleList.Count(role => role.GetAssignRoleType() == roleType);
                 AssignCount.Add(roleType, count);
             }
         }
@@ -230,13 +230,13 @@ namespace DarkRoles.Roles
                 //アサイン枠が足りてない場合
                 if (CustomRolesHelper.AllRoleTypes.Any(
                     type => assignCount.TryGetValue(type, out var count) &&
-                    targetRoles.Count(role => role.GetCustomRoleTypes() == type) > count
+                    targetRoles.Count(role => role.GetAssignRoleType() == type) > count
                 )) continue;
 
                 foreach (var targetRole in targetRoles)
                 {
                     AssignRoleList.Add(targetRole);
-                    var targetRoleType = targetRole.GetCustomRoleTypes();
+                    var targetRoleType = targetRole.GetAssignRoleType();
                     if (assignCount.ContainsKey(targetRoleType))
                         assignCount[targetRoleType]--;
                 }
@@ -264,12 +264,12 @@ namespace DarkRoles.Roles
                 var selectedTicket = randomRoleTicketPool[rand.Next(randomRoleTicketPool.Count)];
                 var targetRoles = selectedTicket.Item1.GetAssignUnitRolesArray();
                 //アサイン枠が足りていれば追加
-                if (CustomRolesHelper.AllRoleTypes.All(type => targetRoles.Count(role => role.GetCustomRoleTypes() == type) <= assignCount[type]))
+                if (CustomRolesHelper.AllRoleTypes.All(type => targetRoles.Count(role => role.GetAssignRoleType() == type) <= assignCount[type]))
                 {
                     foreach (var targetRole in targetRoles)
                     {
                         AssignRoleList.Add(targetRole);
-                        assignCount[targetRole.GetCustomRoleTypes()]--;
+                        assignCount[targetRole.GetAssignRoleType()]--;
                     }
                 }
                 //1-9個ある同じチケットを削除
@@ -309,6 +309,8 @@ namespace DarkRoles.Roles
         }
         private static RoleAssignInfo GetRoleAssignInfo(this CustomRoles role) =>
             CustomRoleManager.GetRoleInfo(role)?.AssignInfo;
+        private static CustomRoleTypes GetAssignRoleType(this CustomRoles role) =>
+            role.GetRoleAssignInfo()?.AssignRoleType ?? role.GetCustomRoleTypes();
         private static bool IsAssignable(this CustomRoles role)
             => role.GetRoleAssignInfo()?.IsInitiallyAssignable ?? true;
         /// <summary>
@@ -343,12 +345,17 @@ namespace DarkRoles.Roles
     {
         public RoleAssignInfo(CustomRoles role, CustomRoleTypes roleType)
         {
+            AssignRoleType = roleType;
             IsInitiallyAssignableCallBack = () => true;
             AssignCountRule =
                 roleType == CustomRoleTypes.Impostor ? new(1, 3, 1) : new(1, 15, 1);
             AssignUnitRoles =
                 Enumerable.Repeat(role, AssignCountRule.Step).ToArray();
         }
+        /// <summary>
+        /// どのアサイン枠を消費するか
+        /// </summary>
+        public CustomRoleTypes AssignRoleType { get; init; }
         /// <summary>
         /// 試合開始時にアサインされるかどうかのデリゲート
         /// </summary>

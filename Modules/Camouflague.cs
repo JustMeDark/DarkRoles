@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using DarkRoles.Attributes;
+using TheDarkRoles.Attributes;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     static class PlayerOutfitExtension
     {

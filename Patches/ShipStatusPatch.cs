@@ -4,10 +4,10 @@ using System.Linq;
 using HarmonyLib;
 using UnityEngine;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 using Hazel;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.FixedUpdate))]
     class ShipFixedUpdatePatch
@@ -40,16 +40,14 @@ namespace DarkRoles
             [HarmonyArgument(1)] PlayerControl player,
             [HarmonyArgument(2)] byte amount)
         {
-            // Removed this logging because it was pissing me the fuck off in testing.
-
-           /* if (systemType != SystemTypes.Sabotage)
+            if (systemType != SystemTypes.Sabotage)
             {
-               // Logger.Info("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "UpdateSystem");
+                Logger.Info("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount, "UpdateSystem");
             }
             if (RepairSender.enabled && AmongUsClient.Instance.NetworkMode != NetworkModes.OnlineGame)
             {
-               // Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
-            }*/
+                Logger.SendInGame("SystemType: " + systemType.ToString() + ", PlayerName: " + player.GetNameWithRole() + ", amount: " + amount);
+            }
         }
         public static void CheckAndOpenDoorsRange(ShipStatus __instance, int amount, int min, int max)
         {
@@ -94,6 +92,14 @@ namespace DarkRoles
         {
             MeetingStates.ReportTarget = target;
             MeetingStates.DeadBodies = UnityEngine.Object.FindObjectsOfType<DeadBody>();
+        }
+        public static void Postfix()
+        {
+            // 全プレイヤーを湧いてない状態にする
+            foreach (var state in PlayerState.AllPlayerStates.Values)
+            {
+                state.HasSpawned = false;
+            }
         }
     }
     [HarmonyPatch(typeof(ShipStatus), nameof(ShipStatus.Begin))]

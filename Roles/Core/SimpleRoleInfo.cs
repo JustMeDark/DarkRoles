@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Core.Descriptions;
+using TheDarkRoles.Roles.Core.Descriptions;
 
-using static DarkRoles.Options;
+using static TheDarkRoles.Options;
 
-namespace DarkRoles.Roles.Core;
+namespace TheDarkRoles.Roles.Core;
 
 public class SimpleRoleInfo
 {
@@ -76,7 +76,7 @@ public class SimpleRoleInfo
 
         _ = ColorUtility.TryParseHtmlString(colorCode, out RoleColor);
 
-        if (tab == TabGroup.DRSettings)
+        if (tab == TabGroup.MainSettings)
             tab = CustomRoleType switch
             {
                 CustomRoleTypes.Impostor => TabGroup.ImpostorRoles,
@@ -100,7 +100,7 @@ public class SimpleRoleInfo
         string chatCommand,
         string colorCode = "",
         bool isDesyncImpostor = false,
-        TabGroup tab = TabGroup.DRSettings,
+        TabGroup tab = TabGroup.MainSettings,
         Func<AudioClip> introSound = null,
         Func<bool> canMakeMadmate = null,
         CountTypes? countType = null,
@@ -185,7 +185,7 @@ public class SimpleRoleInfo
             null,
             colorCode,
             false,
-            TabGroup.DRSettings,
+            TabGroup.MainSettings,
             null,
             () => canMakeMadmate,
             assignInfo ?? new(roleName, customRoleType));

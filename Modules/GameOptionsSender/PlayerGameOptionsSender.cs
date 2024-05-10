@@ -6,11 +6,9 @@ using Il2CppSystem.Linq;
 using InnerNet;
 using Mathf = UnityEngine.Mathf;
 
-using DarkRoles.Roles.Core;
-using Epic.OnlineServices.Presence;
-using DarkRoles.Roles.AddOns.Crewmate;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Modules
+namespace TheDarkRoles.Modules
 {
     public class PlayerGameOptionsSender : GameOptionsSender
     {
@@ -105,17 +103,7 @@ namespace DarkRoles.Modules
                     case CustomRoles.Watcher:
                         opt.SetBool(BoolOptionNames.AnonymousVotes, false);
                         break;
-                    case CustomRoles.Torch:
-                        opt.SetVision(true);
-                        break;
-                    case CustomRoles.Flash:
-                        Flash.DoSpeed(player);
-                        break;
-                    case CustomRoles.Sloth:
-                        Sloth.DoSpeed(player);
-                        break;
-
-                }  
+                }
             }
             if (Main.AllPlayerKillCooldown.TryGetValue(player.PlayerId, out var killCooldown))
             {

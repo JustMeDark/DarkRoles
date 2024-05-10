@@ -3,10 +3,10 @@ using System.Linq;
 using Hazel;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 public sealed class Executioner : RoleBase, IAdditionalWinner
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -16,7 +16,7 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
             CustomRoles.Executioner,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            10200,
+            50700,
             SetupOptionItem,
             "exe",
             "#611c3a",
@@ -65,9 +65,9 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     private static void SetupOptionItem()
     {
         var cRolesString = ChangeRoles.Select(x => x.ToString()).ToArray();
-        OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10201, OptionName.ExecutionerCanTargetImpostor, false, false);
-        OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 10202, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
-        OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 10203, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
+        OptionCanTargetImpostor = BooleanOptionItem.Create(RoleInfo, 10, OptionName.ExecutionerCanTargetImpostor, false, false);
+        OptionCanTargetNeutralKiller = BooleanOptionItem.Create(RoleInfo, 12, OptionName.ExecutionerCanTargetNeutralKiller, false, false);
+        OptionChangeRolesAfterTargetKilled = StringOptionItem.Create(RoleInfo, 11, OptionName.ExecutionerChangeRolesAfterTargetKilled, cRolesString, 1, false);
     }
     public override void Add()
     {
@@ -104,10 +104,10 @@ public sealed class Executioner : RoleBase, IAdditionalWinner
     {
         if (!AmongUsClient.Instance.AmHost) return;
 
-        using var sender = CreateSender(CustomRPC.SetExecutionerTarget);
+        using var sender = CreateSender();
         sender.Writer.Write(TargetId);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
         byte targetId = reader.ReadByte();
         TargetId = targetId;

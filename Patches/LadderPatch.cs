@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using HarmonyLib;
-using DarkRoles.Attributes;
+using TheDarkRoles.Attributes;
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class FallFromLadder
     {

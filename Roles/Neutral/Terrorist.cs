@@ -1,9 +1,9 @@
 using System.Linq;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 
 public sealed class Terrorist : RoleBase
 {
@@ -14,7 +14,7 @@ public sealed class Terrorist : RoleBase
             CustomRoles.Terrorist,
             () => RoleTypes.Engineer,
             CustomRoleTypes.Neutral,
-            10800,
+            50200,
             SetupOptionItem,
             "te",
             "#00ff00",
@@ -39,9 +39,9 @@ public sealed class Terrorist : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionCanSuicideWin = BooleanOptionItem.Create(RoleInfo, 10801, OptionName.CanTerroristSuicideWin, false, false);
+        OptionCanSuicideWin = BooleanOptionItem.Create(RoleInfo, 10, OptionName.CanTerroristSuicideWin, false, false);
         // 20-23を使用
-        Tasks = Options.OverrideTasksData.Create(RoleInfo, 10802);
+        Tasks = Options.OverrideTasksData.Create(RoleInfo, 20);
     }
 
     public override void ApplyGameOptions(IGameOptions opt)

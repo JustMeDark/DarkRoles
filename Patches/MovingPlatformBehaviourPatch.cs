@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles.Patches;
+namespace TheDarkRoles.Patches;
 
 [HarmonyPatch(typeof(MovingPlatformBehaviour))]
 public static class MovingPlatformBehaviourPatch

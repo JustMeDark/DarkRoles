@@ -1,7 +1,7 @@
 using System.Text;
 using UnityEngine;
 
-namespace DarkRoles;
+namespace TheDarkRoles;
 
 public static class StringHelper
 {

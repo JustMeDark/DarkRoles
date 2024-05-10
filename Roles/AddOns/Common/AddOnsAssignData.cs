@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using DarkRoles.Roles.Core;
-using static DarkRoles.Options;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Options;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.AddOns.Common
+namespace TheDarkRoles.Roles.AddOns.Common
 {
     public class AddOnsAssignData
     {
@@ -95,8 +95,7 @@ namespace DarkRoles.Roles.AddOns.Common
 
                 foreach (var pc in assignTargetList)
                 {
-                    if (pc.GetCustomSubRoles().Count == 0)
-                        PlayerState.GetByPlayerId(pc.PlayerId).SetSubRole(role);
+                    PlayerState.GetByPlayerId(pc.PlayerId).SetSubRole(role);
                     Logger.Info("役職設定:" + pc?.Data?.PlayerName + " = " + pc.GetCustomRole().ToString() + " + " + role.ToString(), "AssignCustomSubRoles");
                 }
             }

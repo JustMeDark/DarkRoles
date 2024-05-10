@@ -1,7 +1,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class HashAuth
     {

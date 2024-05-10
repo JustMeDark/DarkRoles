@@ -2,9 +2,9 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using UnityEngine;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Neutral;
-namespace DarkRoles
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Neutral;
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(Console), nameof(Console.CanUse))]
     class CanUsePatch
@@ -38,7 +38,7 @@ namespace DarkRoles
 
             // カスタムロールを元にベントを使えるか判定
             // エンジニアベースの役職は常にtrue
-            couldUse = playerControl.CanUseImpostorVentButton() || pc.Role.Role == RoleTypes.Engineer;
+            couldUse = playerControl.CanUseImpostorVentButton() || (pc.Role.Role == RoleTypes.Engineer && pc.Role.CanUse(__instance.Cast<IUsable>()));
 
             canUse = couldUse;
             // カスタムロールが使えなかったら使用不可

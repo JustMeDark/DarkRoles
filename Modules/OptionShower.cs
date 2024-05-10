@@ -3,11 +3,11 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class OptionShower
     {

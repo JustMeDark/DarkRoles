@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 using Hazel;
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 using UnityEngine;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 public sealed class Stealth : RoleBase, IImpostor
 {
@@ -23,7 +23,7 @@ public sealed class Stealth : RoleBase, IImpostor
         CustomRoles.Stealth,
         () => RoleTypes.Impostor,
         CustomRoleTypes.Impostor,
-        21300,
+        3200,
         SetupOptionItems,
         "st",
         introSound: () => GetIntroSound(RoleTypes.Shapeshifter));
@@ -35,8 +35,8 @@ public sealed class Stealth : RoleBase, IImpostor
     private enum OptionName { StealthExcludeImpostors, StealthDarkenDuration, }
     private static void SetupOptionItems()
     {
-        optionExcludeImpostors = BooleanOptionItem.Create(RoleInfo, 21301, OptionName.StealthExcludeImpostors, true, false);
-        optionDarkenDuration = FloatOptionItem.Create(RoleInfo, 21302, OptionName.StealthDarkenDuration, new(0.5f, 5f, 0.5f), 1f, false);
+        optionExcludeImpostors = BooleanOptionItem.Create(RoleInfo, 10, OptionName.StealthExcludeImpostors, true, false);
+        optionDarkenDuration = FloatOptionItem.Create(RoleInfo, 20, OptionName.StealthDarkenDuration, new(0.5f, 5f, 0.5f), 1f, false);
         optionDarkenDuration.SetValueFormat(OptionFormat.Seconds);
     }
     #endregion
@@ -121,16 +121,13 @@ public sealed class Stealth : RoleBase, IImpostor
     {
         logger.Info($"暗転させている部屋を{roomType?.ToString() ?? "null"}に設定");
         darkenedRoom = roomType;
-        using var sender = CreateSender(CustomRPC.StealthDarken);
+        using var sender = CreateSender();
         sender.Writer.Write((byte?)roomType ?? byte.MaxValue);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType == CustomRPC.StealthDarken)
-        {
-            var roomId = reader.ReadByte();
-            darkenedRoom = roomId == byte.MaxValue ? null : (SystemTypes)roomId;
-        }
+        var roomId = reader.ReadByte();
+        darkenedRoom = roomId == byte.MaxValue ? null : (SystemTypes)roomId;
     }
     /// <summary>発生している暗転効果を解除</summary>
     private void ResetDarkenState()

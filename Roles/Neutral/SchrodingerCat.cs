@@ -6,11 +6,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using Hazel;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 
 // マッドが属性化したらマッド状態時の特別扱いを削除する
 public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSeeable, IKillFlashSeeable
@@ -22,7 +22,7 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
             CustomRoles.SchrodingerCat,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            10700,
+            50400,
             SetupOptionItem,
             "sc",
             "#696969",
@@ -76,9 +76,9 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
 
     public static void SetupOptionItem()
     {
-        OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(RoleInfo, 10701, OptionName.CanBeforeSchrodingerCatWinTheCrewmate, false, false);
-        OptionChangeTeamWhenExile = BooleanOptionItem.Create(RoleInfo, 10702, OptionName.SchrodingerCatExiledTeamChanges, false, false);
-        OptionCanSeeKillableTeammate = BooleanOptionItem.Create(RoleInfo, 10703, OptionName.SchrodingerCatCanSeeKillableTeammate, false, false);
+        OptionCanWinTheCrewmateBeforeChange = BooleanOptionItem.Create(RoleInfo, 10, OptionName.CanBeforeSchrodingerCatWinTheCrewmate, false, false);
+        OptionChangeTeamWhenExile = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SchrodingerCatExiledTeamChanges, false, false);
+        OptionCanSeeKillableTeammate = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SchrodingerCatCanSeeKillableTeammate, false, false);
     }
     public override void ApplyGameOptions(IGameOptions opt)
     {
@@ -218,16 +218,12 @@ public sealed class SchrodingerCat : RoleBase, IAdditionalWinner, IDeathReasonSe
         Team = team;
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.SetSchrodingerCatTeam);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)team);
         }
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetSchrodingerCatTeam)
-        {
-            return;
-        }
         Team = (TeamType)reader.ReadByte();
     }
 

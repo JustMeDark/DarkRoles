@@ -2,7 +2,7 @@ using Hazel;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
 using InnerNet;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class WriterProxy : ICustomWriter
     {

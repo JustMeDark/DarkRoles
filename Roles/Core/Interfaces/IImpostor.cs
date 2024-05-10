@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Neutral;
+using TheDarkRoles.Roles.Neutral;
 
-namespace DarkRoles.Roles.Core.Interfaces;
+namespace TheDarkRoles.Roles.Core.Interfaces;
 
 /// <summary>
 /// インポスターのインタフェイス<br/>

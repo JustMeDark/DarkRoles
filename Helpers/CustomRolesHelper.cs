@@ -1,9 +1,9 @@
 using System.Linq;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     static class CustomRolesHelper
     {
@@ -135,7 +135,5 @@ namespace DarkRoles
         Crew,
         Impostor,
         Jackal,
-        Agent47,
-        Accelerator
     }
 }

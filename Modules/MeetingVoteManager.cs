@@ -1,9 +1,9 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Modules;
+namespace TheDarkRoles.Modules;
 
 public class MeetingVoteManager
 {

@@ -5,11 +5,10 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using DarkRoles.Roles.Core;
-using static DarkRoles.Translator;
-using DarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public enum CustomRPC
     {
@@ -20,26 +19,10 @@ namespace DarkRoles
         EndGame,
         PlaySound,
         SetCustomRole,
-        SetBountyTarget,
-        WitchSync,
-        SetSheriffShotLimit,
-        SetMarkedPlayers,
-        SetDousedPlayer,
         SetNameColorData,
-        SniperSync,
         SetLoversPlayers,
-        SetExecutionerTarget,
-        SetCurrentDousingTarget,
-        SetEvilTrackerTarget,
         SetRealKiller,
-        SyncNameNotify, //credit tohe
-        SyncPuppet,
-        SetSchrodingerCatTeam,
-        StealthDarken,
-        EvilHackerCreateMurderNotify,
-        PenguinSync,
-        MareSync,
-        SyncPlagueDoctor,
+        CustomRoleSync,
     }
     public enum Sounds
     {
@@ -103,7 +86,7 @@ namespace DarkRoles
                     {
                         Version version = Version.Parse(reader.ReadString());
                         string tag = reader.ReadString();
-                        string forkId = Main.ForkId;
+                        string forkId = 3 <= version.Major ? reader.ReadString() : Main.OriginalForkId;
                         Main.playerVersion[__instance.PlayerId] = new PlayerVersion(version, tag, forkId);
                     }
                     catch
@@ -156,11 +139,8 @@ namespace DarkRoles
                     byte killerId = reader.ReadByte();
                     RPC.SetRealKiller(targetId, killerId);
                     break;
-                case CustomRPC.SyncNameNotify:
-                    NameNotifyManager.ReceiveRPC(reader);
-                    break;
-                default:
-                    CustomRoleManager.DispatchRpc(reader, rpcType);
+                case CustomRPC.CustomRoleSync:
+                    CustomRoleManager.DispatchRpc(reader);
                     break;
             }
         }

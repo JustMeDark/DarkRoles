@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Toggle))]
     class CancelBanMenuStuckPatch

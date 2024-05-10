@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using HarmonyLib;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class AirShipElectricalDoors
     {

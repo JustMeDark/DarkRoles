@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DarkRoles.Attributes;
+using TheDarkRoles.Attributes;
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     static class DoubleTrigger
     {

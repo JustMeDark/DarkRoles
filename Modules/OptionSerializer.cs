@@ -6,13 +6,13 @@ using System.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-namespace DarkRoles.Modules;
+namespace TheDarkRoles.Modules;
 
 public static class OptionSerializer
 {
     private static LogHandler logger = Logger.Handler(nameof(OptionSerializer));
     private const string Header = "%TOHOptions%", Footer = "%End%";
-    private static readonly DirectoryInfo exportDir = new("./Dark Roles Data/OptionOutputs");
+    private static readonly DirectoryInfo exportDir = new("./TOH_DATA/OptionOutputs");
     public static void SaveToClipboard()
     {
         GUIUtility.systemCopyBuffer = GenerateOptionsString();
@@ -82,6 +82,7 @@ public static class OptionSerializer
     /// <returns>生成された文字列</returns>
     public static string GenerateVanillaOptionsString()
     {
+        // 保存時はエイプリルフール無効
         byte[] bytes = GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions, false);
         return Convert.ToBase64String(bytes);
     }

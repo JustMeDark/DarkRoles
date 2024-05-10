@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Vanilla;
+namespace TheDarkRoles.Roles.Vanilla;
 
 public sealed class Impostor : RoleBase, IImpostor
 {

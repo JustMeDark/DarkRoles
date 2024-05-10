@@ -1,9 +1,9 @@
 using Hazel;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Impostor;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Impostor;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class NameColorManager
     {
@@ -13,8 +13,8 @@ namespace DarkRoles
 
             if (!TryGetData(seer, target, out var colorCode))
             {
-                if (KnowTargetRoleColor(seer, target, isMeeting, out var color))
-                    colorCode = color == "" ? target.GetRoleColorCode() : color;
+                if (KnowTargetRoleColor(seer, target, isMeeting))
+                    colorCode = target.GetRoleColorCode();
             }
             string openTag = "", closeTag = "";
             if (colorCode != "")
@@ -26,24 +26,11 @@ namespace DarkRoles
             }
             return openTag + name + closeTag;
         }
-        //thanks tohe for the idea of how to do this
-        private static bool KnowTargetRoleColor(PlayerControl seer, PlayerControl target, bool isMeeting, out string color)
+        private static bool KnowTargetRoleColor(PlayerControl seer, PlayerControl target, bool isMeeting)
         {
-            color = "";
-
-            if (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
-                color = Utils.GetRoleColorCode(CustomRoles.Madmate);
-            if (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Impostor))
-                color = Utils.GetRoleColorCode(CustomRoles.Impostor);
-            if (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Madmate))
-                color = Utils.GetRoleColorCode(CustomRoles.Madmate);
-
-            return (seer == target)
+            return seer == target
                 || target.Is(CustomRoles.GM)
                 || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
-                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
-                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Impostor))
-                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Madmate))
                 || Mare.KnowTargetRoleColor(target, isMeeting);
         }
         public static bool TryGetData(PlayerControl seer, PlayerControl target, out string colorCode)

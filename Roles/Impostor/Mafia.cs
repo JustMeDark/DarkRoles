@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 public sealed class Mafia : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -13,7 +13,7 @@ public sealed class Mafia : RoleBase, IImpostor
             CustomRoles.Mafia,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            20500,
+            1600,
             null,
             "mf"
         );

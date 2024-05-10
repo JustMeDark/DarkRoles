@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class AURoleOptions
     {

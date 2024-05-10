@@ -1,6 +1,6 @@
 using System;
 
-namespace DarkRoles.Modules
+namespace TheDarkRoles.Modules
 {
     class LogHandler : ILogHandler
     {

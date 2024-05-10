@@ -8,11 +8,11 @@ using InnerNet;
 using TMPro;
 using UnityEngine;
 using Object = UnityEngine.Object;
-using DarkRoles.Modules;
-using static DarkRoles.Translator;
-using DarkRoles.Roles;
+using TheDarkRoles.Modules;
+using static TheDarkRoles.Translator;
+using TheDarkRoles.Roles;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class GameStartManagerPatch
     {
@@ -178,7 +178,8 @@ namespace DarkRoles
             {
                 if (!Main.playerVersion.TryGetValue(playerId, out var version)) return acceptVanilla;
                 return Main.ForkId == version.forkId
-                    && Main.version.CompareTo(version.version) == 0;
+                    && Main.version.CompareTo(version.version) == 0
+                    && version.tag == $"{ThisAssembly.Git.Commit}({ThisAssembly.Git.Branch})";
             }
         }
 
@@ -188,7 +189,7 @@ namespace DarkRoles
             public static bool Prefix(GameStartManager __instance)
             {
                 SelectRandomMap();
-                Main.GameIsStarted = true;
+
                 var invalidColor = Main.AllPlayerControls.Where(p => p.Data.DefaultOutfit.ColorId < 0 || Palette.PlayerColors.Length <= p.Data.DefaultOutfit.ColorId);
                 if (invalidColor.Any())
                 {
@@ -210,7 +211,7 @@ namespace DarkRoles
                 Main.LastShapeshifterCooldown.Value = AURoleOptions.ShapeshifterCooldown;
                 AURoleOptions.ShapeshifterCooldown = 0f;
 
-                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt, false));
+                PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(opt, AprilFoolsMode.IsAprilFoolsModeToggledOn));
 
                 __instance.ReallyBegin(false);
                 return false;
@@ -249,7 +250,7 @@ namespace DarkRoles
                 if (GameStates.IsCountDown)
                 {
                     Main.NormalOptions.KillCooldown = Options.DefaultKillCooldown;
-                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions, false));
+                    PlayerControl.LocalPlayer.RpcSyncSettings(GameOptionsManager.Instance.gameOptionsFactory.ToBytes(GameOptionsManager.Instance.CurrentGameOptions, AprilFoolsMode.IsAprilFoolsModeToggledOn));
                 }
             }
         }

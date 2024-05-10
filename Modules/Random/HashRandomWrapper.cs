@@ -1,4 +1,4 @@
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class HashRandomWrapper : IRandom
     {

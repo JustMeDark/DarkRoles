@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 
 public sealed class Opportunist : RoleBase, IAdditionalWinner
 {
@@ -14,7 +14,7 @@ public sealed class Opportunist : RoleBase, IAdditionalWinner
             CustomRoles.Opportunist,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Neutral,
-            10500,
+            50100,
             null,
             "op",
             "#00ff00"

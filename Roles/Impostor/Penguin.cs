@@ -2,11 +2,11 @@ using UnityEngine;
 using AmongUs.GameOptions;
 using Hazel;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 class Penguin : RoleBase, IImpostor
 {
@@ -17,7 +17,7 @@ class Penguin : RoleBase, IImpostor
             CustomRoles.Penguin,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            20800,
+            3400,
             SetupOptionItem,
             "pe"
         );
@@ -51,9 +51,9 @@ class Penguin : RoleBase, IImpostor
     public bool IsKiller => AbductVictim == null;
     public static void SetupOptionItem()
     {
-        OptionAbductTimerLimit = FloatOptionItem.Create(RoleInfo, 20801, OptionName.PenguinAbductTimerLimit, new(5f, 20f, 1f), 10f, false)
+        OptionAbductTimerLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.PenguinAbductTimerLimit, new(5f, 20f, 1f), 10f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionMeetingKill = BooleanOptionItem.Create(RoleInfo, 20802, OptionName.PenguinMeetingKill, false, false);
+        OptionMeetingKill = BooleanOptionItem.Create(RoleInfo, 12, OptionName.PenguinMeetingKill, false, false);
     }
     public override void Add()
     {
@@ -63,15 +63,13 @@ class Penguin : RoleBase, IImpostor
     public override void ApplyGameOptions(IGameOptions opt) => AURoleOptions.ShapeshifterCooldown = AbductVictim != null ? AbductTimer : 255f;
     private void SendRPC()
     {
-        using var sender = CreateSender(CustomRPC.PenguinSync);
+        using var sender = CreateSender();
 
         sender.Writer.Write(AbductVictim?.PlayerId ?? 255);
     }
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.PenguinSync) return;
-
         var victim = reader.ReadByte();
         if (victim == 255)
         {
@@ -238,14 +236,14 @@ class Penguin : RoleBase, IImpostor
                 var position = Player.transform.position;
                 if (Player.PlayerId != 0)
                 {
-                    RandomSpawn.TP(AbductVictim.NetTransform, position);
+                    AbductVictim.RpcSnapToForced(position);
                 }
                 else
                 {
                     _ = new LateTask(() =>
                     {
                         if (AbductVictim != null)
-                            RandomSpawn.TP(AbductVictim.NetTransform, position);
+                            AbductVictim.RpcSnapToForced(position);
                     }
                     , 0.25f, "");
                 }

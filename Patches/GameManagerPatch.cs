@@ -1,7 +1,7 @@
 using HarmonyLib;
 using Hazel;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(GameManager), nameof(GameManager.Serialize))]
     class GameManagerSerializeFix

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace DarkRoles.Modules;
+namespace TheDarkRoles.Modules;
 
 public static class VersionChecker
 {

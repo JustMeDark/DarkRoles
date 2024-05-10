@@ -7,18 +7,13 @@ using HarmonyLib;
 using Hazel;
 using UnityEngine;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.AddOns.Crewmate;
-using DarkRoles.Roles.Crewmate;
-using DarkRoles.Roles.AddOns.Common;
-using DarkRoles.Roles.Neutral;
-using DarkRoles.Modules.Customs;
-using AmongUs.Data;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.AddOns.Crewmate;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckProtect))]
     class CheckProtectPatch
@@ -67,67 +62,64 @@ namespace DarkRoles
             return false;
         }
 
-        // Unauthorized Kill Prevention Check
+        // 不正キル防止チェック
         public static bool CheckForInvalidMurdering(MurderInfo info)
         {
             (var killer, var target) = info.AttemptTuple;
 
-            // Whether the Killer is already dead
+            // Killerが既に死んでいないかどうか
             if (!killer.IsAlive())
             {
-                Logger.Info($"{killer.GetNameWithRole()}was cancelled because it is dead.", "CheckMurder");
+                Logger.Info($"{killer.GetNameWithRole()}は死亡しているためキャンセルされました。", "CheckMurder");
                 return false;
             }
-            // Is the target in a killable state?
+            // targetがキル可能な状態か
             if (
-                // Check if PlayerData is not null
+                // PlayerDataがnullじゃないか確認
                 target.Data == null ||
-                // Check target status
+                // targetの状態をチェック
                 target.inVent ||
                 target.MyPhysics.Animations.IsPlayingEnterVentAnimation() ||
                 target.MyPhysics.Animations.IsPlayingAnyLadderAnimation() ||
                 target.inMovingPlat)
             {
-                Logger.Info("target is currently unkillable。", "CheckMurder");
+                Logger.Info("targetは現在キルできない状態です。", "CheckMurder");
                 return false;
             }
-            // Is target already dead?
+            // targetが既に死んでいないか
             if (!target.IsAlive())
             {
-                Logger.Info("Because target was already dead, the kill was canceled.", "CheckMurder");
+                Logger.Info("targetは既に死んでいたため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-            // Isn't it a kill in the meeting?
+            // 会議中のキルでないか
             if (MeetingHud.Instance != null)
             {
-                Logger.Info("The meeting started and the kill was cancelled.", "CheckMurder");
+                Logger.Info("会議が始まっていたため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
 
-            if (killer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
-                return false;
-
-            // Are you sure it's not a series of kills?
-            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //Ping value is milliseconds (ms), so ÷1000
-            //No value is stored in TimeSinceLastKill || Stored time is greater than or equal to minTime => Allow kill
-            //↓If not permitted
+            // 連打キルでないか
+            float minTime = Mathf.Max(0.02f, AmongUsClient.Instance.Ping / 1000f * 6f); //※AmongUsClient.Instance.Pingの値はミリ秒(ms)なので÷1000
+            //TimeSinceLastKillに値が保存されていない || 保存されている時間がminTime以上 => キルを許可
+            //↓許可されない場合
             if (TimeSinceLastKill.TryGetValue(killer.PlayerId, out var time) && time < minTime)
             {
-                Logger.Info("Blocked the kill because the time since the last kill was too fast.。", "CheckMurder");
+                Logger.Info("前回のキルからの時間が早すぎるため、キルをブロックしました。", "CheckMurder");
                 return false;
             }
             TimeSinceLastKill[killer.PlayerId] = 0f;
 
-            // HideAndSeek Kill button available?
+            // HideAndSeek_キルボタンが使用可能か
             if ((Options.CurrentGameMode == CustomGameMode.HideAndSeek || Options.IsStandardHAS) && Options.HideAndSeekKillDelayTimer > 0)
             {
-                Logger.Info("The kill was canceled because HideAndSeek was on standby.", "CheckMurder");
+                Logger.Info("HideAndSeekの待機時間中だったため、キルをキャンセルしました。", "CheckMurder");
                 return false;
             }
-            // Is the player capable of killing (excluding remotes)?
+            // キルが可能なプレイヤーか(遠隔は除く)
             if (!info.IsFakeSuicide && !killer.CanUseKillButton())
             {
-                Logger.Info(killer.GetNameWithRole() + "is not Killable, so the kill was cancelled.", "CheckMurder");
+                Logger.Info(killer.GetNameWithRole() + "はKillできないので、キルはキャンセルされました。", "CheckMurder");
                 return false;
             }
             return true;
@@ -198,34 +190,26 @@ namespace DarkRoles
             CustomRoleManager.OnMurderPlayer(__instance, target);
         }
     }
-    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
-    class ShapeshiftPatch
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.CheckShapeshift))]
+    public static class PlayerControlCheckShapeshiftPatch
     {
-        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        private static readonly LogHandler logger = Logger.Handler(nameof(PlayerControl.CheckShapeshift));
+
+        public static bool Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target, [HarmonyArgument(1)] bool shouldAnimate)
         {
-            Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
-
-            var shapeshifter = __instance;
-            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
-
-            if (Main.CheckShapeshift.TryGetValue(shapeshifter.PlayerId, out var last) && last == shapeshifting)
+            if (AmongUsClient.Instance.IsGameOver || !AmongUsClient.Instance.AmHost)
             {
-                Logger.Info($"{__instance?.GetNameWithRole()}:Cancel Shapeshift.Prefix", "Shapeshift");
-                return;
+                return false;
             }
 
-            Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
-            Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
-
-            shapeshifter.GetRoleClass()?.OnShapeshift(target);
-
-
-            if (!AmongUsClient.Instance.AmHost) return;
-
-            if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
-
-            shapeshifter.GetRoleClass()?.OnShapeshift(shapeshifter, target, shapeshifting);
-
+            // 無効な変身を弾く．これより前に役職等の処理をしてはいけない
+            if (!CheckInvalidShapeshifting(__instance, target, shouldAnimate))
+            {
+                __instance.RpcRejectShapeshift();
+                return false;
+            }
+            var shapeshifter = __instance;
+            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
             // 変身したとき一番近い人をマッドメイトにする処理
             if (shapeshifter.CanMakeMadmate() && shapeshifting)
             {
@@ -254,6 +238,86 @@ namespace DarkRoles
                     Utils.NotifyRoles();
                 }
             }
+            // 役職の処理
+            var role = shapeshifter.GetRoleClass();
+            if (role?.OnCheckShapeshift(target, ref shouldAnimate) == false)
+            {
+                if (role.CanDesyncShapeshift)
+                {
+                    shapeshifter.RpcSpecificRejectShapeshift(target, shouldAnimate);
+                }
+                else
+                {
+                    shapeshifter.RpcRejectShapeshift();
+                }
+                return false;
+            }
+
+            shapeshifter.RpcShapeshift(target, shouldAnimate);
+            return false;
+        }
+        private static bool CheckInvalidShapeshifting(PlayerControl instance, PlayerControl target, bool animate)
+        {
+            logger.Info($"Checking shapeshift {instance.GetNameWithRole()} -> {(target == null || target.Data == null ? "(null)" : target.GetNameWithRole())}");
+
+            if (!target || target.Data == null)
+            {
+                logger.Info("targetがnullのため変身をキャンセルします");
+                return false;
+            }
+            if (!instance.IsAlive())
+            {
+                logger.Info("変身者が死亡しているため変身をキャンセルします");
+                return false;
+            }
+            // RoleInfoによるdesyncシェイプシフター用の判定を追加
+            if (instance.Data.Role.Role != RoleTypes.Shapeshifter && instance.GetCustomRole().GetRoleInfo()?.BaseRoleType?.Invoke() != RoleTypes.Shapeshifter)
+            {
+                logger.Info("変身者がシェイプシフターではないため変身をキャンセルします");
+                return false;
+            }
+            if (instance.Data.Disconnected)
+            {
+                logger.Info("変身者が切断済のため変身をキャンセルします");
+                return false;
+            }
+            if (target.IsMushroomMixupActive() && animate)
+            {
+                logger.Info("キノコカオス中のため変身をキャンセルします");
+                return false;
+            }
+            if (MeetingHud.Instance && animate)
+            {
+                logger.Info("会議中のため変身をキャンセルします");
+                return false;
+            }
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(PlayerControl), nameof(PlayerControl.Shapeshift))]
+    class ShapeshiftPatch
+    {
+        public static void Prefix(PlayerControl __instance, [HarmonyArgument(0)] PlayerControl target)
+        {
+            Logger.Info($"{__instance?.GetNameWithRole()} => {target?.GetNameWithRole()}", "Shapeshift");
+
+            var shapeshifter = __instance;
+            var shapeshifting = shapeshifter.PlayerId != target.PlayerId;
+
+            if (Main.CheckShapeshift.TryGetValue(shapeshifter.PlayerId, out var last) && last == shapeshifting)
+            {
+                Logger.Info($"{__instance?.GetNameWithRole()}:Cancel Shapeshift.Prefix", "Shapeshift");
+                return;
+            }
+
+            Main.CheckShapeshift[shapeshifter.PlayerId] = shapeshifting;
+            Main.ShapeshiftTarget[shapeshifter.PlayerId] = target.PlayerId;
+
+            shapeshifter.GetRoleClass()?.OnShapeshift(target);
+
+            if (!AmongUsClient.Instance.AmHost) return;
+
+            if (!shapeshifting) Camouflage.RpcSetSkin(__instance);
 
             //変身解除のタイミングがずれて名前が直せなかった時のために強制書き換え
             if (!shapeshifting)
@@ -354,9 +418,8 @@ namespace DarkRoles
 
             if (!GameStates.IsModHost) return;
 
-            Zoom.OnFixedUpdate();
             TargetArrow.OnFixedUpdate(player);
-            NameNotifyManager.OnFixedUpdate(player);
+
             CustomRoleManager.OnFixedUpdate(player);
 
             if (AmongUsClient.Instance.AmHost)
@@ -372,17 +435,6 @@ namespace DarkRoles
                     __instance.ReportDeadBody(info);
                 }
 
-                // OnExitVent
-                if (player.Is(CustomRoles.Magician))
-                    if (Magician.HasVented[player.PlayerId] && !player.inVent)
-                    {
-                        Magician.OnExitVent(player);
-                        Magician.HasVented[player.PlayerId] = false;
-                    }
-
-                if (player.Is(CustomRoles.Accelerator) && !player.inVent && Accelerator.HasVented)
-                    Accelerator.OnExitVent(player);
-
                 DoubleTrigger.OnFixedUpdate(player);
 
                 //ターゲットのリセット
@@ -396,10 +448,10 @@ namespace DarkRoles
                 if (GameStates.IsInGame && player.AmOwner)
                     DisableDevice.FixedUpdate();
 
-                /*if (player.AmOwner)
-                {*/
-                    Utils.ApplySuffix(player);
-                //}
+                if (__instance.AmOwner)
+                {
+                    Utils.ApplySuffix();
+                }
             }
             //LocalPlayer専用
             if (__instance.AmOwner)
@@ -455,9 +507,6 @@ namespace DarkRoles
                     //名前変更
                     RealName = target.GetRealName();
 
-                    if (NameNotifyManager.GetNameNotify(target, out var name))
-                        RealName = name;
-
                     //NameColorManager準拠の処理
                     RealName = RealName.ApplyNameColorData(seer, target, false);
 
@@ -475,16 +524,6 @@ namespace DarkRoles
                     {
                         Mark.Append($"<color={Utils.GetRoleColorCode(CustomRoles.Lovers)}>♡</color>");
                     }
-
-                    // Madmates and imps
-                    if (__instance.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
-                        RoleText.enabled = true;
-                    if (__instance.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
-                        RoleText.enabled = true;
-                    if (__instance.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
-                        RoleText.enabled = true;
-                    if (__instance.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
-                        RoleText.enabled = true;
 
                     //seerに関わらず発動するLowerText
                     Suffix.Append(CustomRoleManager.GetLowerTextOthers(seer, target));
@@ -587,23 +626,6 @@ namespace DarkRoles
             return true;
         }
     }
-
-    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
-    class EnterVentPatch
-    {
-        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
-        {
-
-            pc.GetRoleClass()?.IsInVent();
-            switch (pc.GetCustomRole())
-            {
-                case CustomRoles.Magician:
-                    Magician.HasVented[pc.PlayerId] = true;
-                    break;
-            }
-        }
-    }
-
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch
     {

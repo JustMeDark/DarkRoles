@@ -10,34 +10,34 @@ using HarmonyLib;
 using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
-using DarkRoles.Attributes;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.AddOns.Common;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Modules;
 
-[assembly: AssemblyFileVersionAttribute(DarkRoles.Main.PluginVersion)]
-[assembly: AssemblyInformationalVersionAttribute(DarkRoles.Main.PluginVersion)]
-namespace DarkRoles
+[assembly: AssemblyFileVersionAttribute(TheDarkRoles.Main.PluginVersion)]
+[assembly: AssemblyInformationalVersionAttribute(TheDarkRoles.Main.PluginVersion)]
+namespace TheDarkRoles
 {
-    [BepInPlugin(PluginGuid, "DarkRolesReloaded", PluginVersion)]
+    [BepInPlugin(PluginGuid, "TheDarkRoles", PluginVersion)]
     [BepInIncompatibility("jp.ykundesu.supernewroles")]
     [BepInProcess("Among Us.exe")]
     public class Main : BasePlugin
     {
         // == プログラム設定 / Program Config ==
         // modの名前 / Mod Name (Default: Town Of Host)
-        public static readonly string ModName = "Dark Roles";
+        public static readonly string ModName = "The Dark Roles";
         // modの色 / Mod Color (Default: #00bfff)
-        public static readonly string ModColor = "#c5a0ef";
+        public static readonly string ModColor = "#00bfff";
         // 公開ルームを許可する / Allow Public Room (Default: true)
         public static readonly bool AllowPublicRoom = true;
         // フォークID / ForkId (Default: OriginalTOH)
-        public static readonly string ForkId = "DarkRoles";
+        public static readonly string ForkId = "TheDarkRoles";
         // Discordボタンを表示するか / Show Discord Button (Default: true)
         public static readonly bool ShowDiscordButton = true;
-        // Discordサーバーの招待リンク / Discord Server Invite URL (Default: https://discord.gg/9YdSgkF7yC)
-        public static readonly string DiscordInviteUrl = "https://discord.gg/9YdSgkF7yC";
+        // Discordサーバーの招待リンク / Discord Server Invite URL
+        public static readonly string DiscordInviteUrl = "probably never tbh";
         // ==========
-        //public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
+        public const string OriginalForkId = "OriginalTOH"; // Don't Change The Value. / この値を変更しないでください。
         // == 認証設定 / Authentication Config ==
         // デバッグキーの認証インスタンス
         public static HashAuth DebugKeyAuth { get; private set; }
@@ -50,12 +50,12 @@ namespace DarkRoles
 
         // ==========
         //Sorry for many Japanese comments.
-        public const string PluginGuid = "com.emptybottle.townofhost";
-        public const string PluginVersion = "1.0.5";
+        public const string PluginGuid = "com.sleepy.thedarkroles";
+        public const string PluginVersion = "2.0.0";
         // サポートされている最低のAmongUsバージョン
         public static readonly string LowestSupportedVersion = "2024.3.5";
         // このバージョンのみで公開ルームを無効にする場合
-        public static readonly bool IsPublicAvailableOnThisVersion = true;
+        public static readonly bool IsPublicAvailableOnThisVersion = false;
         public Harmony Harmony { get; } = new Harmony(PluginGuid);
         public static Version version = Version.Parse(PluginVersion);
         public static BepInEx.Logging.ManualLogSource Logger;
@@ -68,6 +68,7 @@ namespace DarkRoles
         //Client Options
         public static ConfigEntry<string> HideName { get; private set; }
         public static ConfigEntry<string> HideColor { get; private set; }
+        public static ConfigEntry<bool> ForceJapanese { get; private set; }
         public static ConfigEntry<bool> JapaneseRoleName { get; private set; }
         public static ConfigEntry<int> MessageWait { get; private set; }
         public static ConfigEntry<bool> ShowResults { get; private set; }
@@ -111,14 +112,10 @@ namespace DarkRoles
         public static string nickName = "";
         public static bool introDestroyed = false;
         public static float DefaultCrewmateVision;
-        public static bool IsLavaScreen = false;
-        public static bool CancelChat = false;
-        public static bool GameIsStarted = false;
-        public static CustomRoles SelectRole = CustomRoles.Crewmate;
         public static float DefaultImpostorVision;
         public static bool IsChristmas = DateTime.Now.Month == 12 && DateTime.Now.Day is 24 or 25;
-        public static bool IsInitialRelease = DateTime.Now.Month == 4 && DateTime.Now.Day is 9;
-        public const float RoleTextSize = 1.8f;
+        public static bool IsInitialRelease = DateTime.Now.Month == 12 && DateTime.Now.Day is 4;
+        public const float RoleTextSize = 2f;
 
         public static IEnumerable<PlayerControl> AllPlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null);
         public static IEnumerable<PlayerControl> AllAlivePlayerControls => PlayerControl.AllPlayerControls.ToArray().Where(p => p != null && p.IsAlive());
@@ -132,16 +129,18 @@ namespace DarkRoles
             //Client Options
             HideName = Config.Bind("Client Options", "Hide Game Code Name", "Town Of Host");
             HideColor = Config.Bind("Client Options", "Hide Game Code Color", $"{ModColor}");
+            ForceJapanese = Config.Bind("Client Options", "Force Japanese", false);
+            JapaneseRoleName = Config.Bind("Client Options", "Japanese Role Name", true);
             DebugKeyInput = Config.Bind("Authentication", "Debug Key", "");
             ShowResults = Config.Bind("Result", "Show Results", true);
 
             Logger = BepInEx.Logging.Logger.CreateLogSource("TownOfHost");
-            DarkRoles.Logger.Enable();
-            DarkRoles.Logger.Disable("NotifyRoles");
-            DarkRoles.Logger.Disable("SendRPC");
-            DarkRoles.Logger.Disable("ReceiveRPC");
-            DarkRoles.Logger.Disable("SwitchSystem");
-            DarkRoles.Logger.Disable("CustomRpcSender");
+            TheDarkRoles.Logger.Enable();
+            TheDarkRoles.Logger.Disable("NotifyRoles");
+            TheDarkRoles.Logger.Disable("SendRPC");
+            TheDarkRoles.Logger.Disable("ReceiveRPC");
+            TheDarkRoles.Logger.Disable("SwitchSystem");
+            TheDarkRoles.Logger.Disable("CustomRpcSender");
             //TownOfHost.Logger.isDetail = true;
 
             // 認証関連-初期化
@@ -187,11 +186,7 @@ namespace DarkRoles
                     //サブ役職
                     {CustomRoles.LastImpostor, "#ff1919"},
                     {CustomRoles.Lovers, "#ff6be4"},
-                    {CustomRoles.Watcher, "#800080"}, 
-                    {CustomRoles.Flash, "#fabf78"},
-                    {CustomRoles.Sloth, "#658a94"},
-                    {CustomRoles.Torch, "#f2f7a3"},
-                    {CustomRoles.Wise, Wise.Colour},
+                    {CustomRoles.Watcher, "#800080"},
                     {CustomRoles.Workhorse, "#00ffff"},
 
                     {CustomRoles.NotAssigned, "#ffffff"}
@@ -208,15 +203,15 @@ namespace DarkRoles
             }
             catch (ArgumentException ex)
             {
-                DarkRoles.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
-                DarkRoles.Logger.Exception(ex, "LoadDictionary");
+                TheDarkRoles.Logger.Error("エラー:Dictionaryの値の重複を検出しました", "LoadDictionary");
+                TheDarkRoles.Logger.Exception(ex, "LoadDictionary");
                 hasArgumentException = true;
                 ExceptionMessage = ex.Message;
                 ExceptionMessageIsShown = false;
             }
-            DarkRoles.Logger.Info($"{Application.version}", "AmongUs Version");
+            TheDarkRoles.Logger.Info($"{Application.version}", "AmongUs Version");
 
-            var handler = DarkRoles.Logger.Handler("GitVersion");
+            var handler = TheDarkRoles.Logger.Handler("GitVersion");
             handler.Info($"{nameof(ThisAssembly.Git.Branch)}: {ThisAssembly.Git.Branch}");
             handler.Info($"{nameof(ThisAssembly.Git.BaseTag)}: {ThisAssembly.Git.BaseTag}");
             handler.Info($"{nameof(ThisAssembly.Git.Commit)}: {ThisAssembly.Git.Commit}");
@@ -226,6 +221,8 @@ namespace DarkRoles
             handler.Info($"{nameof(ThisAssembly.Git.Tag)}: {ThisAssembly.Git.Tag}");
 
             ClassInjector.RegisterTypeInIl2Cpp<ErrorText>();
+
+            SystemEnvironment.SetEnvironmentVariables();
 
             Harmony.PatchAll();
         }
@@ -241,8 +238,6 @@ namespace DarkRoles
         Bombed,
         Misfire,
         Torched,
-        Hit,
-        CaughtLacking,
         Sniped,
         Revenge,
         Execution,

@@ -6,12 +6,12 @@ using HarmonyLib;
 using TMPro;
 using UnityEngine;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Templates;
-using static DarkRoles.Translator;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Templates;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameEnd))]
     class EndGamePatch
@@ -21,9 +21,7 @@ namespace DarkRoles
         public static void Postfix(AmongUsClient __instance, [HarmonyArgument(0)] ref EndGameResult endGameResult)
         {
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            Main.GameIsStarted = false;
             GameStates.InGame = false;
-            Main.SelectRole = CustomRoles.Crewmate;
 
             Logger.Info("-----------ゲーム終了-----------", "Phase");
             if (!GameStates.IsModHost) return;

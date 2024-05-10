@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace DarkRoles.Roles.Core.Descriptions;
+namespace TheDarkRoles.Roles.Core.Descriptions;
 
 public abstract class RoleDescription
 {

@@ -6,10 +6,9 @@ using System.Linq;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using Object = UnityEngine.Object;
-using static DarkRoles.Translator;
-using static DarkRoles.CredentialsPatch;
+using TheDarkRoles.Templates;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(MainMenuManager))]
     public static class MainMenuManagerPatch
@@ -17,7 +16,7 @@ namespace DarkRoles
         private static PassiveButton template;
         private static PassiveButton gitHubButton;
         private static PassiveButton discordButton;
-       // private static PassiveButton websiteButton;
+        // private static PassiveButton websiteButton;
 
         [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.LateUpdate)), HarmonyPostfix]
         public static void Postfix(MainMenuManager __instance)

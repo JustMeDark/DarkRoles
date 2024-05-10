@@ -2,10 +2,10 @@ using System.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Impostor
+namespace TheDarkRoles.Roles.Impostor
 {
     public sealed class Insider : RoleBase, IImpostor
     {
@@ -16,7 +16,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.Insider,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                20400,
+                2800,
                 SetupOptionItem,
                 "ins"
             );
@@ -49,10 +49,10 @@ namespace DarkRoles.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            optionCanSeeAllGhostsRoles = BooleanOptionItem.Create(RoleInfo, 20401, OptionName.InsiderCanSeeAllGhostsRoles, false, false);
-            optionCanSeeImpostorAbilities = BooleanOptionItem.Create(RoleInfo, 20402, OptionName.InsiderCanSeeImpostorAbilities, true, false);
-            optionCanSeeMadmates = BooleanOptionItem.Create(RoleInfo, 20403, OptionName.InsiderCanSeeMadmates, false, false);
-            optionKillCountToSeeMadmates = IntegerOptionItem.Create(RoleInfo, 20404, OptionName.InsiderKillCountToSeeMadmates, new(0, 15, 1), 2, false)
+            optionCanSeeAllGhostsRoles = BooleanOptionItem.Create(RoleInfo, 10, OptionName.InsiderCanSeeAllGhostsRoles, false, false);
+            optionCanSeeImpostorAbilities = BooleanOptionItem.Create(RoleInfo, 11, OptionName.InsiderCanSeeImpostorAbilities, true, false);
+            optionCanSeeMadmates = BooleanOptionItem.Create(RoleInfo, 12, OptionName.InsiderCanSeeMadmates, false, false);
+            optionKillCountToSeeMadmates = IntegerOptionItem.Create(RoleInfo, 13, OptionName.InsiderKillCountToSeeMadmates, new(0, 15, 1), 2, false)
                 .SetParent(optionCanSeeMadmates)
                 .SetValueFormat(OptionFormat.Times);
         }

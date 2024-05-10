@@ -1,8 +1,8 @@
 using HarmonyLib;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     //参考元:https://github.com/yukieiji/ExtremeRoles/blob/master/ExtremeRoles/Patches/AirShipStatusPatch.cs
     [HarmonyPatch(typeof(AirshipStatus), nameof(AirshipStatus.PrespawnStep))]
@@ -10,7 +10,13 @@ namespace DarkRoles
     {
         public static bool Prefix()
         {
-            return !PlayerControl.LocalPlayer.Is(CustomRoles.GM); // GMは湧き画面をスキップ
+            if (PlayerControl.LocalPlayer.Is(CustomRoles.GM))
+            {
+                RandomSpawn.AirshipSpawn(PlayerControl.LocalPlayer);
+                // GMは湧き画面をスキップ
+                return false;
+            }
+            return true;
         }
     }
 }

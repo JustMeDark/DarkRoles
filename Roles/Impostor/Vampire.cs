@@ -3,11 +3,11 @@ using System.Linq;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor
+namespace TheDarkRoles.Roles.Impostor
 {
     public sealed class Vampire : RoleBase, IImpostor
     {
@@ -18,7 +18,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.Vampire,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                21500,
+                1300,
                 SetupOptionItem,
                 "va",
                 introSound: () => GetIntroSound(RoleTypes.Shapeshifter)
@@ -47,7 +47,7 @@ namespace DarkRoles.Roles.Impostor
 
         private static void SetupOptionItem()
         {
-            OptionKillDelay = FloatOptionItem.Create(RoleInfo, 21501, OptionName.VampireKillDelay, new(1f, 1000f, 1f), 10f, false)
+            OptionKillDelay = FloatOptionItem.Create(RoleInfo, 10, OptionName.VampireKillDelay, new(1f, 1000f, 1f), 10f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public void OnCheckMurderAsKiller(MurderInfo info)

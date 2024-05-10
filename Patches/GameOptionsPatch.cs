@@ -1,10 +1,10 @@
 using AmongUs.GameOptions;
 using HarmonyLib;
 
-using DarkRoles.Roles.Core;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(RoleOptionSetting), nameof(RoleOptionSetting.UpdateValuesAndText))]
     class ChanceChangePatch

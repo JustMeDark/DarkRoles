@@ -1,4 +1,4 @@
-namespace DarkRoles.Roles.Core.Descriptions;
+namespace TheDarkRoles.Roles.Core.Descriptions;
 
 /// <summary>
 /// Mod役職の説明文

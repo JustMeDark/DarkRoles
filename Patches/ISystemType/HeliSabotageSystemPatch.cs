@@ -1,9 +1,9 @@
 using HarmonyLib;
 using Hazel;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Patches.ISystemType;
+namespace TheDarkRoles.Patches.ISystemType;
 
 [HarmonyPatch(typeof(HeliSabotageSystem), nameof(HeliSabotageSystem.UpdateSystem))]
 public static class HeliSabotageSystemUpdateSystemPatch

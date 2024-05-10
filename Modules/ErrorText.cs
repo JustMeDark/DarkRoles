@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static DarkRoles.Translator;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class ErrorText : MonoBehaviour
     {
@@ -152,6 +152,7 @@ namespace DarkRoles
         // ==========
         // 001 Main
         Main_DictionaryError = 0010003, // 001-000-3 Main Dictionary Error
+        OptionIDDuplicate = 001_010_3, // 001-010-3 オプションIDが重複している(DEBUGビルド時のみ)
         // 002 サポート関連
         UnsupportedVersion = 002_000_1,  // 002-000-1 AmongUsのバージョンが古い
         // ==========

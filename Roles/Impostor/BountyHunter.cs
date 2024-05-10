@@ -4,12 +4,12 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Neutral;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Neutral;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 public sealed class BountyHunter : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -19,7 +19,7 @@ public sealed class BountyHunter : RoleBase, IImpostor
             CustomRoles.BountyHunter,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            20000,
+            1000,
             SetupOptionItem,
             "bo"
         );
@@ -60,13 +60,13 @@ public sealed class BountyHunter : RoleBase, IImpostor
 
     private static void SetupOptionItem()
     {
-        OptionTargetChangeTime = FloatOptionItem.Create(RoleInfo, 20001, OptionName.BountyTargetChangeTime, new(10f, 900f, 2.5f), 60f, false)
+        OptionTargetChangeTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.BountyTargetChangeTime, new(10f, 900f, 2.5f), 60f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionSuccessKillCooldown = FloatOptionItem.Create(RoleInfo, 20002, OptionName.BountySuccessKillCooldown, new(0f, 180f, 2.5f), 2.5f, false)
+        OptionSuccessKillCooldown = FloatOptionItem.Create(RoleInfo, 11, OptionName.BountySuccessKillCooldown, new(0f, 180f, 2.5f), 2.5f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionFailureKillCooldown = FloatOptionItem.Create(RoleInfo, 20003, OptionName.BountyFailureKillCooldown, new(0f, 180f, 2.5f), 50f, false)
+        OptionFailureKillCooldown = FloatOptionItem.Create(RoleInfo, 12, OptionName.BountyFailureKillCooldown, new(0f, 180f, 2.5f), 50f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionShowTargetArrow = BooleanOptionItem.Create(RoleInfo, 20004, OptionName.BountyShowTargetArrow, false, false);
+        OptionShowTargetArrow = BooleanOptionItem.Create(RoleInfo, 13, OptionName.BountyShowTargetArrow, false, false);
     }
     public override void Add()
     {
@@ -75,14 +75,12 @@ public sealed class BountyHunter : RoleBase, IImpostor
     }
     private void SendRPC(byte targetId)
     {
-        using var sender = CreateSender(CustomRPC.SetBountyTarget);
+        using var sender = CreateSender();
         sender.Writer.Write(targetId);
     }
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetBountyTarget) return;
-
         byte targetId = reader.ReadByte();
 
         Target = Utils.GetPlayerById(targetId);

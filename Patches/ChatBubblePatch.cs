@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles.Patches
+namespace TheDarkRoles.Patches
 {
     [HarmonyPatch(typeof(ChatBubble), nameof(ChatBubble.SetRight))]
     class ChatBubbleSetRightPatch

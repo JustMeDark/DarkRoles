@@ -2,7 +2,7 @@ using AmongUs.Data;
 using HarmonyLib;
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.Update))]
     class ChatControllerUpdatePatch

@@ -5,12 +5,12 @@ using System.Text;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 using Hazel;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 
 public sealed class PlagueDoctor : RoleBase, IKiller
 {
@@ -21,7 +21,7 @@ public sealed class PlagueDoctor : RoleBase, IKiller
             CustomRoles.PlagueDoctor,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Neutral,
-            10600,
+            51100,
             SetupOptionItem,
             "pd",
             "#ff6633",
@@ -87,16 +87,16 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     private static void SetupOptionItem()
     {
-        OptionInfectLimit = IntegerOptionItem.Create(RoleInfo, 10601, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
+        OptionInfectLimit = IntegerOptionItem.Create(RoleInfo, 10, OptionName.PlagueDoctorInfectLimit, new(1, 3, 1), 1, false)
             .SetValueFormat(OptionFormat.Times);
-        OptionInfectWhenKilled = BooleanOptionItem.Create(RoleInfo, 10602, OptionName.PlagueDoctorInfectWhenKilled, false, true);
-        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 10603, OptionName.PlagueDoctorInfectTime, new(3f, 20f, 1f), 8f, false)
+        OptionInfectWhenKilled = BooleanOptionItem.Create(RoleInfo, 11, OptionName.PlagueDoctorInfectWhenKilled, false, true);
+        OptionInfectTime = FloatOptionItem.Create(RoleInfo, 12, OptionName.PlagueDoctorInfectTime, new(3f, 20f, 1f), 8f, false)
            .SetValueFormat(OptionFormat.Seconds);
-        OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 10604, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
-        OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 10605, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
+        OptionInfectDistance = FloatOptionItem.Create(RoleInfo, 13, OptionName.PlagueDoctorInfectDistance, new(0.5f, 2f, 0.25f), 1.5f, false);
+        OptionInfectInactiveTime = FloatOptionItem.Create(RoleInfo, 14, OptionName.PlagueDoctorInfectInactiveTime, new(0.5f, 10f, 0.5f), 5f, false)
            .SetValueFormat(OptionFormat.Seconds);
-        OptionInfectCanInfectSelf = BooleanOptionItem.Create(RoleInfo, 10606, OptionName.PlagueDoctorCanInfectSelf, false, true);
-        OptionInfectCanInfectVent = BooleanOptionItem.Create(RoleInfo, 10607, OptionName.PlagueDoctorCanInfectVent, false, true);
+        OptionInfectCanInfectSelf = BooleanOptionItem.Create(RoleInfo, 15, OptionName.PlagueDoctorCanInfectSelf, false, true);
+        OptionInfectCanInfectVent = BooleanOptionItem.Create(RoleInfo, 16, OptionName.PlagueDoctorCanInfectVent, false, true);
     }
 
     private int InfectCount;
@@ -138,14 +138,12 @@ public sealed class PlagueDoctor : RoleBase, IKiller
     }
     public void SendRPC(byte targetId, float rate)
     {
-        using var sender = CreateSender(CustomRPC.SyncPlagueDoctor);
+        using var sender = CreateSender();
         sender.Writer.Write(targetId);
         sender.Writer.Write(rate);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SyncPlagueDoctor) return;
-
         var targetId = reader.ReadByte();
         var rate = reader.ReadSingle();
         InfectInfos[targetId] = rate;

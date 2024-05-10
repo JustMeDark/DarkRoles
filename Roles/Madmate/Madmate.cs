@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Madmate;
+namespace TheDarkRoles.Roles.Madmate;
 public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -13,7 +13,7 @@ public sealed class Madmate : RoleBase, IKillFlashSeeable, IDeathReasonSeeable
             CustomRoles.Madmate,
             () => RoleTypes.Engineer,
             CustomRoleTypes.Madmate,
-            30100,
+            10000,
             null,
             "mm",
             introSound: () => GetIntroSound(RoleTypes.Impostor)

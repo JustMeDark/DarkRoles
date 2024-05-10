@@ -7,14 +7,14 @@ using Hazel;
 using InnerNet;
 using UnityEngine;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Impostor;
-using DarkRoles.Roles.AddOns.Impostor;
-using static DarkRoles.Translator;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Impostor;
+using TheDarkRoles.Roles.AddOns.Impostor;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     static class ExtendedPlayerControl
     {
@@ -32,11 +32,14 @@ namespace DarkRoles
             }
             if (AmongUsClient.Instance.AmHost)
             {
-                var roleClass = player.GetRoleClass();
-                if (roleClass != null)
+                if (role < CustomRoles.NotAssigned)
                 {
-                    roleClass.Dispose();
-                    CustomRoleManager.CreateInstance(role, player);
+                    var roleClass = player.GetRoleClass();
+                    if (roleClass != null)
+                    {
+                        roleClass.Dispose();
+                        CustomRoleManager.CreateInstance(role, player);
+                    }
                 }
 
                 MessageWriter writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.SetCustomRole, Hazel.SendOption.Reliable, -1);
@@ -164,35 +167,6 @@ namespace DarkRoles
             AmongUsClient.Instance.FinishRpcImmediately(writer);
         }
 
-         // Credit TOHE
-       /* public static void RpcGuardAndKill(this PlayerControl killer, PlayerControl target = null, int colorId = 0, bool forObserver = false)
-        {
-            if (target == null) target = killer;
-
-            // Host
-            if (killer.AmOwner)
-            {
-                killer.ProtectPlayer(target, colorId);
-                killer.MurderPlayer(target, ResultFlags);
-            }
-            // Other Clients
-            if (killer.PlayerId != 0)
-            {
-                var sender = CustomRpcSender.Create("GuardAndKill Sender", SendOption.None);
-                sender.StartMessage(killer.GetClientId());
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.ProtectPlayer)
-                    .WriteNetObject(target)
-                    .Write(colorId)
-                    .EndRpc();
-                sender.StartRpc(killer.NetId, (byte)RpcCalls.MurderPlayer)
-                    .WriteNetObject(target)
-                    .Write((byte)MurderResultFlags.DecisionByHost)
-                    .EndRpc();
-                sender.EndMessage();
-                sender.SendMessage();
-            }
-        }*/
-
         public static void SetKillCooldown(this PlayerControl player, float time = -1f)
         {
             if (player == null) return;
@@ -263,6 +237,35 @@ namespace DarkRoles
                 この変更により、役職としての守護天使が無効化されます。
                 ホストのクールダウンは直接リセットします。
             */
+        }
+        public static void RpcSpecificShapeshift(this PlayerControl player, PlayerControl target, bool shouldAnimate)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            if (player.PlayerId == 0)
+            {
+                player.Shapeshift(target, shouldAnimate);
+                return;
+            }
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.Shapeshift, SendOption.Reliable, player.GetClientId());
+            messageWriter.WriteNetObject(target);
+            messageWriter.Write(shouldAnimate);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
+        public static void RpcSpecificRejectShapeshift(this PlayerControl player, PlayerControl target, bool shouldAnimate)
+        {
+            if (!AmongUsClient.Instance.AmHost) return;
+            foreach (var seer in Main.AllPlayerControls)
+            {
+                if (seer != player)
+                {
+                    MessageWriter msg = AmongUsClient.Instance.StartRpcImmediately(player.NetId, (byte)RpcCalls.RejectShapeshift, SendOption.Reliable, seer.GetClientId());
+                    AmongUsClient.Instance.FinishRpcImmediately(msg);
+                }
+                else
+                {
+                    player.RpcSpecificShapeshift(target, shouldAnimate);
+                }
+            }
         }
         public static void RpcDesyncUpdateSystem(this PlayerControl target, SystemTypes systemType, int amount)
         {
@@ -516,9 +519,7 @@ namespace DarkRoles
             return
                 player.GetCustomRole() is
                 CustomRoles.Egoist or
-                CustomRoles.Jackal or
-                CustomRoles.Agent47 or
-                CustomRoles.Accelerator;
+                CustomRoles.Jackal;
         }
         public static bool KnowDeathReason(this PlayerControl seer, PlayerControl seen)
         {
@@ -597,6 +598,28 @@ namespace DarkRoles
                     return room;
             }
             return null;
+        }
+        public static void RpcSnapToForced(this PlayerControl pc, Vector2 position)
+        {
+            var netTransform = pc.NetTransform;
+            if (AmongUsClient.Instance.AmClient)
+            {
+                netTransform.SnapTo(position, (ushort)(netTransform.lastSequenceId + 128));
+            }
+            ushort newSid = (ushort)(netTransform.lastSequenceId + 2);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(netTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
+            NetHelpers.WriteVector2(position, messageWriter);
+            messageWriter.Write(newSid);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+        }
+        public static void RpcSnapToDesync(this PlayerControl pc, PlayerControl target, Vector2 position)
+        {
+            var net = pc.NetTransform;
+            var num = (ushort)(net.lastSequenceId + 2);
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(net.NetId, (byte)RpcCalls.SnapTo, SendOption.None, target.GetClientId());
+            NetHelpers.WriteVector2(position, messageWriter);
+            messageWriter.Write(num);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
         }
         public static bool IsProtected(this PlayerControl self) => self.protectedByGuardianId > -1;
 

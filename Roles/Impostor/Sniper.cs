@@ -4,11 +4,11 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 public sealed class Sniper : RoleBase, IImpostor
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -18,7 +18,7 @@ public sealed class Sniper : RoleBase, IImpostor
             CustomRoles.Sniper,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            21200,
+            1800,
             SetupOptionItem,
             "snp"
         );
@@ -68,11 +68,11 @@ public sealed class Sniper : RoleBase, IImpostor
     bool MeetingReset;
     public static void SetupOptionItem()
     {
-        SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 21201, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
+        SniperBulletCount = IntegerOptionItem.Create(RoleInfo, 10, OptionName.SniperBulletCount, new(1, 5, 1), 2, false)
             .SetValueFormat(OptionFormat.Pieces);
-        SniperPrecisionShooting = BooleanOptionItem.Create(RoleInfo, 21202, OptionName.SniperPrecisionShooting, false, false);
-        SniperAimAssist = BooleanOptionItem.Create(RoleInfo, 21203, OptionName.SniperAimAssist, false, false);
-        SniperAimAssistOnshot = BooleanOptionItem.Create(RoleInfo, 21204, OptionName.SniperAimAssistOneshot, false, false, SniperAimAssist);
+        SniperPrecisionShooting = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SniperPrecisionShooting, false, false);
+        SniperAimAssist = BooleanOptionItem.Create(RoleInfo, 12, OptionName.SniperAimAssist, false, false);
+        SniperAimAssistOnshot = BooleanOptionItem.Create(RoleInfo, 13, OptionName.SniperAimAssistOneshot, false, false, SniperAimAssist);
     }
     public override void Add()
     {
@@ -91,7 +91,7 @@ public sealed class Sniper : RoleBase, IImpostor
     private void SendRPC()
     {
         Logger.Info($"{Player.GetNameWithRole()}:SendRPC", "Sniper");
-        using var sender = CreateSender(CustomRPC.SniperSync);
+        using var sender = CreateSender();
 
         var snList = ShotNotify;
         sender.Writer.Write(snList.Count);
@@ -101,9 +101,8 @@ public sealed class Sniper : RoleBase, IImpostor
         }
     }
 
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SniperSync) return;
         ShotNotify.Clear();
         var count = reader.ReadInt32();
         while (count > 0)

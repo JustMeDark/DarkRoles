@@ -1,7 +1,7 @@
 using System;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class IntegerOptionItem : OptionItem
     {
@@ -37,14 +37,6 @@ namespace DarkRoles
             var opt = new IntegerOptionItem(
                 roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue, rule
             );
-            opt.SetParent(parent ?? roleInfo.RoleOption);
-            return opt;
-        }
-
-        public static IntegerOptionItem Create(SimpleRoleInfo roleInfo, int idOffset, string name, IntegerValueRule rule, int defaultValue, bool isSingleValue, OptionItem parent = null)
-        {
-            var opt = new IntegerOptionItem(
-                roleInfo.ConfigId + idOffset, name.ToString(), defaultValue, roleInfo.Tab, isSingleValue, rule);
             opt.SetParent(parent ?? roleInfo.RoleOption);
             return opt;
         }

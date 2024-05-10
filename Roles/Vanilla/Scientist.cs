@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Vanilla;
+namespace TheDarkRoles.Roles.Vanilla;
 
 public sealed class Scientist : RoleBase
 {

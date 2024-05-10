@@ -1,4 +1,4 @@
-namespace DarkRoles.Roles.Core.Interfaces;
+namespace TheDarkRoles.Roles.Core.Interfaces;
 
 /// <summary>
 /// 追放されたときに誰かを道連れにする役職

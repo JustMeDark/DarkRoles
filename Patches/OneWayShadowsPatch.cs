@@ -1,7 +1,7 @@
 using HarmonyLib;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles;
+namespace TheDarkRoles;
 
 [HarmonyPatch(typeof(OneWayShadows), nameof(OneWayShadows.IsIgnored))]
 public static class OneWayShadowsIsIgnoredPatch

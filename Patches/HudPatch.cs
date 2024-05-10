@@ -2,12 +2,11 @@ using System;
 using HarmonyLib;
 using UnityEngine;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
-using DarkRoles.Roles.Crewmate;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(HudManager), nameof(HudManager.Update))]
     class HudManagerPatch
@@ -47,8 +46,7 @@ namespace DarkRoles
             {
                 __instance.GameSettings.text = OptionShower.GetText();
                 __instance.GameSettings.fontSizeMin =
-                //__instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
-                __instance.GameSettings.fontSizeMax = 1.2f;
+                __instance.GameSettings.fontSizeMax = (TranslationController.Instance.currentLanguage.languageID == SupportedLangs.Japanese || Main.ForceJapanese.Value) ? 1.05f : 1.2f;
             }
             //ゲーム中でなければ以下は実行されない
             if (!AmongUsClient.Instance.IsGameStarted) return;
@@ -68,8 +66,6 @@ namespace DarkRoles
                         {
                             __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
                             __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
-                            if (player.Is(CustomRoles.Magician))
-                                Magician.VentButtonText(__instance);
                         }
                     }
 

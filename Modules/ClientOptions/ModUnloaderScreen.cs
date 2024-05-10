@@ -5,7 +5,7 @@ using UnityEngine;
 using InnerNet;
 using Object = UnityEngine.Object;
 
-namespace DarkRoles.Modules.ClientOptions;
+namespace TheDarkRoles.Modules.ClientOptions;
 
 public static class ModUnloaderScreen
 {

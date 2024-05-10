@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DarkRoles.Modules;
+using TheDarkRoles.Modules;
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public abstract class OptionItem
     {
@@ -14,6 +14,9 @@ namespace DarkRoles
         public static IReadOnlyDictionary<int, OptionItem> FastOptions => _fastOptions;
         private static Dictionary<int, OptionItem> _fastOptions = new(1024);
         public static int CurrentPreset { get; set; }
+#if DEBUG
+        public static bool IdDuplicated { get; private set; } = false;
+#endif
         #endregion
 
         // 必須情報 (コンストラクタで必ず設定させる必要がある値)
@@ -105,6 +108,9 @@ namespace DarkRoles
             }
             else
             {
+#if DEBUG
+                IdDuplicated = true;
+#endif
                 Logger.Error($"ID:{id}が重複しています", "OptionItem");
             }
         }
@@ -179,7 +185,7 @@ namespace DarkRoles
                 opt.oldValue = opt.Value = CurrentValue;
             }
         }
-        public void SetValue(int afterValue, bool doSave, bool doSync = true)
+        public virtual void SetValue(int afterValue, bool doSave, bool doSync = true)
         {
             int beforeValue = CurrentValue;
             if (IsSingleValue)
@@ -270,7 +276,7 @@ namespace DarkRoles
 
     public enum TabGroup
     {
-        DRSettings,
+        MainSettings,
         ImpostorRoles,
         CrewmateRoles,
         NeutralRoles,

@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace DarkRoles.Modules.Extensions
+namespace TheDarkRoles.Modules.Extensions
 {
     public static class IGameManagerEx
     {

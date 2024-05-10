@@ -12,23 +12,20 @@ using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.InteropTypes;
 using UnityEngine;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Impostor;
-using DarkRoles.Roles.AddOns.Common;
-using DarkRoles.Roles.AddOns.Impostor;
-using DarkRoles.Roles.AddOns.Crewmate;
-using static DarkRoles.Translator;
-using Hazel;
-using DarkRoles.Modules.Customs;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Impostor;
+using TheDarkRoles.Roles.AddOns.Common;
+using TheDarkRoles.Roles.AddOns.Impostor;
+using TheDarkRoles.Roles.AddOns.Crewmate;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class Utils
     {
-        private static readonly DateTime timeStampStartTime = new(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
         public static bool IsActive(SystemTypes type)
         {
             // ないものはfalse
@@ -98,242 +95,6 @@ namespace DarkRoles
             MapNames.Airship => SystemTypes.HeliSabotage,
             _ => SystemTypes.Reactor,
         };
-
-        public static void RpcTeleport(this PlayerControl player, Vector2 location)
-        {
-            Logger.Info($" {player.PlayerId}", "Teleport - Player Id");
-            Logger.Info($" {location}", "Teleport - Location");
-
-            if (player.inVent)
-            {
-                player.MyPhysics.RpcBootFromVent(0);
-            }
-
-            // Modded
-            var playerlastSequenceId = player.NetTransform.lastSequenceId + 8;
-            player.NetTransform.SnapTo(location, (ushort)playerlastSequenceId);
-            Logger.Info($" {(ushort)playerlastSequenceId}", "Teleport - Player NetTransform lastSequenceId + 8 - writer");
-
-
-            // Vanilla
-            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(player.NetTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
-            NetHelpers.WriteVector2(location, messageWriter);
-            messageWriter.Write(player.NetTransform.lastSequenceId + 10U);
-            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
-            Logger.Info($" {player.NetTransform.lastSequenceId + 10U}", "Teleport - Player NetTransform lastSequenceId + 10U - writer");
-        }
-        public static void RpcRandomVentTeleport(this PlayerControl player)
-        {
-            var vents = UnityEngine.Object.FindObjectsOfType<Vent>();
-            var rand = IRandom.Instance;
-            var vent = vents[rand.Next(0, vents.Count)];
-
-            Logger.Info($" {vent.transform.position}", "Rpc Vent Teleport Position");
-            player.RpcTeleport(new Vector2(vent.transform.position.x, vent.transform.position.y + 0.3636f));
-        }
-
-        public static byte MsgToColor(string text, bool isHost = false) //credit tohe
-        {
-            text = text.ToLowerInvariant();
-            text = text.Replace("色", string.Empty);
-            int color = -1;
-            try { color = int.Parse(text); } catch { color = -1; }
-            switch (text)
-            {
-                case "0":
-                case "红":
-                case "紅":
-                case "red":
-                case "Red":
-                case "крас":
-                case "Крас":
-                case "красн":
-                case "Красн":
-                case "красный":
-                case "Красный":
-                    color = 0; break;
-                case "1":
-                case "蓝":
-                case "藍":
-                case "深蓝":
-                case "blue":
-                case "Blue":
-                case "син":
-                case "Син":
-                case "синий":
-                case "Синий":
-                    color = 1; break;
-                case "2":
-                case "绿":
-                case "綠":
-                case "深绿":
-                case "green":
-                case "Green":
-                case "Зел":
-                case "зел":
-                case "Зелёный":
-                case "Зеленый":
-                case "зелёный":
-                case "зеленый":
-                    color = 2; break;
-                case "3":
-                case "粉红":
-                case "pink":
-                case "Pink":
-                case "Роз":
-                case "роз":
-                case "Розовый":
-                case "розовый":
-                    color = 3; break;
-                case "4":
-                case "橘":
-                case "orange":
-                case "Orange":
-                case "оранж":
-                case "Оранж":
-                case "оранжевый":
-                case "Оранжевый":
-                    color = 4; break;
-                case "5":
-                case "黄":
-                case "黃":
-                case "yellow":
-                case "Yellow":
-                case "Жёлт":
-                case "Желт":
-                case "жёлт":
-                case "желт":
-                case "Жёлтый":
-                case "Желтый":
-                case "жёлтый":
-                case "желтый":
-                    color = 5; break;
-                case "6":
-                case "黑":
-                case "black":
-                case "Black":
-                case "Чёрный":
-                case "Черный":
-                case "чёрный":
-                case "черный":
-                    color = 6; break;
-                case "7":
-                case "白":
-                case "white":
-                case "White":
-                case "Белый":
-                case "белый":
-                    color = 7; break;
-                case "8":
-                case "紫":
-                case "purple":
-                case "Purple":
-                case "Фиол":
-                case "фиол":
-                case "Фиолетовый":
-                case "фиолетовый":
-                    color = 8; break;
-                case "9":
-                case "棕":
-                case "brown":
-                case "Brown":
-                case "Корич":
-                case "корич":
-                case "Коричневый":
-                case "коричевый":
-                    color = 9; break;
-                case "10":
-                case "青":
-                case "cyan":
-                case "Cyan":
-                case "Голуб":
-                case "голуб":
-                case "Голубой":
-                case "голубой":
-                    color = 10; break;
-                case "11":
-                case "黄绿":
-                case "黃綠":
-                case "浅绿":
-                case "lime":
-                case "Lime":
-                case "Лайм":
-                case "лайм":
-                case "Лаймовый":
-                case "лаймовый":
-                    color = 11; break;
-                case "12":
-                case "红褐":
-                case "紅褐":
-                case "深红":
-                case "maroon":
-                case "Maroon":
-                case "Борд":
-                case "борд":
-                case "Бордовый":
-                case "бордовый":
-                    color = 12; break;
-                case "13":
-                case "玫红":
-                case "玫紅":
-                case "浅粉":
-                case "rose":
-                case "Rose":
-                case "Светло роз":
-                case "светло роз":
-                case "Светло розовый":
-                case "светло розовый":
-                case "Сирень":
-                case "сирень":
-                case "Сиреневый":
-                case "сиреневый":
-                    color = 13; break;
-                case "14":
-                case "焦黄":
-                case "焦黃":
-                case "淡黄":
-                case "banana":
-                case "Banana":
-                case "Банан":
-                case "банан":
-                case "Банановый":
-                case "банановый":
-                    color = 14; break;
-                case "15":
-                case "灰":
-                case "gray":
-                case "Gray":
-                case "Сер":
-                case "сер":
-                case "Серый":
-                case "серый":
-                    color = 15; break;
-                case "16":
-                case "茶":
-                case "tan":
-                case "Tan":
-                case "Загар":
-                case "загар":
-                case "Загаровый":
-                case "загаровый":
-                    color = 16; break;
-                case "17":
-                case "珊瑚":
-                case "coral":
-                case "Coral":
-                case "Корал":
-                case "корал":
-                case "Коралл":
-                case "коралл":
-                case "Коралловый":
-                case "коралловый":
-                    color = 17; break;
-
-                case "18": case "隐藏": case "?": color = 18; break;
-            }
-            return !isHost && color == 18 ? byte.MaxValue : color is < 0 or > 18 ? byte.MaxValue : Convert.ToByte(color);
-        }
-
         public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)
@@ -452,14 +213,10 @@ namespace DarkRoles
         public static string GetDisplayRoleName(PlayerControl seer, PlayerControl seen = null)
         {
             seen ??= seer;
-            //default value
+            //デフォルト値
             bool enabled = seer == seen
                         || seen.Is(CustomRoles.GM)
-                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool())
-                        || (seer.Is(CustomRoleTypes.Madmate) && seen.Is(CustomRoleTypes.Impostor))
-                        || (seer.Is(CustomRoleTypes.Impostor) && seen.Is(CustomRoleTypes.Madmate))
-                        || (seer.Is(CustomRoleTypes.Madmate) && seen.Is(CustomRoleTypes.Madmate))
-                        || (seer.Is(CustomRoleTypes.Impostor) && seen.Is(CustomRoleTypes.Impostor));
+                        || (Main.VisibleTasksCount && !seer.IsAlive() && Options.GhostCanSeeOtherRoles.GetBool());
             var (roleColor, roleText) = GetTrueRoleNameData(seen.PlayerId);
 
             //seen側による変更
@@ -505,7 +262,7 @@ namespace DarkRoles
             if (roleText != "" && subRoleMarks != "")
                 subRoleMarks = " " + subRoleMarks; //空じゃなければ空白を追加
 
-            return (roleColor, subRoleMarks + " " + roleText);
+            return (roleColor, roleText + subRoleMarks);
         }
         public static string GetSubRoleMarks(List<CustomRoles> subRolesList)
         {
@@ -518,19 +275,7 @@ namespace DarkRoles
                     switch (subRole)
                     {
                         case CustomRoles.Watcher:
-                            sb.Append(ColorString(GetRoleColor(CustomRoles.Watcher), "(Watcher)"));
-                            break;
-                        case CustomRoles.Flash:
-                            sb.Append(ColorString(GetRoleColor(CustomRoles.Flash), "(Flash)"));
-                            break;
-                        case CustomRoles.Sloth:
-                            sb.Append(ColorString(GetRoleColor(CustomRoles.Sloth), "(Sloth)"));
-                            break;
-                        case CustomRoles.Torch:
-                            sb.Append(ColorString(GetRoleColor(CustomRoles.Torch), "(Torch)"));
-                            break;
-                        case CustomRoles.Wise:
-                            sb.Append(ColorString(GetRoleColor(CustomRoles.Wise), Wise.Mark));
+                            sb.Append(Watcher.SubRoleMark);
                             break;
                     }
                 }
@@ -798,24 +543,68 @@ namespace DarkRoles
                 if (RoleAssignManager.OptionAssignMode.GetBool())
                 {
                     ShowChildrenSettings(RoleAssignManager.OptionAssignMode, ref sb);
+                    CheckPageChange(PlayerId, sb);
                 }
                 foreach (var role in Options.CustomRoleCounts)
                 {
                     if (!role.Key.IsEnable()) continue;
+                    if (role.Key is CustomRoles.HASFox or CustomRoles.HASTroll) continue;
+
                     sb.Append($"\n【{GetRoleName(role.Key)}×{role.Key.GetCount()}】\n");
                     ShowChildrenSettings(Options.CustomRoleSpawnChances[role.Key], ref sb);
+                    CheckPageChange(PlayerId, sb);
                 }
                 foreach (var opt in OptionItem.AllOptions.Where(x => x.GetBool() && x.Parent == null && x.Id >= 80000 && !x.IsHiddenOn(Options.CurrentGameMode)))
                 {
-                    if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
-                        sb.Append($"\n【{opt.GetName(true)}: {opt.GetString()}】\n");
+                    if (opt.Name is "RandomSpawn")
+                    {
+                        foreach (var randomOpt in opt.Children)
+                        {
+                            if ((randomOpt.Id / 100) % 10 != mapId) continue;
+                            //現在のマップのみ表示する
+                            if (randomOpt.GetBool())
+                            {
+                                //Onの時は頭に改ページを入れる
+                                CheckPageChange(PlayerId, sb, true);
+                                sb.Append($"\n【{opt.GetName(true)}】");
+                                sb.Append($"\n {randomOpt.GetName(true)}: {randomOpt.GetString()}\n");
+
+                                ShowChildrenSettings(randomOpt, ref sb, 1);
+                            }
+                            else
+                            {
+                                //オフならそのままで大丈夫
+                                sb.Append($"\n【{opt.GetName(true)}】");
+                                sb.Append($"\n {randomOpt.GetName(true)}: {randomOpt.GetString()}\n");
+                            }
+                        }
+                        CheckPageChange(PlayerId, sb);
+                    }
                     else
-                        sb.Append($"\n【{opt.GetName(true)}】\n");
-                    ShowChildrenSettings(opt, ref sb);
+                    {
+                        if (opt.Name is "KillFlashDuration" or "RoleAssigningAlgorithm")
+                            sb.Append($"\n【{opt.GetName(true)}: {opt.GetString()}】\n");
+                        else
+                            sb.Append($"\n【{opt.GetName(true)}】\n");
+                        ShowChildrenSettings(opt, ref sb);
+                        CheckPageChange(PlayerId, sb);
+                    }
                 }
             }
             SendMessage(sb.ToString(), PlayerId, removeTags: false);
         }
+
+        private static void CheckPageChange(byte PlayerId, StringBuilder sb, bool force = false)
+        {
+            //2Byte文字想定で1000byt越えるならページを変える
+            if (force || sb.Length > 500)
+            {
+                SendMessage(sb.ToString(), PlayerId, removeTags: false);
+                sb.Clear();
+                sb.AppendFormat("<size={0}>", ActiveSettingsSize);
+            }
+        }
+
         public static void CopyCurrentSettings()
         {
             var sb = new StringBuilder();
@@ -945,7 +734,7 @@ namespace DarkRoles
                 + $"\n/winner - {GetString("Command.winner")}"
                 + $"\n/lastresult - {GetString("Command.lastresult")}"
                 + $"\n/rename - {GetString("Command.rename")}"
-                + $"\n/perc - {GetString("Command.now")}"
+                + $"\n/now - {GetString("Command.now")}"
                 + $"\n/h now - {GetString("Command.h_now")}"
                 + $"\n/h roles {GetString("Command.h_roles")}"
                 + $"\n/h addons {GetString("Command.h_addons")}"
@@ -956,67 +745,45 @@ namespace DarkRoles
         public static void SendMessage(string text, byte sendTo = byte.MaxValue, string title = "", bool removeTags = true)
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (title == "") title = $"<color={Main.ModColor}>" + GetString("DefaultSystemMessageTitle") + "</color>";
+            if (title == "") title = "<color=#aaaaff>" + GetString("DefaultSystemMessageTitle") + "</color>";
             Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
         }
-
-        public static void SendMessageV2(string title, string text, byte sendTo = byte.MaxValue, bool removeTags = true)
+        public static void ApplySuffix()
         {
             if (!AmongUsClient.Instance.AmHost) return;
-            if (title == "") title = $"<color={Main.ModColor}>" + GetString("DefaultSystemMessageTitle") + "</color>";
-            Main.MessagesToSend.Add((removeTags ? text.RemoveHtmlTags() : text, sendTo, title));
-        }
-
-        public static void ApplySuffix(PlayerControl player)
-        {
-            UserSuffix(player);
-            if (!AmongUsClient.Instance.AmHost) return;
-            var temp = DataManager.player.Customization.Name;
-            var name = DataManager.player.Customization.Name;
-            if (Main.nickName != "") temp = Main.nickName;
-            var host = GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{temp}");
-            var hasTag = Options.GetSuffixMode() != SuffixModes.None;
-            name = (AmongUsClient.Instance.IsGameStarted && !GameStates.IsLobby) ? SetInGameName(name) : hasTag ? $"{GetSuffix()}\n{host}" : $"{host}";
+            string name = DataManager.player.Customization.Name;
+            if (Main.nickName != "") name = Main.nickName;
+            if (AmongUsClient.Instance.IsGameStarted)
+            {
+                if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
+            }
+            else
+            {
+                if (AmongUsClient.Instance.IsGamePublic)
+                    name = $"<color={Main.ModColor}>TownOfHost v{Main.PluginVersion}</color>\r\n" + name;
+                switch (Options.GetSuffixMode())
+                {
+                    case SuffixModes.None:
+                        break;
+                    case SuffixModes.TOH:
+                        name += $"\r\n<color={Main.ModColor}>TOH v{Main.PluginVersion}</color>";
+                        break;
+                    case SuffixModes.Streaming:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Streaming")}</color>";
+                        break;
+                    case SuffixModes.Recording:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.Recording")}</color>";
+                        break;
+                    case SuffixModes.RoomHost:
+                        name += $"\r\n<color={Main.ModColor}>{GetString("SuffixMode.RoomHost")}</color>";
+                        break;
+                    case SuffixModes.OriginalName:
+                        name += $"\r\n<color={Main.ModColor}>{DataManager.player.Customization.Name}</color>";
+                        break;
+                }
+            }
             if (name != PlayerControl.LocalPlayer.name && PlayerControl.LocalPlayer.CurrentOutfitType == PlayerOutfitType.Default) PlayerControl.LocalPlayer.RpcSetName(name);
         }
-
-        public static void UserSuffix(PlayerControl player)
-        {
-            var name = player.name;
-            var temp = player.name;
-            var started = !GameStates.IsLobby;
-            var canHaveTag = player.PlayerId != 0 && !player.name.Contains(CustomTags.GetPlayerTags(player.FriendCode)) && CustomTags.DoesPlayerHaveTags(player.FriendCode);
-            var tag = canHaveTag ? CustomTags.GetPlayerTags(player.FriendCode) : temp;
-            name = started ? temp : tag;
-            if (canHaveTag) player.RpcSetName(name);
-        }
-
-    public static string GetSuffix()
-        {
-            var suffix = Options.GetSuffixMode() switch
-            {
-                SuffixModes.TOH => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName} v{Main.version}"),
-                SuffixModes.Streaming => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("StreamingSuffix")}"),
-                SuffixModes.Recording => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("RecordingSuffix")}"),
-                SuffixModes.RoomHost => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{GetString("HostText")}"),
-                SuffixModes.OriginalName => GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{DataManager.player.Customization.Name}"),
-                _ => ""
-            };
-            return suffix;
-        }
-
-        public static string SetInGameName(string name)
-        {
-            if (Options.ColorNameMode.GetBool() && Main.nickName == "") name = Palette.GetColorName(Camouflage.PlayerSkins[PlayerControl.LocalPlayer.PlayerId].ColorId);
-            return name;
-        }
-
-        public static string SetInGameNamev2(string name, PlayerControl player)
-        {
-            if (Options.ColorNameMode.GetBool()) name = Palette.GetColorName(Camouflage.PlayerSkins[player.PlayerId].ColorId);
-            return name;
-        }
-
         private static Dictionary<byte, PlayerControl> cachedPlayers = new(15);
         public static PlayerControl GetPlayerById(int playerId) => GetPlayerById((byte)playerId);
         public static PlayerControl GetPlayerById(byte playerId)
@@ -1029,58 +796,6 @@ namespace DarkRoles
             cachedPlayers[playerId] = player;
             return player;
         }
-
-        public static string GradientColorText(string startColorHex, string endColorHex, string text)
-        {
-            if (startColorHex.Length != 6 || endColorHex.Length != 6)
-            {
-                Logger.Error("Invalid color hex code. Hex code should be 6 characters long (without #) (e.g., FFFFFF).", "GradientColorText");
-                //throw new ArgumentException("Invalid color hex code. Hex code should be 6 characters long (e.g., FFFFFF).");
-                return text;
-            }
-
-            Color startColor = HexToColor(startColorHex);
-            Color endColor = HexToColor(endColorHex);
-
-            int textLength = text.Length;
-            float stepR = (endColor.r - startColor.r) / (float)textLength;
-            float stepG = (endColor.g - startColor.g) / (float)textLength;
-            float stepB = (endColor.b - startColor.b) / (float)textLength;
-            float stepA = (endColor.a - startColor.a) / (float)textLength;
-
-            string gradientText = "";
-
-            for (int i = 0; i < textLength; i++)
-            {
-                float r = startColor.r + (stepR * i);
-                float g = startColor.g + (stepG * i);
-                float b = startColor.b + (stepB * i);
-                float a = startColor.a + (stepA * i);
-
-
-                string colorHex = ColorToHex(new Color(r, g, b, a));
-                //Logger.Msg(colorHex, "color");
-                gradientText += $"<color=#{colorHex}>{text[i]}</color>";
-            }
-
-            return gradientText;
-        }
-
-        private static Color HexToColor(string hex)
-        {
-            Color color = new();
-            ColorUtility.TryParseHtmlString("#" + hex, out color);
-            return color;
-        }
-
-        private static string ColorToHex(Color color)
-        {
-            Color32 color32 = (Color32)color;
-            return $"{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
-        }
-
-        public static long GetTimeStamp(DateTime? dateTime = null) => (long)((dateTime ?? DateTime.Now).ToUniversalTime() - timeStampStartTime).TotalSeconds;
-
         public static GameData.PlayerInfo GetPlayerInfoById(int PlayerId) =>
             GameData.Instance.AllPlayers.ToArray().Where(info => info.PlayerId == PlayerId).FirstOrDefault();
         private static StringBuilder SelfMark = new(20);
@@ -1166,8 +881,6 @@ namespace DarkRoles
                     string SelfRoleName = enabled ? $"<size={fontSize}>{text}</size>" : "";
                     string SelfDeathReason = seer.KnowDeathReason(seer) ? $"({ColorString(GetRoleColor(CustomRoles.Doctor), GetVitalText(seer.PlayerId))})" : "";
                     string SelfName = $"{ColorString(seer.GetRoleColor(), SeerRealName)}{SelfDeathReason}{SelfMark}";
-                    if (NameNotifyManager.GetNameNotify(seer, out var name))
-                        SelfName = name;
                     SelfName = SelfRoleName + "\r\n" + SelfName;
                     SelfName += SelfSuffix.ToString() == "" ? "" : "\r\n " + SelfSuffix.ToString();
                     if (!isForMeeting) SelfName += "\r\n";
@@ -1228,12 +941,7 @@ namespace DarkRoles
 
                             //他人の役職とタスクは幽霊が他人の役職を見れるようになっていてかつ、seerが死んでいる場合のみ表示されます。それ以外の場合は空になります。
                             var targetRoleData = GetRoleNameAndProgressTextData(seer, target);
-                            var TargetRoleText = targetRoleData.enabled
-                                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Impostor))
-                                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Madmate))
-                                || (seer.Is(CustomRoleTypes.Madmate) && target.Is(CustomRoleTypes.Madmate))
-                                || (seer.Is(CustomRoleTypes.Impostor) && target.Is(CustomRoleTypes.Impostor))
-                                ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
+                            var TargetRoleText = targetRoleData.enabled ? $"<size={fontSize}>{targetRoleData.text}</size>\r\n" : "";
 
                             TargetSuffix.Clear();
                             //seerに関わらず発動するLowerText
@@ -1356,27 +1064,39 @@ namespace DarkRoles
         }
         public static string SummaryTexts(byte id, bool isForChat)
         {
-            // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
-            // 1em ≒ 半角2文字
-            // 空白は0.5emとする
-            // SJISではアルファベットは1バイト，日本語は基本的に2バイト
-            var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
-            //最大11.5emとする(★+日本語10文字分+半角空白)
-            var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
 
             var builder = new StringBuilder();
-            builder.Append(isForChat ? Main.AllPlayerNames[id] : ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
-            builder.AppendFormat("<pos={0}em>", pos).Append(isForChat ? GetProgressText(id).RemoveColorTags() : GetProgressText(id)).Append("</pos>");
-            // "(00/00) " = 4em
-            pos += 4f;
-            builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
-            // "Lover's Suicide " = 8em
-            // "回線切断 " = 4.5em
-            pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
-            builder.AppendFormat("<pos={0}em>", pos);
-            builder.Append(isForChat ? GetTrueRoleName(id, false).RemoveColorTags() : GetTrueRoleName(id, false));
-            builder.Append(isForChat ? GetSubRolesText(id).RemoveColorTags() : GetSubRolesText(id));
-            builder.Append("</pos>");
+            // チャットならposタグを使わない(文字数削減)
+            if (isForChat)
+            {
+                builder.Append(Main.AllPlayerNames[id]);
+                builder.Append(": ").Append(GetProgressText(id).RemoveColorTags());
+                builder.Append(' ').Append(GetVitalText(id));
+                builder.Append(' ').Append(GetTrueRoleName(id, false).RemoveColorTags());
+                builder.Append(' ').Append(GetSubRolesText(id).RemoveColorTags());
+            }
+            else
+            {
+                // 全プレイヤー中最長の名前の長さからプレイヤー名の後の水平位置を計算する
+                // 1em ≒ 半角2文字
+                // 空白は0.5emとする
+                // SJISではアルファベットは1バイト，日本語は基本的に2バイト
+                var longestNameByteCount = Main.AllPlayerNames.Values.Select(name => name.GetByteCount()).OrderByDescending(byteCount => byteCount).FirstOrDefault();
+                //最大11.5emとする(★+日本語10文字分+半角空白)
+                var pos = Math.Min(((float)longestNameByteCount / 2) + 1.5f /* ★+末尾の半角空白 */ , 11.5f);
+                builder.Append(ColorString(Main.PlayerColors[id], Main.AllPlayerNames[id]));
+                builder.AppendFormat("<pos={0}em>", pos).Append(GetProgressText(id)).Append("</pos>");
+                // "(00/00) " = 4em
+                pos += 4f;
+                builder.AppendFormat("<pos={0}em>", pos).Append(GetVitalText(id)).Append("</pos>");
+                // "Lover's Suicide " = 8em
+                // "回線切断 " = 4.5em
+                pos += DestroyableSingleton<TranslationController>.Instance.currentLanguage.languageID == SupportedLangs.English ? 8f : 4.5f;
+                builder.AppendFormat("<pos={0}em>", pos);
+                builder.Append(GetTrueRoleName(id, false));
+                builder.Append(GetSubRolesText(id));
+                builder.Append("</pos>");
+            }
             return builder.ToString();
         }
         public static string RemoveHtmlTags(this string str) => Regex.Replace(str, "<[^>]*?>", "");
@@ -1480,5 +1200,54 @@ namespace DarkRoles
 
         private const string ActiveSettingsSize = "70%";
         private const string ActiveSettingsLineHeight = "55%";
+
+        public static string GradientColorText(string startColorHex, string endColorHex, string text)
+        {
+            if (startColorHex.Length != 6 || endColorHex.Length != 6)
+            {
+                Logger.Error("Invalid color hex code. Hex code should be 6 characters long (without #) (e.g., FFFFFF).", "GradientColorText");
+                //throw new ArgumentException("Invalid color hex code. Hex code should be 6 characters long (e.g., FFFFFF).");
+                return text;
+            }
+
+            Color startColor = HexToColor(startColorHex);
+            Color endColor = HexToColor(endColorHex);
+
+            int textLength = text.Length;
+            float stepR = (endColor.r - startColor.r) / (float)textLength;
+            float stepG = (endColor.g - startColor.g) / (float)textLength;
+            float stepB = (endColor.b - startColor.b) / (float)textLength;
+            float stepA = (endColor.a - startColor.a) / (float)textLength;
+
+            string gradientText = "";
+
+            for (int i = 0; i < textLength; i++)
+            {
+                float r = startColor.r + (stepR * i);
+                float g = startColor.g + (stepG * i);
+                float b = startColor.b + (stepB * i);
+                float a = startColor.a + (stepA * i);
+
+
+                string colorHex = ColorToHex(new Color(r, g, b, a));
+                //Logger.Msg(colorHex, "color");
+                gradientText += $"<color=#{colorHex}>{text[i]}</color>";
+            }
+
+            return gradientText;
+        }
+
+        private static Color HexToColor(string hex)
+        {
+            Color color = new();
+            ColorUtility.TryParseHtmlString("#" + hex, out color);
+            return color;
+        }
+
+        private static string ColorToHex(Color color)
+        {
+            Color32 color32 = (Color32)color;
+            return $"{color32.r:X2}{color32.g:X2}{color32.b:X2}{color32.a:X2}";
+        }
     }
 }

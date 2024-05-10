@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DarkRoles;
+namespace TheDarkRoles;
 
 public static class ColorHelper
 {

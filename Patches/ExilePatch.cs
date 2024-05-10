@@ -1,10 +1,10 @@
 using AmongUs.Data;
 using HarmonyLib;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Neutral;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Neutral;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     class ExileControllerWrapUpPatch
     {
@@ -47,14 +47,24 @@ namespace DarkRoles
                 exiled = AntiBlackout_LastExiled;
             }
 
+            var mapId = Main.NormalOptions.MapId;
+            // エアシップではまだ湧かない
+            if ((MapNames)mapId != MapNames.Airship)
+            {
+                foreach (var state in PlayerState.AllPlayerStates.Values)
+                {
+                    state.HasSpawned = true;
+                }
+            }
+
             bool DecidedWinner = false;
-            if (!AmongUsClient.Instance.AmHost) return; //No further processing will be performed except for the host (Translation by DeepL)
+            if (!AmongUsClient.Instance.AmHost) return; //ホスト以外はこれ以降の処理を実行しません
             AntiBlackout.RestoreIsDead(doSend: false);
             if (exiled != null)
             {
                 var role = exiled.GetCustomRole();
                 var info = role.GetRoleInfo();
-                //Deal with the darkening bug for the spirit world (Translation by DeepL)
+                //霊界用暗転バグ対処
                 if (!AntiBlackout.OverrideExiledPlayer && info?.IsDesyncImpostor == true)
                     exiled.Object?.ResetPlayerCam(1f);
 
@@ -76,7 +86,7 @@ namespace DarkRoles
             if (RandomSpawn.IsRandomSpawn())
             {
                 RandomSpawn.SpawnMap map;
-                switch (Main.NormalOptions.MapId)
+                switch (mapId)
                 {
                     case 0:
                         map = new RandomSpawn.SkeldSpawnMap();

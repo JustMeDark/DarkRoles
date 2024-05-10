@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Crewmate;
+namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Bait : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -12,7 +12,7 @@ public sealed class Bait : RoleBase
             CustomRoles.Bait,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            1000,
+            20000,
             null,
             "ba",
             "#00f7ff"

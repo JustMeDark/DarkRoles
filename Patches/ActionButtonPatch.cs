@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles.Patches;
+namespace TheDarkRoles.Patches;
 
 [HarmonyPatch(typeof(SabotageButton), nameof(SabotageButton.DoClick))]
 public static class SabotageButtonDoClickPatch

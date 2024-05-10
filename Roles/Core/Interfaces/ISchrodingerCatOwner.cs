@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Neutral;
+using TheDarkRoles.Roles.Neutral;
 
-namespace DarkRoles.Roles.Core.Interfaces;
+namespace TheDarkRoles.Roles.Core.Interfaces;
 
 /// <summary>
 /// シュレディンガーの猫をキルして仲間に引き入れる事ができる役職のインタフェイス

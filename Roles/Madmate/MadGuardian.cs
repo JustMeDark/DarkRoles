@@ -1,10 +1,10 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Options;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Options;
 
-namespace DarkRoles.Roles.Madmate;
+namespace TheDarkRoles.Roles.Madmate;
 public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -14,7 +14,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
             CustomRoles.MadGuardian,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Madmate,
-            30000,
+            10100,
             SetupOptionItem,
             "mg",
             introSound: () => GetIntroSound(RoleTypes.Impostor)
@@ -41,7 +41,7 @@ public sealed class MadGuardian : RoleBase, IKillFlashSeeable
 
     private static void SetupOptionItem()
     {
-        OptionCanSeeWhoTriedToKill = BooleanOptionItem.Create(RoleInfo, 30001, OptionName.MadGuardianCanSeeWhoTriedToKill, false, false);
+        OptionCanSeeWhoTriedToKill = BooleanOptionItem.Create(RoleInfo, 10, OptionName.MadGuardianCanSeeWhoTriedToKill, false, false);
         //ID10120~10123を使用
         Tasks = OverrideTasksData.Create(RoleInfo, 20);
     }

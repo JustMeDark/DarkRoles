@@ -1,13 +1,13 @@
 using System;
 using AmongUs.GameOptions;
 
-using DarkRoles.Attributes;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Impostor;
-using DarkRoles.Roles.Crewmate;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Impostor;
+using TheDarkRoles.Roles.Crewmate;
 
-namespace DarkRoles.Modules
+namespace TheDarkRoles.Modules
 {
     public class MeetingTimeManager
     {

@@ -2,10 +2,10 @@ using System.Globalization;
 using HarmonyLib;
 using InnerNet;
 using UnityEngine;
-using DarkRoles.Modules;
-using static DarkRoles.Translator;
+using TheDarkRoles.Modules;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(GameStartManager), nameof(GameStartManager.MakePublic))]
     class MakePublicPatch
@@ -88,7 +88,7 @@ namespace DarkRoles
         public static void Prefix(ref bool canOnline)
         {
 #if DEBUG
-            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = true;
+            if (CultureInfo.CurrentCulture.Name != "ja-JP") canOnline = false;
 #endif
         }
     }

@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles.Patches;
+namespace TheDarkRoles.Patches;
 
 [HarmonyPatch(typeof(HauntMenuMinigame), nameof(HauntMenuMinigame.SetFilterText))]
 public static class HauntMenuMinigameSetFilterTextPatch

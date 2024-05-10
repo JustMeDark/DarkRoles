@@ -1,6 +1,6 @@
 using AmongUs.GameOptions;
 
-namespace DarkRoles.Roles.Core.Descriptions;
+namespace TheDarkRoles.Roles.Core.Descriptions;
 
 /// <summary>
 /// バニラ役職の説明文

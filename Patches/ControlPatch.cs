@@ -1,10 +1,9 @@
 using System.Linq;
 using HarmonyLib;
 using UnityEngine;
-using DarkRoles.Modules;
-using DarkRoles.Modules.Customs;
+using TheDarkRoles.Modules;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(ControllerManager), nameof(ControllerManager.Update))]
     class ControllerManagerUpdatePatch

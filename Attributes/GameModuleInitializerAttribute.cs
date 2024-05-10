@@ -1,4 +1,4 @@
-namespace DarkRoles.Attributes;
+namespace TheDarkRoles.Attributes;
 
 /// <summary>
 /// <see cref="AmongUsClient.CoStartGame"/>のPostfixで毎ゲーム初期化するメソッドに使う<br/>

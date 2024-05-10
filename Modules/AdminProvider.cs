@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 using UnityEngine;
 
-namespace DarkRoles.Modules;
+namespace TheDarkRoles.Modules;
 
 public static class AdminProvider
 {

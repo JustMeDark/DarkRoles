@@ -4,10 +4,10 @@ using System.Linq;
 using AmongUs.GameOptions;
 using HarmonyLib;
 
-using DarkRoles.Attributes;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class PlayerState
     {
@@ -31,6 +31,8 @@ namespace DarkRoles
         }
         public (DateTime, byte) RealKiller;
         public PlainShipRoom LastRoom;
+        /// <summary>会議等の後に湧いた後かどうか<br/>ホスト以外は正しい値にならないので注意</summary>
+        public bool HasSpawned { get; set; } = false;
         public Dictionary<byte, string> TargetColorData;
         public PlayerState(byte playerId)
         {
@@ -65,7 +67,7 @@ namespace DarkRoles
         public void SetMainRole(CustomRoles role)
         {
             MainRole = role;
-            
+
             CountType = CustomRoleManager.GetRoleInfo(role) is SimpleRoleInfo roleInfo ?
                 roleInfo.CountType :
                 role switch
@@ -219,10 +221,6 @@ namespace DarkRoles
         public static bool IsInTask => InGame && !MeetingHud.Instance;
         public static bool IsMeeting => InGame && MeetingHud.Instance;
         public static bool IsCountDown => GameStartManager.InstanceExists && GameStartManager.Instance.startState == GameStartManager.StartingStates.Countdown;
-        /**********TOP ZOOM.cs***********/
-        public static bool IsShip => ShipStatus.Instance != null;
-        public static bool IsCanMove => PlayerControl.LocalPlayer?.CanMove is true;
-        public static bool IsDead => PlayerControl.LocalPlayer?.Data?.IsDead is true;
     }
     public static class MeetingStates
     {

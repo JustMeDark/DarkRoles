@@ -1,8 +1,8 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Crewmate;
+namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Trapper : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -12,7 +12,7 @@ public sealed class Trapper : RoleBase
             CustomRoles.Trapper,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            2200,
+            20800,
             SetupOptionItem,
             "tra",
             "#5a8fd0"
@@ -36,7 +36,7 @@ public sealed class Trapper : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionBlockMoveTime = FloatOptionItem.Create(RoleInfo, 2201, OptionName.TrapperBlockMoveTime, new(1f, 180f, 1f), 5f, false)
+        OptionBlockMoveTime = FloatOptionItem.Create(RoleInfo, 10, OptionName.TrapperBlockMoveTime, new(1f, 180f, 1f), 5f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public override void OnMurderPlayerAsTarget(MurderInfo info)

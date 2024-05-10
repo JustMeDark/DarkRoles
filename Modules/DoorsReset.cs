@@ -1,6 +1,6 @@
-using DarkRoles.Attributes;
+using TheDarkRoles.Attributes;
 
-namespace DarkRoles.Modules;
+namespace TheDarkRoles.Modules;
 
 public static class DoorsReset
 {

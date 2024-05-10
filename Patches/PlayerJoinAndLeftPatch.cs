@@ -4,13 +4,13 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using InnerNet;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Neutral;
-using static DarkRoles.Translator;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Neutral;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnGameJoined))]
     class OnGameJoinedPatch

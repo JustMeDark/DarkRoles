@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class DebugModeManager
     {
@@ -24,7 +24,7 @@ namespace DarkRoles
         }
         public static void SetupCustomOption()
         {
-            EnableDebugMode = BooleanOptionItem.Create(109, "EnableDebugMode", false, TabGroup.DRSettings, true)
+            EnableDebugMode = BooleanOptionItem.Create(2, "EnableDebugMode", false, TabGroup.MainSettings, true)
                 .SetColor(Color.green)
                 .SetHidden(!AmDebugger)
                 .RegisterUpdateValueEvent((obj, args) =>

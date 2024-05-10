@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Neutral
+namespace TheDarkRoles.Roles.Neutral
 {
     public sealed class Jackal : RoleBase, IKiller, ISchrodingerCatOwner
     {
@@ -14,7 +14,7 @@ namespace DarkRoles.Roles.Neutral
                 CustomRoles.Jackal,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Neutral,
-                10300,
+                50900,
                 SetupOptionItem,
                 "jac",
                 "#00b4eb",
@@ -51,11 +51,11 @@ namespace DarkRoles.Roles.Neutral
 
         private static void SetupOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10301, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 30f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionCanVent = BooleanOptionItem.Create(RoleInfo, 10302, GeneralOption.CanVent, true, false);
-            OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 10303, GeneralOption.CanUseSabotage, false, false);
-            OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 10304, GeneralOption.ImpostorVision, true, false);
+            OptionCanVent = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanVent, true, false);
+            OptionCanUseSabotage = BooleanOptionItem.Create(RoleInfo, 12, GeneralOption.CanUseSabotage, false, false);
+            OptionHasImpostorVision = BooleanOptionItem.Create(RoleInfo, 13, GeneralOption.ImpostorVision, true, false);
         }
         public float CalculateKillCooldown() => KillCooldown;
         public bool CanUseSabotageButton() => CanUseSabotage;

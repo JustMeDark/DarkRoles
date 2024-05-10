@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DarkRoles.Modules;
+using TheDarkRoles.Modules;
 
-namespace DarkRoles.Attributes;
+namespace TheDarkRoles.Attributes;
 
 [AttributeUsage(AttributeTargets.Method)]
 public abstract class InitializerAttribute<T> : Attribute

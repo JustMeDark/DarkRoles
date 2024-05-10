@@ -1,18 +1,19 @@
-using DarkRoles.Attributes;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Options;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Options;
 
-namespace DarkRoles.Roles.AddOns.Impostor
+namespace TheDarkRoles.Roles.AddOns.Impostor
 {
     public static class LastImpostor
     {
+        private static readonly int Id = 80000;
         public static byte currentId = byte.MaxValue;
         public static OptionItem KillCooldown;
         public static void SetupCustomOption()
         {
-            SetupRoleOptions(100000, TabGroup.Addons, CustomRoles.LastImpostor, new(1, 1, 1));
-            KillCooldown = FloatOptionItem.Create(100001, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.LastImpostor])
+            SetupRoleOptions(Id, TabGroup.Addons, CustomRoles.LastImpostor, new(1, 1, 1));
+            KillCooldown = FloatOptionItem.Create(Id + 10, "KillCooldown", new(0f, 180f, 1f), 15f, TabGroup.Addons, false).SetParent(CustomRoleSpawnChances[CustomRoles.LastImpostor])
                 .SetValueFormat(OptionFormat.Seconds);
         }
         [GameModuleInitializer]

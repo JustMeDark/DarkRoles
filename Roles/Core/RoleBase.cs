@@ -3,9 +3,9 @@ using System.Linq;
 using UnityEngine;
 using Hazel;
 using AmongUs.GameOptions;
-using static DarkRoles.Translator;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Core;
+namespace TheDarkRoles.Roles.Core;
 
 public abstract class RoleBase : IDisposable
 {
@@ -86,9 +86,9 @@ public abstract class RoleBase : IDisposable
     protected class RoleRPCSender : IDisposable
     {
         public MessageWriter Writer;
-        public RoleRPCSender(RoleBase role, CustomRPC rpcType)
+        public RoleRPCSender(RoleBase role)
         {
-            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)rpcType, SendOption.Reliable, -1);
+            Writer = AmongUsClient.Instance.StartRpcImmediately(PlayerControl.LocalPlayer.NetId, (byte)CustomRPC.CustomRoleSync, SendOption.Reliable, -1);
             Writer.Write(role.Player.PlayerId);
         }
         public void Dispose()
@@ -102,17 +102,16 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     /// <param name="rpcType">送信するCustomRPC</param>
     /// <returns>送信に使用するRoleRPCSender</returns>
-    protected RoleRPCSender CreateSender(CustomRPC rpcType)
+    protected RoleRPCSender CreateSender()
     {
-        return new RoleRPCSender(this, rpcType);
+        return new RoleRPCSender(this);
     }
     /// <summary>
     /// RPCを受け取った時に呼ばれる関数
     /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
     /// </summary>
     /// <param name="reader">届いたRPCの情報</param>
-    /// <param name="rpcType">届いたCustomRPC</param>
-    public virtual void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public virtual void ReceiveRPC(MessageReader reader)
     { }
     /// <summary>
     /// 能力ボタンを使えるかどうか
@@ -123,9 +122,6 @@ public abstract class RoleBase : IDisposable
     /// BuildGameOptionsで呼ばれる関数
     /// </summary>
     public virtual void ApplyGameOptions(IGameOptions opt)
-    { }
-
-    public virtual void SendGameOptions()
     { }
 
     /// <summary>
@@ -146,15 +142,28 @@ public abstract class RoleBase : IDisposable
     { }
 
     /// <summary>
+    /// 自視点のみ変身する
+    /// 抜け殻を自視点のみに残すことが可能
+    /// </summary>
+    public virtual bool CanDesyncShapeshift => false;
+
+    /// <summary>
+    /// シェイプシフトチェック時に呼ばれる
+    /// 自分自身が変身したときのみ呼ばれる
+    /// animateを操作して変身アニメーションのカットも可能
+    /// </summary>
+    /// <param name="target">変身先</param>
+    /// <param name="animate">アニメーションを再生するかどうか</param>
+    /// <returns>falseを返すと変身がキャンセルされる</returns>
+    public virtual bool OnCheckShapeshift(PlayerControl target, ref bool animate) => true;
+
+    /// <summary>
     /// シェイプシフト時に呼ばれる関数
     /// 自分自身について呼ばれるため本人確認不要
     /// Host以外も呼ばれるので注意
     /// </summary>
     /// <param name="target">変身先</param>
     public virtual void OnShapeshift(PlayerControl target)
-    { }
-
-    public virtual void OnShapeshift(PlayerControl player, PlayerControl target, bool shapeshifting)
     { }
 
     /// <summary>
@@ -186,8 +195,6 @@ public abstract class RoleBase : IDisposable
     /// <returns>falseを返すとベントから追い出され、他人からアニメーションも見られません</returns>
     public virtual bool OnEnterVent(PlayerPhysics physics, int ventId) => true;
 
-    public virtual void IsInVent() { }
-
     /// <summary>
     /// ミーティングが始まった時に呼ばれる関数
     /// </summary>
@@ -202,8 +209,6 @@ public abstract class RoleBase : IDisposable
     /// <param name="votedForId">投票先</param>
     /// <returns>falseを返すと投票自体がなかったことになり，投票者自身以外には投票したことがバレません</returns>
     public virtual bool CheckVoteAsVoter(PlayerControl votedFor) => true;
-
-    public virtual void CheckVoteAsVoter(PlayerControl votedFor, PlayerControl voter) { }
 
     /// <summary>
     /// 誰かが投票した瞬間に呼ばれ，票を書き換えることができる<br/>

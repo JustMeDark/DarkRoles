@@ -3,11 +3,11 @@ using System.Text;
 using Hazel;
 
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor
+namespace TheDarkRoles.Roles.Impostor
 {
     public sealed class Witch : RoleBase, IImpostor
     {
@@ -18,7 +18,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.Witch,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Impostor,
-                21700,
+                1500,
                 SetupOptionItem,
                 "wi"
             );
@@ -55,7 +55,7 @@ namespace DarkRoles.Roles.Impostor
         public static List<Witch> Witches = new();
         public static void SetupOptionItem()
         {
-            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 21701, OptionName.WitchModeSwitchAction, EnumHelper.GetAllNames<SwitchTrigger>(), 0, false);
+            OptionModeSwitchAction = StringOptionItem.Create(RoleInfo, 10, OptionName.WitchModeSwitchAction, EnumHelper.GetAllNames<SwitchTrigger>(), 0, false);
         }
         public override void Add()
         {
@@ -68,7 +68,7 @@ namespace DarkRoles.Roles.Impostor
         }
         private void SendRPC(bool doSpell, byte target = 255)
         {
-            using var sender = CreateSender(CustomRPC.WitchSync);
+            using var sender = CreateSender();
             sender.Writer.Write(doSpell);
             if (doSpell)
             {
@@ -80,10 +80,8 @@ namespace DarkRoles.Roles.Impostor
             }
         }
 
-        public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+        public override void ReceiveRPC(MessageReader reader)
         {
-            if (rpcType != CustomRPC.WitchSync) return;
-
             var doSpel = reader.ReadBoolean();
             if (doSpel)
             {

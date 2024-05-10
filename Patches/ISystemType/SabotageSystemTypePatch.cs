@@ -1,11 +1,11 @@
 using HarmonyLib;
 using Hazel;
-using DarkRoles.Attributes;
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Patches.ISystemType;
+namespace TheDarkRoles.Patches.ISystemType;
 
 [HarmonyPatch(typeof(SabotageSystemType), nameof(SabotageSystemType.UpdateSystem))]
 public static class SabotageSystemTypeUpdateSystemPatch

@@ -4,13 +4,12 @@ using Hazel;
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Neutral;
-using static DarkRoles.Translator;
-using static Il2CppSystem.TimeZoneInfo;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Neutral;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Crewmate;
+namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -20,7 +19,7 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
             CustomRoles.Sheriff,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Crewmate,
-            1700,
+            20400,
             SetupOptionItem,
             "sh",
             "#f8cd46",
@@ -64,15 +63,15 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
 
     private static void SetupOptionItem()
     {
-        KillCooldown = FloatOptionItem.Create(RoleInfo, 1701, GeneralOption.KillCooldown, new(0f, 990f, 1f), 30f, false)
+        KillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(0f, 990f, 1f), 30f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        MisfireKillsTarget = BooleanOptionItem.Create(RoleInfo, 1702, OptionName.SheriffMisfireKillsTarget, false, false);
-        ShotLimitOpt = IntegerOptionItem.Create(RoleInfo, 1703, OptionName.SheriffShotLimit, new(1, 15, 1), 15, false)
+        MisfireKillsTarget = BooleanOptionItem.Create(RoleInfo, 11, OptionName.SheriffMisfireKillsTarget, false, false);
+        ShotLimitOpt = IntegerOptionItem.Create(RoleInfo, 12, OptionName.SheriffShotLimit, new(1, 15, 1), 15, false)
             .SetValueFormat(OptionFormat.Times);
-        CanKillAllAlive = BooleanOptionItem.Create(RoleInfo, 1704, OptionName.SheriffCanKillAllAlive, true, false);
-        SetUpKillTargetOption(CustomRoles.Madmate, 1710);
-        CanKillNeutrals = StringOptionItem.Create(RoleInfo, 1706, OptionName.SheriffCanKillNeutrals, KillOption, 0, false);
-        SetUpNeutralOptions(1730);
+        CanKillAllAlive = BooleanOptionItem.Create(RoleInfo, 15, OptionName.SheriffCanKillAllAlive, true, false);
+        SetUpKillTargetOption(CustomRoles.Madmate, 13);
+        CanKillNeutrals = StringOptionItem.Create(RoleInfo, 14, OptionName.SheriffCanKillNeutrals, KillOption, 0, false);
+        SetUpNeutralOptions(30);
     }
     public static void SetUpNeutralOptions(int idOffset)
     {
@@ -123,13 +122,11 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
     }
     private void SendRPC()
     {
-        using var sender = CreateSender(CustomRPC.SetSheriffShotLimit);
+        using var sender = CreateSender();
         sender.Writer.Write(ShotLimit);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.SetSheriffShotLimit) return;
-
         ShotLimit = reader.ReadInt32();
     }
     public float CalculateKillCooldown() => CanUseKillButton() ? CurrentKillCooldown : 0f;
@@ -191,7 +188,7 @@ public sealed class Sheriff : RoleBase, IKiller, ISchrodingerCatOwner
             };
         }
 
-        return Utils.IsActive(SystemTypes.Electrical) ? (!player.Is(CustomRoles.Batman)) : cRole.GetCustomRoleTypes() switch
+        return cRole.GetCustomRoleTypes() switch
         {
             CustomRoleTypes.Impostor => true,
             CustomRoleTypes.Madmate => KillTargetOptions.TryGetValue(CustomRoles.Madmate, out var option) && option.GetBool(),

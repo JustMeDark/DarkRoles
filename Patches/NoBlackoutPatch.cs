@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(LogicGameFlowNormal), nameof(LogicGameFlowNormal.IsGameOverDueToDeath))]
     class DontBlackoutPatch

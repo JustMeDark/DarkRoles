@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace DarkRoles.Templates;
+namespace TheDarkRoles.Templates;
 
 public sealed class TMPTemplate
 {

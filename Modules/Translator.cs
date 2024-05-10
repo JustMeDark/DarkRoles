@@ -6,12 +6,9 @@ using System.Text;
 using Csv;
 using HarmonyLib;
 using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using DarkRoles.Attributes;
-using System.Reflection;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
+using TheDarkRoles.Attributes;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public static class Translator
     {
@@ -28,7 +25,7 @@ namespace DarkRoles
         public static void LoadLangs()
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("DarkRoles.Resources.string.csv");
+            var stream = assembly.GetManifestResourceStream("TownOfHost.Resources.string.csv");
             translateMaps = new Dictionary<string, Dictionary<int, string>>();
 
             var options = new CsvOptions()
@@ -71,6 +68,7 @@ namespace DarkRoles
         public static string GetString(string s, Dictionary<string, string> replacementDic = null)
         {
             var langId = TranslationController.InstanceExists ? TranslationController.Instance.currentLanguage.languageID : SupportedLangs.English;
+            if (Main.ForceJapanese.Value) langId = SupportedLangs.Japanese;
             string str = GetString(s, langId);
             if (replacementDic != null)
                 foreach (var rd in replacementDic)
@@ -109,30 +107,15 @@ namespace DarkRoles
             }
             return res;
         }
-
-        public static string TestGetString(string str)
-        {
-            /*var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            var stream = assembly.GetManifestResourceStream("DarkRoles.Resources.strings.json");
-            while */
-            /* using (Stream stream = assembly.GetManifestResourceStream("DarkRoles.Resources.strings.json"))
-             using (StreamReader reader = new StreamReader(stream)) ;*/
-            var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("DarkRoles.Resources.strings.json");
-            using System.IO.StreamReader reader = new(stream) ;
-            var strings = reader.ReadToEnd();
-            var obj = JObject.Parse(strings);
-            var data = (JObject)JsonConvert.DeserializeObject<string>(strings);
-
-            return (string)obj[str];
-        }
-
         public static string GetString(StringNames stringName)
             => DestroyableSingleton<TranslationController>.Instance.GetString(stringName, new Il2CppReferenceArray<Il2CppSystem.Object>(0));
         public static string GetRoleString(string str)
         {
             var CurrentLanguage = TranslationController.Instance.currentLanguage.languageID;
             var lang = CurrentLanguage;
-            if (CurrentLanguage == SupportedLangs.Japanese)
+            if (Main.ForceJapanese.Value && Main.JapaneseRoleName.Value)
+                lang = SupportedLangs.Japanese;
+            else if (CurrentLanguage == SupportedLangs.Japanese && !Main.JapaneseRoleName.Value)
                 lang = SupportedLangs.English;
 
             return GetString(str, lang);

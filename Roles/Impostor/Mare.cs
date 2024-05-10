@@ -1,11 +1,11 @@
 using AmongUs.GameOptions;
 using Hazel;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Options;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Options;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 public sealed class Mare : RoleBase, IImpostor
 {
@@ -16,7 +16,7 @@ public sealed class Mare : RoleBase, IImpostor
             CustomRoles.Mare,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            20600,
+            2300,
             SetupCustomOption,
             "ma",
             assignInfo: new(CustomRoles.Mare, CustomRoleTypes.Impostor)
@@ -52,8 +52,8 @@ public sealed class Mare : RoleBase, IImpostor
 
     public static void SetupCustomOption()
     {
-        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 20601, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false);
-        OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 20602, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
+        OptionSpeedInLightsOut = FloatOptionItem.Create(RoleInfo, 10, OptionName.MareAddSpeedInLightsOut, new(0.1f, 0.5f, 0.1f), 0.3f, false);
+        OptionKillCooldownInLightsOut = FloatOptionItem.Create(RoleInfo, 11, OptionName.MareKillCooldownInLightsOut, new(2.5f, 180f, 2.5f), 15f, false)
             .SetValueFormat(OptionFormat.Seconds);
     }
     public bool CanUseKillButton() => IsActivateKill;
@@ -83,13 +83,11 @@ public sealed class Mare : RoleBase, IImpostor
     }
     public void SendRPC()
     {
-        using var sender = CreateSender(CustomRPC.MareSync);
+        using var sender = CreateSender();
         sender.Writer.Write(IsActivateKill);
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType != CustomRPC.MareSync) return;
-
         IsActivateKill = reader.ReadBoolean();
     }
 

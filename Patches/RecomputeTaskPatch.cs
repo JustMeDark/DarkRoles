@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(GameData), nameof(GameData.RecomputeTaskCounts))]
     class CustomTaskCountsPatch

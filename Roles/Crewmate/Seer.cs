@@ -1,9 +1,9 @@
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Crewmate;
+namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Seer : RoleBase, IKillFlashSeeable
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -13,7 +13,7 @@ public sealed class Seer : RoleBase, IKillFlashSeeable
             CustomRoles.Seer,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            1600,
+            21000,
             null,
             "se",
             "#61b26c"

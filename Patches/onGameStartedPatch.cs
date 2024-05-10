@@ -5,14 +5,14 @@ using AmongUs.GameOptions;
 using HarmonyLib;
 using Hazel;
 
-using DarkRoles.Attributes;
-using DarkRoles.Modules;
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.AddOns.Common;
-using static DarkRoles.Translator;
+using TheDarkRoles.Attributes;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.AddOns.Common;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.CoStartGame))]
     class ChangeRoleSettings
@@ -39,8 +39,6 @@ namespace DarkRoles
             Main.RealOptionsData = new OptionBackupData(GameOptionsManager.Instance.CurrentGameOptions);
 
             Main.introDestroyed = false;
-
-            RandomSpawn.CustomNetworkTransformPatch.FirstTP = new();
 
             Main.DefaultCrewmateVision = Main.RealOptionsData.GetFloat(FloatOptionNames.CrewLightMod);
             Main.DefaultImpostorVision = Main.RealOptionsData.GetFloat(FloatOptionNames.ImpostorLightMod);
@@ -83,7 +81,6 @@ namespace DarkRoles
                 ReportDeadBodyPatch.WaitReport[pc.PlayerId] = new();
                 pc.cosmetics.nameText.text = pc.name;
 
-                RandomSpawn.CustomNetworkTransformPatch.FirstTP.Add(pc.PlayerId, false);
                 var outfit = pc.Data.DefaultOutfit;
                 Camouflage.PlayerSkins[pc.PlayerId] = new GameData.PlayerOutfit().Set(outfit.PlayerName, outfit.ColorId, outfit.HatId, outfit.SkinId, outfit.VisorId, outfit.PetId);
                 Main.clientIdList.Add(pc.GetClientId());
@@ -101,9 +98,6 @@ namespace DarkRoles
                     Options.HideAndSeekKillDelayTimer = Options.StandardHASWaitingTime.GetFloat();
                 }
             }
-
-            NameNotifyManager.Reset();
-
             IRandom.SetInstanceById(Options.RoleAssigningAlgorithm.GetValue());
 
             MeetingStates.MeetingCalled = false;
@@ -337,10 +331,8 @@ namespace DarkRoles
                 if (AllPlayers.Count <= 0) break;
                 var player = AllPlayers[rand.Next(0, AllPlayers.Count)];
                 AllPlayers.Remove(player);
-                if (Main.SelectRole != CustomRoles.Crewmate && player.PlayerId is 0)
-                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(Main.SelectRole);
-                else
-                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
+                PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
+
                 var selfRole = player.PlayerId == hostId ? hostBaseRole : BaseRole;
                 var othersRole = player.PlayerId == hostId ? RoleTypes.Crewmate : RoleTypes.Scientist;
 
@@ -401,10 +393,7 @@ namespace DarkRoles
                 var player = players[rand.Next(0, players.Count)];
                 AssignedPlayers.Add(player);
                 players.Remove(player);
-                if (Main.SelectRole != CustomRoles.Crewmate && player.PlayerId is 0)
-                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(Main.SelectRole);
-                else
-                    PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
+                PlayerState.GetByPlayerId(player.PlayerId).SetMainRole(role);
                 Logger.Info("役職設定:" + player?.Data?.PlayerName + " = " + role.ToString(), "AssignRoles");
 
                 if (Options.CurrentGameMode == CustomGameMode.HideAndSeek)

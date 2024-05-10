@@ -1,7 +1,7 @@
 using System;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     public class StringOptionItem : OptionItem
     {

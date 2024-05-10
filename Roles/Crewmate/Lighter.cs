@@ -1,7 +1,7 @@
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core;
 
-namespace DarkRoles.Roles.Crewmate;
+namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Lighter : RoleBase
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -11,7 +11,7 @@ public sealed class Lighter : RoleBase
             CustomRoles.Lighter,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            1300,
+            20100,
             SetupOptionItem,
             "li",
             "#eee5be"
@@ -59,11 +59,11 @@ public sealed class Lighter : RoleBase
 
     private static void SetupOptionItem()
     {
-        OptionMaxVision = FloatOptionItem.Create(RoleInfo, 1301, OptionName.LighterMaxVision, new(0.0f, 3.0f, 0.1f), 1.0f, false)
+        OptionMaxVision = FloatOptionItem.Create(RoleInfo, 10, OptionName.LighterMaxVision, new(0.0f, 3.0f, 0.1f), 1.0f, false)
             .SetValueFormat(OptionFormat.Multiplier);
-        OptionTaskCompletedDisableLightOut = BooleanOptionItem.Create(RoleInfo, 1302, OptionName.LighterTaskCompletedDisableLightOut, true, false);
-        OptionLighterTriggerType = StringOptionItem.Create(RoleInfo, 1303, OptionName.LighterTriggerType, EnumHelper.GetAllNames<TriggerType>(), 0, false);
-        OptionLighterTaskTrigger = IntegerOptionItem.Create(RoleInfo, 1304, OptionName.LighterTaskTrigger, new(1, 99, 1), 5, false)
+        OptionTaskCompletedDisableLightOut = BooleanOptionItem.Create(RoleInfo, 11, OptionName.LighterTaskCompletedDisableLightOut, true, false);
+        OptionLighterTriggerType = StringOptionItem.Create(RoleInfo, 12, OptionName.LighterTriggerType, EnumHelper.GetAllNames<TriggerType>(), 0, false);
+        OptionLighterTaskTrigger = IntegerOptionItem.Create(RoleInfo, 13, OptionName.LighterTaskTrigger, new(1, 99, 1), 5, false)
             .SetParent(OptionLighterTriggerType);
     }
 

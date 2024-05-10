@@ -3,11 +3,11 @@ using System.Linq;
 using UnityEngine;
 
 using AmongUs.GameOptions;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 public sealed class Warlock : RoleBase, IImpostor
 {
@@ -18,7 +18,7 @@ public sealed class Warlock : RoleBase, IImpostor
             CustomRoles.Warlock,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Impostor,
-            21600,
+            1400,
             null,
             "wa"
         );
@@ -126,5 +126,6 @@ public sealed class Warlock : RoleBase, IImpostor
     public override void AfterMeetingTasks()
     {
         CursedPlayer = null;
+        IsCursed = false;
     }
 }

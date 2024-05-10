@@ -1,11 +1,11 @@
 using HarmonyLib;
 using Hazel;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Neutral;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Neutral;
 using UnityEngine;
 
-namespace DarkRoles.Patches.ISystemType;
+namespace TheDarkRoles.Patches.ISystemType;
 
 [HarmonyPatch(typeof(SwitchSystem), nameof(SwitchSystem.UpdateSystem))]
 public static class SwitchSystemUpdateSystemPatch

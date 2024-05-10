@@ -5,9 +5,9 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using LogLevel = BepInEx.Logging.LogLevel;
-using DarkRoles.Modules;
+using TheDarkRoles.Modules;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     class Webhook
     {

@@ -6,10 +6,10 @@ using Assets.CoreScripts;
 using HarmonyLib;
 using Hazel;
 
-using DarkRoles.Roles.Core;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(ChatController), nameof(ChatController.SendChat))]
     class ChatCommands
@@ -37,7 +37,6 @@ namespace DarkRoles
             string subArgs = "";
             var canceled = false;
             var cancelVal = "";
-            
             Main.isChatCommand = true;
             Logger.Info(text, "SendChat");
             switch (args[0])
@@ -70,100 +69,20 @@ namespace DarkRoles
                         canceled = true;
                         Utils.SendMessage("Winner: " + string.Join(",", Main.winnerList.Select(b => Main.AllPlayerNames[b])));
                         break;
-                    case "/select":
-                        canceled = true;
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        if (!GameStates.InGame && GameStates.IsLobby)
-                        {
-                            if (subArgs.ToLower() != Main.SelectRole.ToString().ToLower())
-                            {
-                                foreach (CustomRoles role in Enum.GetValues(typeof(CustomRoles)))
-                                {
-                                    if (role.ToString().ToLower() == subArgs.ToLower())
-                                    {
-                                        Main.SelectRole = role;
-                                        Utils.SendMessage($"You will be {role} next round.", 0);
-                                        break;
-                                    }
-                                }
-                            }
-                            else
-                                Utils.SendMessage($"Error: A smartass tried to select the same role twice.", 0);
-                        }else
-                            Utils.SendMessage($"Error: ID10T.", 0);
-                        break;
+
                     case "/l":
                     case "/lastresult":
                         canceled = true;
                         Utils.ShowLastResult();
                         break;
-                    case "/colour":
-                    case "/color":
-                    case "/c":
-                        canceled = true;
-                        if (GameStates.IsInGame)
-                        {
-                            Utils.SendMessage(GetString("ColorCommandNotInLobby"), PlayerControl.LocalPlayer.PlayerId);
-                            break;
-                        }
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        var color = Utils.MsgToColor(subArgs, true);
-                        if (color == byte.MaxValue)
-                        {
-                            Utils.SendMessage(GetString("ColorNotAllowed"), PlayerControl.LocalPlayer.PlayerId);
-                            break;
-                        }
-                        PlayerControl.LocalPlayer.RpcSetColor(color);
-                        Utils.SendMessage(string.Format(GetString("ColorSet"), subArgs), PlayerControl.LocalPlayer.PlayerId);
-                        break;
+
                     case "/kl":
                     case "/killlog":
                         canceled = true;
                         Utils.ShowKillLog();
                         break;
-                    case "reloadtags":
-                        foreach (var pc in Main.AllPlayerControls)
-                        {
-                            Utils.ApplySuffix(pc);
-                        }
-                        Utils.SendMessage("Made an attempt to update tags!", PlayerControl.LocalPlayer.PlayerId);
-                        break;
-                    case "/xf": //Credit TOHE
-                        canceled = true;
-                        if (GameStates.IsLobby)
-                        {
-                            Utils.SendMessage(GetString("XFCantUseInLobby"), PlayerControl.LocalPlayer.PlayerId);
-                            break;
-                        }
-                        foreach (var pc in Main.AllPlayerControls)
-                        {
-                            if (pc.IsAlive()) continue;
 
-                            pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                        }
-                        ChatUpdatePatch.DoBlockChat = false;
-                        Utils.SendMessage(GetString("XFTryFixName"), PlayerControl.LocalPlayer.PlayerId);
-                        break;
                     case "/r":
-                    case "/role":
-                        canceled = true;
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        HudManager.Instance.Chat.AddChat(PlayerControl.LocalPlayer, SendRolesInfoV2(subArgs, 255));
-                        break;
-                    case "/perc":
-                        canceled = true;
-                        Utils.ShowActiveRoles();
-                        break;
-                    case "/pool":
-                        canceled = true;
-                        Utils.SendMessage("An Indoor Pool, brought to you by Glitzy!");
-                        break;
-                    case "/settings":
-                        canceled = true;
-                        Utils.ShowActiveSettings();
-                        break;
-                    case "/name":
-                    case "/rn":
                     case "/rename":
                         canceled = true;
                         Main.nickName = args.Length > 1 ? Main.nickName = args[1] : "";
@@ -175,6 +94,23 @@ namespace DarkRoles
                         Main.HideName.Value = args.Length > 1 ? args.Skip(1).Join(delimiter: " ") : Main.HideName.DefaultValue.ToString();
                         GameStartManagerPatch.HideName.text = Main.HideName.Value;
                         break;
+
+                    case "/n":
+                    case "/now":
+                        canceled = true;
+                        subArgs = args.Length < 2 ? "" : args[1];
+                        switch (subArgs)
+                        {
+                            case "r":
+                            case "roles":
+                                Utils.ShowActiveRoles();
+                                break;
+                            default:
+                                Utils.ShowActiveSettings();
+                                break;
+                        }
+                        break;
+
                     case "/dis":
                         canceled = true;
                         subArgs = args.Length < 2 ? "" : args[1];
@@ -300,10 +236,9 @@ namespace DarkRoles
                         break;
 
                     case "/say":
-                    case "/s":
                         canceled = true;
                         if (args.Length > 1)
-                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color={Main.ModColor}>{GetString("MessageFromTheHost")}</color>");
+                            Utils.SendMessage(args.Skip(1).Join(delimiter: " "), title: $"<color=#ff0000>{GetString("MessageFromTheHost")}</color>");
                         break;
 
                     case "/exile":
@@ -414,91 +349,6 @@ namespace DarkRoles
             msg += rolemsg;
             Utils.SendMessage(msg);
         }
-
-        public static void SendRolesInfo(string role, byte playerId)
-        {
-            role = role.Trim().ToLower();
-            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
-            if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
-            if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
-
-            if (role == "" || role == string.Empty)
-            {
-                Utils.ShowActiveRoles(playerId);
-                return;
-            }
-
-            role = role.ToLower().Trim().Replace(" ", string.Empty);
-
-            foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
-            {
-                if (rl.IsVanilla()) continue;
-                var roleName = GetString(rl.ToString());
-                if (role == roleName.ToLower().Trim().TrimStart('*').Replace(" ", string.Empty))
-                {
-
-                    var sb = new StringBuilder();
-                    sb.Append(roleName + GetString($"{rl}InfoLong"));
-                    if (Options.CustomRoleSpawnChances.ContainsKey(rl))
-                    {
-                        var txt = sb.ToString();
-                        sb.Clear().Append(txt.RemoveHtmlTags());
-                    }
-                    Utils.SendMessage(sb.ToString(), playerId);
-                    return;
-                }
-            }
-            return;
-        }
-
-        public static string SendRolesInfoV2(string role, byte playerId)
-        {
-            role = role.Trim().ToLower();
-            if (role.StartsWith("/r")) role.Replace("/r", string.Empty);
-            if (role.EndsWith("\r\n")) role.Replace("\r\n", string.Empty);
-            if (role.EndsWith("\n")) role.Replace("\n", string.Empty);
-
-            if (role == "" || role == string.Empty)
-            {
-                Utils.ShowActiveRoles(playerId);
-            }
-
-            role = role.ToLower().Trim().Replace(" ", string.Empty);
-
-            foreach (CustomRoles rl in Enum.GetValues(typeof(CustomRoles)))
-            {
-                if (rl.IsVanilla()) continue;
-                var roleName = GetString(rl.ToString());
-                if (role == roleName.ToLower().Trim().TrimStart('*').Replace(" ", string.Empty))
-                {
-                    var hasTag = Options.GetSuffixMode() != SuffixModes.None;
-                    var sb = new StringBuilder(256);
-                    if (hasTag && playerId == 0)
-                        sb.AppendFormat("<size={0}>\n\n", "50%");
-                    sb.AppendFormat("<size={0}><color={1}>{2}</color></size>\n", "130%", Utils.GetRoleColorCode(rl), GetString($"{rl}"));
-                    sb.AppendFormat("<size={0}>\n", "20%");
-                    sb.AppendFormat("<size={0}>{1}\n", "65%", GetString($"{rl}InfoLong"));
-                    sb.AppendFormat("<size={0}>\n", "30%");
-                    sb.AppendFormat("<size={0}>{1}\n", "90%", "Team");
-                    sb.AppendFormat("<size={0}>{1}\n", "65%", rl.GetRoleInfo().CountType);
-                    sb.AppendFormat("<size={0}>\n", "30%");
-                    sb.AppendFormat("<size={0}>{1}\n", "90%", "Base");
-                    sb.AppendFormat("<size={0}>{1}\n", "65%", rl.GetRoleInfo().BaseRoleType.Invoke());
-                    if (!hasTag && playerId == 0)
-                    {
-                        sb.AppendFormat("<size={0}>\n", "20%");
-                        sb.AppendFormat("<size={0}>\n\n", "80%");
-                    }
-                    if (Options.CustomRoleSpawnChances.ContainsKey(rl))
-                    {
-                        var txt = sb.ToString();
-                    }
-                    return sb.ToString();
-                }
-            }
-            return "Error: An unknown error has occured!";
-        }
-
         private static void ConcatCommands(CustomRoleTypes roleType)
         {
             var roles = CustomRoleManager.AllRolesInfo.Values.Where(role => role.CustomRoleType == roleType);
@@ -514,10 +364,6 @@ namespace DarkRoles
             if (!AmongUsClient.Instance.AmHost) return;
             string[] args = text.Split(' ');
             string subArgs = "";
-           /* if(player.Data.IsDead && Main.IsLavaScreen)
-            {
-                player.SendMessage("LAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\nLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHATLAVACHAT\n");
-            }*/
             switch (args[0])
             {
                 case "/l":
@@ -529,38 +375,23 @@ namespace DarkRoles
                 case "/killlog":
                     Utils.ShowKillLog(player.PlayerId);
                     break;
-                case "/r":
-                case "/role":
+
+                case "/n":
+                case "/now":
                     subArgs = args.Length < 2 ? "" : args[1];
-                    Utils.SendMessage(SendRolesInfoV2(subArgs, player.PlayerId), player.PlayerId, removeTags: false);
-                    break;
-                case "/perc":
-                    Utils.ShowActiveRoles();
-                    break;
-                case "/pool":
-                    Utils.SendMessage("An Indoor Pool, brought to you by Glitzy!", player.PlayerId);
-                    break;
-                case "/settings":
-                    Utils.ShowActiveSettings(player.PlayerId);
-                    break;
-                case "/colour": //credit tohe
-                case "/color":
-                case "/c":
-                        if (GameStates.IsInGame)
-                        {
-                            Utils.SendMessage(GetString("ColorCommandNotInLobby"), player.PlayerId);
+                    switch (subArgs)
+                    {
+                        case "r":
+                        case "roles":
+                            Utils.ShowActiveRoles(player.PlayerId);
                             break;
-                        }
-                        subArgs = args.Length < 2 ? "" : args[1];
-                        var color = Utils.MsgToColor(subArgs);
-                        if (color == byte.MaxValue)
-                        {
-                            Utils.SendMessage(GetString("ColorNotAllowed"), player.PlayerId);
+
+                        default:
+                            Utils.ShowActiveSettings(player.PlayerId);
                             break;
-                        }
-                        player.RpcSetColor(color);
-                        Utils.SendMessage(string.Format(GetString("ColorSet"), subArgs), player.PlayerId);
+                    }
                     break;
+
                 case "/h":
                 case "/help":
                     subArgs = args.Length < 2 ? "" : args[1];
@@ -589,20 +420,7 @@ namespace DarkRoles
                         }
                     }
                     break;
-                case "/xf": //CREDIT TOHE
-                    if (GameStates.IsLobby)
-                    {
-                        Utils.SendMessage(GetString("XFCantUseInLobby"), player.PlayerId);
-                        break;
-                    }
-                    foreach (var pc in Main.AllPlayerControls)
-                    {
-                        if (pc.IsAlive()) continue;
-                        pc.RpcSetNameEx(pc.GetRealName(isMeeting: true));
-                    }
-                    ChatUpdatePatch.DoBlockChat = false;
-                    Utils.SendMessage(GetString("XFTryFixName"), player.PlayerId);
-                    break;
+
                 case "/t":
                 case "/template":
                     if (args.Length > 1) TemplateManager.SendTemplate(args[1], player.PlayerId);

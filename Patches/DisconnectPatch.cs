@@ -1,6 +1,6 @@
 using HarmonyLib;
 
-namespace DarkRoles
+namespace TheDarkRoles
 {
     [HarmonyPatch(typeof(AmongUsClient), nameof(AmongUsClient.OnDisconnected))]
     class OnDisconnectedPatch

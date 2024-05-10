@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using System.Linq;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 
-namespace DarkRoles.Roles.Neutral;
+namespace TheDarkRoles.Roles.Neutral;
 public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOwner
 {
     public static readonly SimpleRoleInfo RoleInfo =
@@ -15,7 +15,7 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
             CustomRoles.Egoist,
             () => RoleTypes.Shapeshifter,
             CustomRoleTypes.Neutral,
-            10100,
+            50600,
             SetupOptionItem,
             "eg",
             "#5600ff",
@@ -23,6 +23,7 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
             countType: CountTypes.Impostor,
             assignInfo: new RoleAssignInfo(CustomRoles.Egoist, CustomRoleTypes.Neutral)
             {
+                AssignRoleType = CustomRoleTypes.Impostor,
                 IsInitiallyAssignableCallBack =
                     () => Main.RealOptionsData.GetInt(Int32OptionNames.NumImpostors) > 1,
                 AssignCountRule = new(1, 1, 1)
@@ -49,9 +50,9 @@ public sealed class Egoist : RoleBase, ISidekickable, IKiller, ISchrodingerCatOw
 
     private static void SetupOptionItem()
     {
-        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10101, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
+        OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
             .SetValueFormat(OptionFormat.Seconds);
-        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 10102, GeneralOption.CanCreateMadmate, false, false);
+        OptionCanCreateMadmate = BooleanOptionItem.Create(RoleInfo, 11, GeneralOption.CanCreateMadmate, false, false);
     }
     public override void Add()
     {

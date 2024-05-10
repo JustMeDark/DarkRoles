@@ -1,12 +1,12 @@
 using UnityEngine;
 using AmongUs.GameOptions;
 
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
-using DarkRoles.Roles.Neutral;
-using static DarkRoles.Translator;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Roles.Neutral;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles.Roles.Impostor
+namespace TheDarkRoles.Roles.Impostor
 {
     public sealed class SerialKiller : RoleBase, IImpostor
     {
@@ -17,7 +17,7 @@ namespace DarkRoles.Roles.Impostor
                 CustomRoles.SerialKiller,
                 () => RoleTypes.Shapeshifter,
                 CustomRoleTypes.Impostor,
-                21000,
+                1100,
                 SetUpOptionItem,
                 "sk"
             );
@@ -46,9 +46,9 @@ namespace DarkRoles.Roles.Impostor
 
         private static void SetUpOptionItem()
         {
-            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 21001, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
+            OptionKillCooldown = FloatOptionItem.Create(RoleInfo, 10, GeneralOption.KillCooldown, new(2.5f, 180f, 2.5f), 20f, false)
                 .SetValueFormat(OptionFormat.Seconds);
-            OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 21002, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
+            OptionTimeLimit = FloatOptionItem.Create(RoleInfo, 11, OptionName.SerialKillerLimit, new(5f, 900f, 5f), 60f, false)
                 .SetValueFormat(OptionFormat.Seconds);
         }
         public float CalculateKillCooldown() => KillCooldown;

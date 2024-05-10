@@ -5,15 +5,14 @@ using System.Text;
 using HarmonyLib;
 using UnityEngine;
 
-using DarkRoles.Modules;
-using DarkRoles.Roles;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Neutral;
-using DarkRoles.Roles.Core.Interfaces;
-using static DarkRoles.Translator;
-using DarkRoles.Roles.AddOns.Common;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Neutral;
+using TheDarkRoles.Roles.Core.Interfaces;
+using static TheDarkRoles.Translator;
 
-namespace DarkRoles;
+namespace TheDarkRoles;
 
 [HarmonyPatch]
 public static class MeetingHudPatch
@@ -68,7 +67,7 @@ public static class MeetingHudPatch
             {
                 var pc = Utils.GetPlayerById(pva.TargetPlayerId);
                 if (pc == null) continue;
-                var roleTextMeeting = Object.Instantiate(pva.NameText);
+                var roleTextMeeting = UnityEngine.Object.Instantiate(pva.NameText);
                 roleTextMeeting.transform.SetParent(pva.NameText.transform);
                 roleTextMeeting.transform.localPosition = new Vector3(0f, -0.18f, 0f);
                 roleTextMeeting.fontSize = 1.5f;
@@ -76,15 +75,6 @@ public static class MeetingHudPatch
                     = Utils.GetRoleNameAndProgressTextData(PlayerControl.LocalPlayer, pc);
                 roleTextMeeting.gameObject.name = "RoleTextMeeting";
                 roleTextMeeting.enableWordWrapping = false;
-
-                if (pc.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
-                    roleTextMeeting.enabled = true;
-                if (pc.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
-                    roleTextMeeting.enabled = true;
-                if (pc.Is(CustomRoleTypes.Madmate) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Madmate))
-                    roleTextMeeting.enabled = true;
-                if (pc.Is(CustomRoleTypes.Impostor) && PlayerControl.LocalPlayer.Is(CustomRoleTypes.Impostor))
-                    roleTextMeeting.enabled = true;
 
                 // 役職とサフィックスを同時に表示する必要が出たら要改修
                 var suffixBuilder = new StringBuilder(32);
@@ -98,11 +88,8 @@ public static class MeetingHudPatch
                     roleTextMeeting.text = suffixBuilder.ToString();
                     roleTextMeeting.enabled = true;
                 }
-                if (pc.Is(CustomRoles.Wise))
-                    Wise.OnFirstMeeting(pc);
             }
             CustomRoleManager.AllActiveRoles.Values.Do(role => role.OnStartMeeting());
-
             if (Options.SyncButtonMode.GetBool())
             {
                 Utils.SendMessage(string.Format(GetString("Message.SyncButtonLeft"), Options.SyncedButtonCount.GetFloat() - Options.UsedButtonCount));
@@ -208,7 +195,6 @@ public static class MeetingHudPatch
             if (AmongUsClient.Instance.AmHost)
             {
                 AntiBlackout.SetIsDead();
-                Main.AllPlayerControls.Do(pc => RandomSpawn.CustomNetworkTransformPatch.FirstTP[pc.PlayerId] = false);
             }
             // MeetingVoteManagerを通さずに会議が終了した場合の後処理
             MeetingVoteManager.Instance?.Destroy();
@@ -283,7 +269,7 @@ public static class MeetingHudPatch
     }
 }
 
-    [HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
+[HarmonyPatch(typeof(PlayerVoteArea), nameof(PlayerVoteArea.SetHighlighted))]
 class SetHighlightedPatch
 {
     public static bool Prefix(PlayerVoteArea __instance, bool value)

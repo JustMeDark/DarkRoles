@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using AmongUs.GameOptions;
 using Hazel;
-using DarkRoles.Modules;
-using DarkRoles.Roles.Core;
-using DarkRoles.Roles.Core.Interfaces;
+using TheDarkRoles.Modules;
+using TheDarkRoles.Roles.Core;
+using TheDarkRoles.Roles.Core.Interfaces;
 using UnityEngine;
 
-namespace DarkRoles.Roles.Impostor;
+namespace TheDarkRoles.Roles.Impostor;
 
 public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
 {
@@ -20,7 +20,7 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
             CustomRoles.EvilHacker,
             () => RoleTypes.Impostor,
             CustomRoleTypes.Impostor,
-            20100,
+            3100,
             SetupOptionItems,
             "eh"
         );
@@ -65,10 +65,10 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
 
     private static void SetupOptionItems()
     {
-        OptionCanSeeDeadMark = BooleanOptionItem.Create(RoleInfo, 20101, OptionName.EvilHackerCanSeeDeadMark, true, false);
-        OptionCanSeeImpostorMark = BooleanOptionItem.Create(RoleInfo, 20102, OptionName.EvilHackerCanSeeImpostorMark, true, false);
-        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 20103, OptionName.EvilHackerCanSeeKillFlash, true, false);
-        OptionCanSeeMurderRoom = BooleanOptionItem.Create(RoleInfo, 20104, OptionName.EvilHackerCanSeeMurderRoom, true, false, OptionCanSeeKillFlash);
+        OptionCanSeeDeadMark = BooleanOptionItem.Create(RoleInfo, 10, OptionName.EvilHackerCanSeeDeadMark, true, false);
+        OptionCanSeeImpostorMark = BooleanOptionItem.Create(RoleInfo, 11, OptionName.EvilHackerCanSeeImpostorMark, true, false);
+        OptionCanSeeKillFlash = BooleanOptionItem.Create(RoleInfo, 12, OptionName.EvilHackerCanSeeKillFlash, true, false);
+        OptionCanSeeMurderRoom = BooleanOptionItem.Create(RoleInfo, 13, OptionName.EvilHackerCanSeeMurderRoom, true, false, OptionCanSeeKillFlash);
     }
     /// <summary>相方がキルした部屋を通知する設定がオンなら各プレイヤーに通知を行う</summary>
     private static void HandleMurderRoomNotify(MurderInfo info)
@@ -144,16 +144,13 @@ public sealed class EvilHacker : RoleBase, IImpostor, IKillFlashSeeable
         CreateMurderNotify(room);
         if (AmongUsClient.Instance.AmHost)
         {
-            using var sender = CreateSender(CustomRPC.EvilHackerCreateMurderNotify);
+            using var sender = CreateSender();
             sender.Writer.Write((byte)room);
         }
     }
-    public override void ReceiveRPC(MessageReader reader, CustomRPC rpcType)
+    public override void ReceiveRPC(MessageReader reader)
     {
-        if (rpcType == CustomRPC.EvilHackerCreateMurderNotify)
-        {
-            CreateMurderNotify((SystemTypes)reader.ReadByte());
-        }
+        CreateMurderNotify((SystemTypes)reader.ReadByte());
     }
     /// <summary>
     /// 名前の下にキル発生通知を出す
