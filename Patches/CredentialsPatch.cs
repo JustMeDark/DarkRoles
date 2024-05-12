@@ -109,6 +109,7 @@ namespace TheDarkRoles
                 {
                     //このソースコ―ドを見た人へ。口外しないでもらえると嬉しいです...
                     //To anyone who has seen this source code. I would appreciate it if you would keep your mouth shut...
+                    // No i will not, that code is too funny
                     SpecialEventText.text = "何とは言いませんが、特別な日ですね。\n<size=15%>\n\n末永く爆発しろ</size>";
                     SpecialEventText.color = Utils.GetRoleColor(CustomRoles.Lovers);
                 }
