@@ -62,7 +62,7 @@ namespace TheDarkRoles
                 var grad1 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), $"{Main.ModName}");
                 var grad2 = Utils.GradientColorText(GetString("HostColor"), GetString("HostColor2"), "Made by");
                 // Main.credentialsText = $"{grad1} v{Main.PluginVersion}\n{grad2} sleepy";
-                Main.credentialsText = $"{grad1} v{Main.PluginVersion} (Beta)\n{grad2} sleepy"; //beta
+                Main.credentialsText = $"{grad1} v{Main.PluginVersion}\n{grad2} sleepy"; //beta
 #if DEBUG
                 //Main.credentialsText += $"\r\n<color={Main.ModColor}>{ThisAssembly.Git.Branch}({ThisAssembly.Git.Commit})</color>";
 #endif
