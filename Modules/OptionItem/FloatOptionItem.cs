@@ -41,6 +41,17 @@ namespace TheDarkRoles
             return opt;
         }
 
+        public static FloatOptionItem Create(
+           SimpleRoleInfo roleInfo, int idOffset, string name, FloatValueRule rule, float defaultValue, bool isSingleValue, OptionItem parent = null
+       )
+        {
+            var opt = new FloatOptionItem(
+                roleInfo.ConfigId + idOffset, name, defaultValue, roleInfo.Tab, isSingleValue, rule
+            );
+            opt.SetParent(parent ?? roleInfo.RoleOption);
+            return opt;
+        }
+
         // Getter
         public override int GetInt() => (int)Rule.GetValueByIndex(CurrentValue);
         public override float GetFloat() => Rule.GetValueByIndex(CurrentValue);

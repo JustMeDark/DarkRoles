@@ -402,11 +402,12 @@ public enum CustomRoles
     Snitch,
     SpeedBooster,
     Trapper,
+    Visionary, 
     Dictator,
     Doctor,
     Seer,
     TimeManager,
-    //Neutral
+    //Neutral please help me 
     Arsonist,
     Egoist,
     Jester,
