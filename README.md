@@ -26,6 +26,26 @@ Innersloth LLC. © Innersloth LLC.
 
 <br>
 <pre>
+
+## How To Install
+
+### Automatic: Our amazing installer carefully written in rust
+- Install the indtaller exe from releases or the discord
+- Ensure your among us folder is clear of other mods before running, otherwise the installer will panic and crash.
+- Select your steam directory (Epic or Steam) or type in  custom one 
+- Then just let the installer do its job
+
+### Manual
+- Download the zip file from releases or the discord
+- (Steam) Navigate to C:/Program Files (x86)/Steam/steamapps/common/Among Us
+- (Epic Games) Navigate to C:/Epic Games/AmongUs
+- Drag the zip file into the directory
+- Right click the file and extract
+- Launch the game
+</pre>
+
+<br>
+<pre>
   
 ## **Credits:**
 ###  ⭐ [Town Of Host](https://github.com/tukasa0001/TownOfHost) :
