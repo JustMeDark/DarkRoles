@@ -1,4 +1,4 @@
-<h1 align="center">$\mathbb{\color{#C092C0}{Dark \ Roles } \ {}}$</h1>
+<h1 align="center">$\mathbb{\color{#C092C0}{The \ Dark \ Roles } \ {}}$</h1>
 
 <img align="left" alt="Cover" src="Resources/TempImage.png" width="470" height="470" /> 
   
@@ -23,6 +23,26 @@ Innersloth LLC. © Innersloth LLC.
 
   <a href="https://discord.gg/9YdSgkF7yC" target="_blank"><img src="https://img.shields.io/badge/Discord%20-%231DA1F2.svg?&style=for-the-badge&logo=discord&logoColor=white&color=5662f6"/></a><a href="https://github.com/sleepyfor/DarkRoles/releases/latest" target="_blank"><img src="https://img.shields.io/badge/Latest Version%20-%231DA1F2.svg?&style=for-the-badge&logo=github&logoColor=white&color=181717"/></a>
   </pre>
+
+<br>
+<pre>
+
+## How To Install
+
+### Automatic: Our amazing installer carefully written in rust
+- Install the indtaller exe from releases or the discord
+- Ensure your among us folder is clear of other mods before running, otherwise the installer will panic and crash.
+- Select your steam directory (Epic or Steam) or type in  custom one 
+- Then just let the installer do its job
+
+### Manual
+- Download the zip file from releases or the discord
+- (Steam) Navigate to C:/Program Files (x86)/Steam/steamapps/common/Among Us
+- (Epic Games) Navigate to C:/Epic Games/AmongUs
+- Drag the zip file into the directory
+- Right click the file and extract
+- Launch the game
+</pre>
 
 <br>
 <pre>
