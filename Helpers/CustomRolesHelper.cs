@@ -135,5 +135,7 @@ namespace TheDarkRoles
         Crew,
         Impostor,
         Jackal,
+        Accelerator,
+        Agent47,
     }
 }

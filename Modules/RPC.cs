@@ -23,6 +23,7 @@ namespace TheDarkRoles
         SetLoversPlayers,
         SetRealKiller,
         CustomRoleSync,
+        SetMarkedPlayers,
     }
     public enum Sounds
     {

@@ -22,7 +22,7 @@ namespace TheDarkRoles.Roles.Crewmate;
                 CustomRoles.Visionary,
                 () => RoleTypes.Impostor,
                 CustomRoleTypes.Crewmate,
-                2400, SetupOptionItem,
+                2700, SetupOptionItem,
                 "vis", "#19ff30", true);
 
         public Visionary(PlayerControl player) : base(RoleInfo, player) { this.player = player; SeenList.Clear(); }

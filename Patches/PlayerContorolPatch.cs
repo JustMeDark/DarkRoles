@@ -12,6 +12,8 @@ using TheDarkRoles.Roles;
 using TheDarkRoles.Roles.Core;
 using TheDarkRoles.Roles.Core.Interfaces;
 using TheDarkRoles.Roles.AddOns.Crewmate;
+using TheDarkRoles.Roles.Crewmate;
+using TheDarkRoles.Roles.Neutral;
 
 namespace TheDarkRoles
 {
@@ -435,6 +437,17 @@ namespace TheDarkRoles
                     __instance.ReportDeadBody(info);
                 }
 
+                // OnExitVent
+                if (player.Is(CustomRoles.Magician))
+                    if (Magician.HasVented[player.PlayerId] && !player.inVent)
+                    {
+                        Magician.OnExitVent(player);
+                        Magician.HasVented[player.PlayerId] = false;
+                    }
+
+                if (player.Is(CustomRoles.Accelerator) && !player.inVent && Accelerator.HasVented)
+                    Accelerator.OnExitVent(player);
+
                 DoubleTrigger.OnFixedUpdate(player);
 
                 //ターゲットのリセット
@@ -626,6 +639,23 @@ namespace TheDarkRoles
             return true;
         }
     }
+
+    [HarmonyPatch(typeof(Vent), nameof(Vent.EnterVent))]
+    class EnterVentPatch
+    {
+        public static void Postfix(Vent __instance, [HarmonyArgument(0)] PlayerControl pc)
+        {
+
+            pc.GetRoleClass()?.IsInVent();
+            switch (pc.GetCustomRole())
+            {
+                case CustomRoles.Magician:
+                    Magician.HasVented[pc.PlayerId] = true;
+                    break;
+            }
+        }
+    }
+
     [HarmonyPatch(typeof(PlayerPhysics), nameof(PlayerPhysics.CoEnterVent))]
     class CoEnterVentPatch
     {

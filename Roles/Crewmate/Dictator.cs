@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AmongUs.GameOptions;
 
 using TheDarkRoles.Modules;
@@ -6,6 +7,10 @@ using TheDarkRoles.Roles.Core;
 namespace TheDarkRoles.Roles.Crewmate;
 public sealed class Dictator : RoleBase
 {
+    public static Dictionary<byte, int> AbilityUses = new();
+    public static OptionItem CaptainAbilityUses;
+    public static OptionItem CaptainDies;
+
     public static readonly SimpleRoleInfo RoleInfo =
         SimpleRoleInfo.Create(
             typeof(Dictator),
@@ -13,28 +18,35 @@ public sealed class Dictator : RoleBase
             CustomRoles.Dictator,
             () => RoleTypes.Crewmate,
             CustomRoleTypes.Crewmate,
-            20900,
-            null,
-            "dic",
-            "#df9b00"
-        );
-    public Dictator(PlayerControl player)
-    : base(
-        RoleInfo,
-        player
-    )
-    { }
+            13000,
+            SetupCustomOption,
+            "cap",
+            "#d72bF0");
+
+    public Dictator(PlayerControl player) : base(RoleInfo, player)
+    {
+        AbilityUses[player.PlayerId] = CaptainAbilityUses.GetInt();
+    }
+    public static void SetupCustomOption()
+    {
+        CaptainAbilityUses = IntegerOptionItem.Create(RoleInfo, 1101, "CaptainAbilityUses", new(0, 99, 1), 3, false)
+           .SetValueFormat(OptionFormat.Times);
+        CaptainDies = BooleanOptionItem.Create(RoleInfo, 1102, "CaptainCaptainDies", true, false);
+    }
     public override (byte? votedForId, int? numVotes, bool doVote) ModifyVote(byte voterId, byte sourceVotedForId, bool isIntentional)
     {
         var (votedForId, numVotes, doVote) = base.ModifyVote(voterId, sourceVotedForId, isIntentional);
         var baseVote = (votedForId, numVotes, doVote);
-        if (!isIntentional || voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
+        if (AbilityUses[Player.PlayerId] is > 0)
         {
-            return baseVote;
+            if (voterId != Player.PlayerId || sourceVotedForId == Player.PlayerId || sourceVotedForId >= 253 || !Player.IsAlive())
+                return baseVote;
+            Utils.GetPlayerById(sourceVotedForId).SetRealKiller(Player);
+            MeetingVoteManager.Instance.ClearAndExile(Player.PlayerId, sourceVotedForId);
+            AbilityUses[Player.PlayerId]--;
         }
-        MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, Player.PlayerId);
-        Utils.GetPlayerById(sourceVotedForId).SetRealKiller(Player);
-        MeetingVoteManager.Instance.ClearAndExile(Player.PlayerId, sourceVotedForId);
+        if (AbilityUses[Player.PlayerId] == 1)
+            MeetingHudPatch.TryAddAfterMeetingDeathPlayers(CustomDeathReason.Suicide, Player.PlayerId);
         return (votedForId, numVotes, false);
     }
 }

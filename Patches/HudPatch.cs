@@ -5,6 +5,7 @@ using UnityEngine;
 using TheDarkRoles.Roles.Core;
 using TheDarkRoles.Roles.Core.Interfaces;
 using static TheDarkRoles.Translator;
+using TheDarkRoles.Roles.Crewmate;
 
 namespace TheDarkRoles
 {
@@ -66,6 +67,8 @@ namespace TheDarkRoles
                         {
                             __instance.AbilityButton.OverrideText(roleClass.GetAbilityButtonText());
                             __instance.AbilityButton.ToggleVisible(roleClass.CanUseAbilityButton() && GameStates.IsInTask);
+                            if (player.Is(CustomRoles.Magician))
+                                Magician.VentButtonText(__instance);
                         }
                     }
 

@@ -237,10 +237,10 @@ public static class CustomRoleManager
     /// 受信したRPCから送信先を読み取ってRoleClassに配信する
     /// </summary>
     /// <param name="reader"></param>
-    public static void DispatchRpc(MessageReader reader)
+    public static void DispatchRpc(MessageReader reader, CustomRPC rpcType)
     {
         var playerId = reader.ReadByte();
-        GetByPlayerId(playerId)?.ReceiveRPC(reader);
+        GetByPlayerId(playerId)?.ReceiveRPC(reader, rpcType);
     }
     //NameSystem
     public static HashSet<Func<PlayerControl, PlayerControl, bool, string>> MarkOthers = new();
@@ -387,6 +387,7 @@ public enum CustomRoles
     //Madmate
     MadGuardian,
     Madmate,
+    MadJester,
     MadSnitch,
     SKMadmate,
     //Crewmate(Vanilla)
@@ -397,6 +398,9 @@ public enum CustomRoles
     Bait,
     Lighter,
     Mayor,
+    Aware,
+    Spy,
+    Magician,
     SabotageMaster,
     Sheriff,
     Snitch,
@@ -417,6 +421,8 @@ public enum CustomRoles
     Terrorist,
     Executioner,
     Jackal,
+    Accelerator,
+    Agent47,
     //HideAndSeek
     HASFox,
     HASTroll,

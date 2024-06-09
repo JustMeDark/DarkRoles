@@ -21,6 +21,7 @@ using TheDarkRoles.Roles.AddOns.Common;
 using TheDarkRoles.Roles.AddOns.Impostor;
 using TheDarkRoles.Roles.AddOns.Crewmate;
 using static TheDarkRoles.Translator;
+using Hazel;
 
 namespace TheDarkRoles
 {
@@ -95,6 +96,40 @@ namespace TheDarkRoles
             MapNames.Airship => SystemTypes.HeliSabotage,
             _ => SystemTypes.Reactor,
         };
+
+        public static void RpcTeleport(this PlayerControl player, Vector2 location)
+        {
+            Logger.Info($" {player.PlayerId}", "Teleport - Player Id");
+            Logger.Info($" {location}", "Teleport - Location");
+
+            if (player.inVent)
+            {
+                player.MyPhysics.RpcBootFromVent(0);
+            }
+
+            // Modded
+            var playerlastSequenceId = player.NetTransform.lastSequenceId + 8;
+            player.NetTransform.SnapTo(location, (ushort)playerlastSequenceId);
+            Logger.Info($" {(ushort)playerlastSequenceId}", "Teleport - Player NetTransform lastSequenceId + 8 - writer");
+
+
+            // Vanilla
+            MessageWriter messageWriter = AmongUsClient.Instance.StartRpcImmediately(player.NetTransform.NetId, (byte)RpcCalls.SnapTo, SendOption.Reliable);
+            NetHelpers.WriteVector2(location, messageWriter);
+            messageWriter.Write(player.NetTransform.lastSequenceId + 10U);
+            AmongUsClient.Instance.FinishRpcImmediately(messageWriter);
+            Logger.Info($" {player.NetTransform.lastSequenceId + 10U}", "Teleport - Player NetTransform lastSequenceId + 10U - writer");
+        }
+        public static void RpcRandomVentTeleport(this PlayerControl player)
+        {
+            var vents = UnityEngine.Object.FindObjectsOfType<Vent>();
+            var rand = IRandom.Instance;
+            var vent = vents[rand.Next(0, vents.Count)];
+
+            Logger.Info($" {vent.transform.position}", "Rpc Vent Teleport Position");
+            player.RpcTeleport(new Vector2(vent.transform.position.x, vent.transform.position.y + 0.3636f));
+        }
+
         public static void SetVision(this IGameOptions opt, bool HasImpVision)
         {
             if (HasImpVision)

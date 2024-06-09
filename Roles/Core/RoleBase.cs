@@ -106,6 +106,7 @@ public abstract class RoleBase : IDisposable
     {
         return new RoleRPCSender(this);
     }
+
     /// <summary>
     /// RPCを受け取った時に呼ばれる関数
     /// RoleRPCSenderで送信されたPlayerIdは削除されて渡されるため意識しなくてもよい。
@@ -200,6 +201,8 @@ public abstract class RoleBase : IDisposable
     /// </summary>
     public virtual void OnStartMeeting()
     { }
+
+    public virtual void IsInVent() { }
 
     /// <summary>
     /// 自分が投票した瞬間，票がカウントされる前に呼ばれる<br/>
